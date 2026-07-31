@@ -1,0 +1,16 @@
+# Dados brutos e derivados (zips, txt, csv) -- grandes, reprodutiveis pelo pipeline
+data/
+
+# Banco local -- 2,5GB+, excede o limite de arquivo do GitHub (100MB) de qualquer forma
+db/
+
+# Config local do Claude Code (permissões pessoais, não é parte do projeto)
+.claude/
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# SO
+.DS_Store
