@@ -89,8 +89,9 @@ Padrão raw → typed:
 - Total consolidado: **2.409.265 linhas**, idêntico no SQLite, no CSV
   exportado e na tabela Snowflake.
 
-## Licença dos dados
+## Licença
 
-Os microdados são publicados pela ANAC sob Creative Commons
-Atribuição-SemDerivações 3.0 Não Adaptada. Este repositório versiona apenas
-código (scripts e DDL), não os dados.
+O código deste repositório (scripts e DDL) está sob licença MIT, ver
+[LICENSE](LICENSE). Os microdados em si são publicados pela ANAC sob
+Creative Commons Atribuição-SemDerivações 3.0 Não Adaptada, e não são
+versionados aqui (ver `.gitignore`).
