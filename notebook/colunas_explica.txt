@@ -1,0 +1,515 @@
+DICIONARIO DE DADOS -- TABELA BASICA (ANAC), MICRODADOS DE TRAFEGO AEREO
+==============================================================================
+
+Fonte: notebook/colunas.dat (112 colunas -- 111 nativas da ANAC + 1 de
+proveniencia adicionada por este pipeline).
+
+Metodo: leitura do nome (prefixos ID_/SG_/CD_/NM_/DS_/NR_/DT_/HR_/KG_/KM_/LT_),
+conhecimento de dominio de trafego aereo, e -- na maioria dos campos --
+VALIDACAO EMPIRICA direta contra db/anac_basica.sqlite (2.409.265 linhas,
+2024-01 a 2026-06): distribuicao de valores, formulas testadas por
+comparacao exata linha a linha, e cruzamento entre colunas.
+
+Isto NAO e o dicionario oficial da ANAC. Cada linha traz uma tag de confianca:
+
+  [CONFIRMADO — validado nos dados/código deste repositório]
+    -> valor/formula testado contra os dados reais ou o codigo deste repo.
+  [ALTA CONFIANÇA — padrão de nome inequívoco]
+    -> nome segue padrao inequivoco, sem ambiguidade plausivel.
+  [INFERIDO — hipótese razoável, sem confirmação exata]
+    -> hipotese com evidencia parcial (ex.: match >80% mas nao 100%).
+  [INCERTO — checar dicionário oficial ANAC]
+    -> testado e NAO confirmado, ou nome nao permite inferencia segura.
+
+------------------------------------------------------------------------------
+
+  1. ID_BASICA
+     Chave primária do registro (uma linha = uma etapa de voo realizada). Confirmado: PRIMARY KEY no DDL, sem duplicatas em 2.409.265 linhas.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+  2. ID_EMPRESA
+     Identificador numérico da empresa aérea.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+  3. SG_EMPRESA_ICAO
+     Código ICAO (3 letras) da empresa aérea, ex.: GLO, TAM, AZU.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+  4. SG_EMPRESA_IATA
+     Código IATA (2 caracteres) da empresa aérea, ex.: G3, JJ, AD.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+  5. NM_EMPRESA
+     Nome/razão social da empresa aérea.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+  6. NM_PAIS
+     País de registro da empresa aérea. Confirmado: valores são países reais (BRASIL 2.114.390 linhas, CHILE, ARGENTINA, EUA, PORTUGAL, PANAMÁ, COLÔMBIA...), consistente com nacionalidade da empresa.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+  7. DS_TIPO_EMPRESA
+     Classificação regulatória da empresa aérea. Confirmado nos dados: valores são combinações de TRANSPORTE AÉREO REGULAR / NÃO REGULAR, ESTRANGEIRA REGULAR/NÃO REGULAR, TÁXI-AÉREO, AEROMÉDICO, AEROFOTOGRAFIA, AEROINSPEÇÃO, SERVIÇOS AÉREOS PÚBLICOS — parece listar TODAS as outorgas que a empresa possui, não uma categoria única por linha.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+  8. NR_VOO
+     Número comercial do voo. Observado '0000' como placeholder em legs sem identificação de voo.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+  9. NR_SINGULAR
+     Campo numérico/alfanumérico curto (0-999, ou letras como N/Z/i). Observado nos dados: MUITO repetido (valor 999 aparece em 845.337 linhas, 236 em 708.363, 450 em 587.216) — portanto NÃO é um identificador único apesar do nome "singular". Para um mesmo nr_voo+empresa o valor é constante ao longo do tempo (ex.: voo 1000 da GLO sempre tem nr_singular=450), sugerindo um código de classificação de rota/serviço, não uma chave. Significado exato não determinado.
+     [INCERTO — checar dicionário oficial ANAC]
+
+ 10. ID_DI
+     Identificador do "DI" (Discriminação do Itinerário/tipo de despacho). CONFIRMADO nos dados: DI classifica a natureza operacional da etapa. Valores de DS_DI observados: REGULAR PREVISTO EM HOTRAN (2.270.360), EXTRA SEM HOTRAN, EXTRA COM HOTRAN, FRETAMENTO, SERVIÇO/POSICIONAMENTO, INCLUSÃO DE ETAPA EM VOO PREVISTO EM HOTRAN, CHARTER, RETORNO, DUPLICATED LEG, SERVIÇO COM TRANSPORTE. DS_GRUPO_DI agrupa esses valores em REGULAR / NÃO REGULAR / IMPRODUTIVO. A sigla exata "DI" não foi confirmada, mas o papel do campo, sim.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 11. CD_DI
+     Código curto do DI (ex.: 0=REGULAR PREVISTO EM HOTRAN, 2=EXTRA SEM HOTRAN, 9=CHARTER, D=DUPLICATED LEG). Ver ID_DI.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 12. DS_DI
+     Descrição textual do DI — ver valores confirmados em ID_DI.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 13. DS_GRUPO_DI
+     Agrupamento do DI em REGULAR / NÃO REGULAR / IMPRODUTIVO — confirmado nos dados.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 14. DT_REFERENCIA
+     Data de referência da etapa dentro do boletim mensal.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 15. NR_ANO_REFERENCIA
+     Ano de referência.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 16. NR_SEMESTRE_REFERENCIA
+     Semestre de referência (1 ou 2).
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 17. NM_SEMESTRE_REFERENCIA
+     Nome do semestre de referência (ex.: 1º Semestre).
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 18. NR_TRIMESTRE_REFERENCIA
+     Trimestre de referência (1 a 4).
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 19. NM_TRIMESTRE_REFERENCIA
+     Nome do trimestre de referência.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 20. NR_MES_REFERENCIA
+     Mês de referência (1 a 12).
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 21. NM_MES_REFERENCIA
+     Nome do mês de referência.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 22. NR_SEMANA_REFERENCIA
+     Número da semana no ano de referência.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 23. NM_DIA_SEMANA_REFERENCIA
+     Nome do dia da semana de referência.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 24. NR_DIA_REFERENCIA
+     Dia do mês de referência.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 25. NR_ANO_MES_REFERENCIA
+     Ano-mês de referência, formato AAAAMM.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 26. ID_TIPO_LINHA
+     Identificador do tipo de linha aérea. CONFIRMADO: 0=NÃO IDENTIFICADA, 1=DOMÉSTICA MISTA, 2=DOMÉSTICA CARGUEIRA, 3=INTERNACIONAL MISTA, 4=INTERNACIONAL CARGUEIRA.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 27. CD_TIPO_LINHA
+     Código-letra do tipo de linha (X=não identificada, N=doméstica mista, C=doméstica cargueira, I=internacional mista, G=internacional cargueira) — confirmado nos dados.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 28. DS_TIPO_LINHA
+     Descrição do tipo de linha — ver valores confirmados em ID_TIPO_LINHA.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 29. DS_NATUREZA_TIPO_LINHA
+     Natureza geográfica da linha: DOMÉSTICA, INTERNACIONAL ou NÃO IDENTIFICADA — confirmado nos dados.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 30. DS_SERVICO_TIPO_LINHA
+     Tipo de serviço da linha: PASSAGEIRO, CARGUEIRO ou NÃO IDENTIFICADO — confirmado nos dados.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 31. DS_NATUREZA_ETAPA
+     Natureza da etapa quanto a fronteira: apenas dois valores confirmados nos dados — DOMÉSTICA (1.994.335 linhas) e INTERNACIONAL (414.930 linhas).
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 32. HR_PARTIDA_REAL
+     Hora real de partida (decolagem).
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 33. DT_PARTIDA_REAL
+     Data real de partida.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 34. NR_ANO_PARTIDA_REAL
+     Ano de partida real.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 35. NR_SEMESTRE_PARTIDA_REAL
+     Semestre de partida real (1 ou 2).
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 36. NM_SEMESTRE_PARTIDA_REAL
+     Nome do semestre de partida real (ex.: 1º Semestre).
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 37. NR_TRIMESTRE_PARTIDA_REAL
+     Trimestre de partida real (1 a 4).
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 38. NM_TRIMESTRE_PARTIDA_REAL
+     Nome do trimestre de partida real.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 39. NR_MES_PARTIDA_REAL
+     Mês de partida real (1 a 12).
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 40. NM_MES_PARTIDA_REAL
+     Nome do mês de partida real.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 41. NR_SEMANA_PARTIDA_REAL
+     Número da semana no ano de partida real.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 42. NM_DIA_SEMANA_PARTIDA_REAL
+     Nome do dia da semana de partida real.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 43. NR_DIA_PARTIDA_REAL
+     Dia do mês de partida real.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 44. NR_ANO_MES_PARTIDA_REAL
+     Ano-mês de partida real, formato AAAAMM.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 45. ID_AERODROMO_ORIGEM
+     Identificador do aeródromo de origem.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 46. SG_ICAO_ORIGEM
+     Código ICAO do aeródromo de origem.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 47. SG_IATA_ORIGEM
+     Código IATA do aeródromo de origem.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 48. NM_AERODROMO_ORIGEM
+     Nome do aeródromo de origem.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 49. NM_MUNICIPIO_ORIGEM
+     Município do aeródromo de origem.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 50. SG_UF_ORIGEM
+     UF do aeródromo de origem.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 51. NM_REGIAO_ORIGEM
+     Região geográfica (Norte/Sul/etc.) do aeródromo de origem.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 52. NM_PAIS_ORIGEM
+     País do aeródromo de origem.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 53. NM_CONTINENTE_ORIGEM
+     Continente do aeródromo de origem.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 54. NR_ETAPA
+     Número sequencial da etapa dentro do voo (voos com múltiplas escalas têm mais de uma etapa).
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 55. HR_CHEGADA_REAL
+     Hora real de chegada (pouso).
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 56. DT_CHEGADA_REAL
+     Data real de chegada.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 57. NR_ANO_CHEGADA_REAL
+     Ano de chegada real.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 58. NR_SEMESTRE_CHEGADA_REAL
+     Semestre de chegada real (1 ou 2).
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 59. NM_SEMESTRE_CHEGADA_REAL
+     Nome do semestre de chegada real (ex.: 1º Semestre).
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 60. NR_TRIMESTRE_CHEGADA_REAL
+     Trimestre de chegada real (1 a 4).
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 61. NM_TRIMESTRE_CHEGADA_REAL
+     Nome do trimestre de chegada real.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 62. NR_MES_CHEGADA_REAL
+     Mês de chegada real (1 a 12).
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 63. NM_MES_CHEGADA_REAL
+     Nome do mês de chegada real.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 64. NR_SEMANA_CHEGADA_REAL
+     Número da semana no ano de chegada real.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 65. NM_DIA_SEMANA_CHEGADA_REAL
+     Nome do dia da semana de chegada real.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 66. NR_DIA_CHEGADA_REAL
+     Dia do mês de chegada real.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 67. NR_ANO_MES_CHEGADA_REAL
+     Ano-mês de chegada real, formato AAAAMM.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 68. ID_EQUIPAMENTO
+     Identificador do tipo/modelo de aeronave (equipamento).
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 69. SG_EQUIPAMENTO_ICAO
+     Código ICAO do tipo de aeronave, ex.: A320, B738.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 70. DS_MODELO
+     Descrição do modelo da aeronave.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 71. DS_MATRICULA
+     Matrícula (prefixo de registro) da aeronave. CONFIRMADO: vazia em exatamente 294.875 linhas, e essa população bate 1-para-1 com ID_TIPO_LINHA=0 (NÃO IDENTIFICADA) — são o mesmo bloco de etapas sem identificação de aeronave/linha no boletim.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 72. ID_AERODROMO_DESTINO
+     Identificador do aeródromo de destino.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 73. SG_ICAO_DESTINO
+     Código ICAO do aeródromo de destino.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 74. SG_IATA_DESTINO
+     Código IATA do aeródromo de destino.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 75. NM_AERODROMO_DESTINO
+     Nome do aeródromo de destino.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 76. NM_MUNICIPIO_DESTINO
+     Município do aeródromo de destino.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 77. SG_UF_DESTINO
+     UF do aeródromo de destino.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 78. NM_REGIAO_DESTINO
+     Região geográfica do aeródromo de destino.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 79. NM_PAIS_DESTINO
+     País do aeródromo de destino.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 80. NM_CONTINENTE_DESTINO
+     Continente do aeródromo de destino.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 81. NR_ESCALA_DESTINO
+     ACHADO: campo está 100% vazio nas 2.409.265 linhas da tabela Básica (2024-2026) — nenhum valor preenchido. Não populado neste dataset; o nome sugere contagem/posição de escala, mas não há evidência de uso real aqui (talvez populado na tabela Combinada).
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 82. LT_COMBUSTIVEL
+     Combustível consumido/embarcado na etapa, em litros. Vazio/zero em 294.877 linhas — quase exatamente a mesma população sem matrícula/tipo de linha identificado (294.875), ou seja, só falta quando a etapa em si não foi identificada.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 83. NR_ASSENTOS_OFERTADOS
+     Número de assentos ofertados na etapa.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 84. KG_PAYLOAD
+     Payload: capacidade de carga ofertada pela aeronave nessa etapa, em kg. É constante por configuração de aeronave/voo (não varia por passageiro real transportado) — ver contraste com KG_PESO.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 85. KM_DISTANCIA
+     Distância voada na etapa, em km. Usado como multiplicador em todas as métricas de produção (ASK/RPK/ATK/RTK e as colunas *_KM) — confirmado por validação cruzada.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 86. NR_PASSAG_PAGOS
+     Número de passageiros pagantes transportados.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 87. NR_PASSAG_GRATIS
+     Número de passageiros em cortesia/gratuidade.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 88. KG_BAGAGEM_LIVRE
+     Peso de bagagem despachada dentro da franquia gratuita, em kg.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 89. KG_BAGAGEM_EXCESSO
+     Peso de bagagem despachada acima da franquia, paga pelo passageiro, em kg.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 90. KG_CARGA_PAGA
+     Peso de carga paga transportada, em kg.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 91. KG_CARGA_GRATIS
+     Peso de carga transportada gratuitamente, em kg.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 92. KG_CORREIO
+     Peso de correio (mala postal) transportado, em kg.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+ 93. NR_DECOLAGEM
+     Flag de decolagem. CONFIRMADO nos dados: 1 em 2.407.242 linhas (99,92%), 0 em exatamente 2.023 linhas — e essas 2.023 linhas batem 1-para-1 com DS_DI='DUPLICATED LEG'. Ou seja, marca etapas duplicadas no boletim que não representam uma decolagem física adicional.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 94. NR_HORAS_VOADAS
+     Duração voada da etapa, em horas (decimal com vírgula no arquivo original). Confirmado: KM_DISTANCIA / NR_HORAS_VOADAS reproduz NR_VELOCIDADE_MEDIA.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 95. KG_PESO
+     HIPÓTESE FORTE (89,5% de match exato testado nas 2.409.265 linhas): peso realmente transportado na etapa = (NR_PASSAG_PAGOS + NR_PASSAG_GRATIS) × 75kg + KG_BAGAGEM_LIVRE + KG_BAGAGEM_EXCESSO + KG_CARGA_PAGA + KG_CARGA_GRATIS + KG_CORREIO. Ou seja, peso REALIZADO (distinto de KG_PAYLOAD, que é a capacidade OFERTADA) — usa peso médio padrão de 75kg por passageiro. Os ~10,5% de linhas que não batem podem usar peso médio ligeiramente diferente ou ter casos especiais não isolados.
+     [INFERIDO — hipótese razoável, sem confirmação exata]
+
+ 96. NR_VELOCIDADE_MEDIA
+     Velocidade média da etapa. CONFIRMADO por amostragem: NR_VELOCIDADE_MEDIA = KM_DISTANCIA / NR_HORAS_VOADAS (km/h), valores batem com precisão decimal nos exemplos testados.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 97. NR_PAX_GRATIS_KM
+     Passageiros gratuitos × km voado. CONFIRMADO: NR_PAX_GRATIS_KM = NR_PASSAG_GRATIS × KM_DISTANCIA, 100% de match nas 2.409.265 linhas.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 98. NR_CARGA_PAGA_KM
+     Carga paga (kg) × km voado. CONFIRMADO: NR_CARGA_PAGA_KM = KG_CARGA_PAGA × KM_DISTANCIA, match em 96,1% das linhas (pequenas diferenças de arredondamento/edge cases).
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+ 99. NR_CARGA_GRATIS_KM
+     Carga gratuita (kg) × km voado. CONFIRMADO: NR_CARGA_GRATIS_KM = KG_CARGA_GRATIS × KM_DISTANCIA, match em 99,99% das linhas.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+100. NR_CORREIO_KM
+     Correio (kg) × km voado. CONFIRMADO: NR_CORREIO_KM = KG_CORREIO × KM_DISTANCIA, match em 99,9% das linhas.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+101. NR_BAGAGEM_PAGA_KM
+     Bagagem excedente/paga (kg) × km voado. CONFIRMADO: NR_BAGAGEM_PAGA_KM = KG_BAGAGEM_EXCESSO × KM_DISTANCIA, match em praticamente 100% das linhas.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+102. NR_BAGAGEM_GRATIS_KM
+     Bagagem franqueada/gratuita (kg) × km voado. CONFIRMADO: NR_BAGAGEM_GRATIS_KM = KG_BAGAGEM_LIVRE × KM_DISTANCIA, match em 99,3% das linhas.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+103. NR_ASK
+     Available Seat-Kilometers — métrica-padrão da indústria aérea (capacidade de transporte de passageiros). CONFIRMADO: NR_ASK = NR_ASSENTOS_OFERTADOS × KM_DISTANCIA, 100% de match exato nas 2.409.265 linhas.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+104. NR_RPK
+     Revenue Passenger-Kilometers — métrica-padrão de demanda de passageiros. CONFIRMADO: NR_RPK = NR_PASSAG_PAGOS × KM_DISTANCIA, 100% de match exato nas 2.409.265 linhas.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+105. NR_ATK
+     Available Ton-Kilometers — capacidade total ofertada em toneladas × km. CONFIRMADO: NR_ATK = TRUNC(KG_PAYLOAD / 1000 × KM_DISTANCIA), 99,0% de match exato.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+106. NR_RTK
+     Revenue Ton-Kilometers — definição-padrão da indústria é carga paga (passageiros convertidos em peso + carga + correio pagos) em toneladas × km. TESTADO E REJEITADO: nem TRUNC(NR_CARGA_PAGA_KM/1000) sozinho (4,4% de match) nem somando peso de passageiros a 75kg/pax (5,6% de match) reproduzem o valor real — a fórmula exata usada pela ANAC para RTK não foi determinada com os testes feitos aqui.
+     [INCERTO — checar dicionário oficial ANAC]
+
+107. ID_ARQUIVO
+     Identificador do arquivo de origem do registro no sistema ANAC.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+108. NM_ARQUIVO
+     Nome do arquivo de origem do registro.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+109. NR_LINHA
+     Número da linha do registro dentro do arquivo de origem.
+     [ALTA CONFIANÇA — padrão de nome inequívoco]
+
+110. DT_SISTEMA
+     Timestamp de processamento do registro no sistema ANAC (com microssegundos). CONFIRMADO: NÃO é um carimbo único por arquivo mensal — há 603 dias distintos no total, e um único mês de referência (ex.: 2024-01) tem registros processados em dezenas de dias diferentes, inclusive meses depois. Evidência de que reflete quando aquele registro específico foi processado/retificado no sistema da ANAC, não a data de publicação do boletim.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+111. NR_CHAVE
+     Chave técnica alfanumérica (até 25 dígitos, vazia em 1.957 linhas). CONFIRMADO parcialmente: os últimos 8 dígitos batem com DT_PARTIDA_REAL no formato AAAAMMDD em 93,9% das linhas não vazias — ou seja, embute a data de partida. O restante da string (prefixo) não foi decifrado; provável concatenação de outros identificadores (empresa/aeródromo/voo), não confirmado.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+112. NR_ANO_MES_ARQUIVO
+     Ano-mês (AAAA-MM) do arquivo de origem. NÃO é uma coluna original da ANAC — é proveniência ADICIONADA por este pipeline (scripts/03_build_schema.py), usada como chave de idempotência da carga. Confirmado no próprio código do projeto.
+     [CONFIRMADO — validado nos dados/código deste repositório]
+
+------------------------------------------------------------------------------
+ACHADOS EMPIRICOS QUE CRUZAM VARIAS COLUNAS
+------------------------------------------------------------------------------
+
+1. Bloco "nao identificado": ID_TIPO_LINHA=0 (DS_TIPO_LINHA='NAO IDENTIFICADA')
+   coincide EXATAMENTE, linha a linha, com DS_MATRICULA vazia (294.875 linhas) e
+   quase exatamente com LT_COMBUSTIVEL vazio/zero (294.877 linhas). E um bloco
+   coerente de etapas reportadas sem aeronave/linha identificada no boletim.
+
+2. NR_DECOLAGEM=0 (2.023 linhas, 0,08% do total) coincide EXATAMENTE com
+   DS_DI='DUPLICATED LEG' -- marca etapas duplicadas no boletim, sem decolagem
+   fisica adicional.
+
+3. Cadeia de producao KG_x -> NR_x_KM -> NR_ASK/RPK/ATK confirmada por
+   multiplicacao direta por KM_DISTANCIA, com match de 96% a 100% conforme a
+   coluna. NR_RTK e a unica metrica de producao cuja formula exata nao foi
+   reproduzida nos testes feitos.
+
+4. KG_PESO diverge de KG_PAYLOAD em quase todas as linhas (so 18.385 de
+   2.409.265 sao iguais) -- confirma que sao conceitos diferentes: PAYLOAD e
+   capacidade ofertada (constante por configuracao de aeronave), PESO parece
+   ser peso realizado por etapa (varia com passageiros/carga reais).
+
+5. DT_SISTEMA nao e um carimbo unico por arquivo mensal (603 dias distintos
+   no total) -- indica retificacoes/reprocessamento de registros individuais
+   ao longo do tempo, nao so a data de publicacao do boletim.
+
+6. NR_CHAVE embute DT_PARTIDA_REAL (formato AAAAMMDD) nos ultimos 8 digitos
+   em 93,9% das linhas nao vazias; o restante da string nao foi decifrado.
+
+------------------------------------------------------------------------------
+PENDENCIAS -- precisam do dicionario oficial ANAC para fechar
+------------------------------------------------------------------------------
+
+- NR_SINGULAR: campo curto e muito repetido, nao e chave apesar do nome.
+- NR_RTK: formula exata nao reproduzida (testadas 2 hipoteses, ambas rejeitadas).
+- NR_ESCALA_DESTINO: 100% vazio nesta tabela -- confirmar se e usado na tabela
+  Combinada ou se e legado sem uso.
+- NR_CHAVE: prefixo da string de 25 digitos nao decifrado.
+- DS_TIPO_EMPRESA: lista todas as outorgas da empresa, mas a taxonomia
+  completa de outorgas nao foi levantada contra normativo da ANAC.
+
