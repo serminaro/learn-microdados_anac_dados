@@ -1,7 +1,8 @@
 -- Roteiro unico e pronto para rodar via:
---   snow sql -c anac -f scripts/08_snowflake_run_all.sql
+--   snow sql -c anac -f sql/ingestao_snowflake/08_snowflake_run_all.sql
 -- Junta infra + tabela + view + stage + upload + carga idempotente + conferencia.
--- Combina sql/create_table_basica_snowflake.sql com scripts/07_snowflake_setup_and_load.sql.
+-- Combina sql/ingestao_snowflake/create_table_basica_snowflake.sql + sql/tratamento/create_view_basica_typed_snowflake.sql
+-- com sql/ingestao_snowflake/07_snowflake_setup_and_load.sql.
 
 -- 1) Infraestrutura minima -----------------------------------------------
 CREATE WAREHOUSE IF NOT EXISTS wh_anac
@@ -171,9 +172,17 @@ SELECT
     ) AS bloco_tempo_min
 FROM basica_raw;
 
--- 4) Stage interno + formato de arquivo -----------------------------------
+-- 4) File Format nomeado + Stage interno -----------------------------------
+-- Mesmo File Format de sql/ingestao_snowflake/10_snowflake_file_format_and_stage.sql
+-- (Fase A do plano), definido aqui tambem para o roteiro ficar autossuficiente.
+CREATE OR REPLACE FILE FORMAT anac_basica_csv_ff
+    TYPE = CSV
+    FIELD_OPTIONALLY_ENCLOSED_BY = '"'
+    SKIP_HEADER = 1
+    COMMENT = 'Parsing do CSV consolidado da tabela Basica (UTF-8, gerado por src/ingestao_snowflake/05_export_csv.py)';
+
 CREATE STAGE IF NOT EXISTS stg_anac_basica
-    FILE_FORMAT = (TYPE = CSV FIELD_OPTIONALLY_ENCLOSED_BY = '"' SKIP_HEADER = 1);
+    FILE_FORMAT = (FORMAT_NAME = 'anac_basica_csv_ff');
 
 -- 5) Upload do CSV local (PUT roda no cliente, precisa do arquivo local existir) --
 PUT file:///home/bruno/Projetos/learn-microdados_anac_dados/data/anac/basica_consolidado_2024_2026.csv

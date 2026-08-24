@@ -17,12 +17,14 @@ USE DATABASE anac;
 USE SCHEMA basica;
 
 -- 2) Tabela raw + view tipada ---------------------------------------------
--- Rode o conteudo de sql/create_table_basica_snowflake.sql aqui
--- (CREATE TABLE basica_raw + CREATE OR REPLACE VIEW basica_typed).
+-- Rode create_table_basica_snowflake.sql, neste mesmo diretorio (CREATE TABLE basica_raw), e
+-- sql/tratamento/create_view_basica_typed_snowflake.sql (CREATE VIEW basica_typed) aqui.
 
--- 3) Stage interno + formato de arquivo -----------------------------------
-CREATE STAGE IF NOT EXISTS stg_anac_basica
-    FILE_FORMAT = (TYPE = CSV FIELD_OPTIONALLY_ENCLOSED_BY = '"' SKIP_HEADER = 1);
+-- 3) Stage interno -----------------------------------------------------------
+-- Cria o stage sem parsing proprio; o File Format nomeado e a associacao ao
+-- stage vivem em 10_snowflake_file_format_and_stage.sql, neste mesmo diretorio
+-- (Fase A do plano), rode-o logo em seguida para o COPY INTO do passo 5 funcionar.
+CREATE STAGE IF NOT EXISTS stg_anac_basica;
 
 -- 4) Upload do CSV local para o stage (rodar no terminal via Snowflake CLI, nao aqui) --
 -- snow sql -c anac

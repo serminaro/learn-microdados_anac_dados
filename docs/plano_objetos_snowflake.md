@@ -9,12 +9,13 @@
 > lista.
 >
 > Escopo: schema `ANAC.BASICA`, warehouse `wh_anac`. Este documento é o plano;
-> a implementação vira scripts novos em `scripts/`, numerados na sequência dos
-> já existentes (`10_...` em diante).
+> a implementação vira scripts novos em `sql/ingestao_snowflake/` (carga/
+> orquestração) ou `sql/tratamento/` (views tipadas), numerados na sequência
+> dos já existentes (`11_...` em diante).
 
 ---
 
-## Estado atual (2026-08-01)
+## Estado atual (2026-08-11)
 
 | Objeto | Nome | Papel hoje |
 |---|---|---|
@@ -23,6 +24,8 @@
 | API Integration | `ANAC_GITHUB_INTEGRATION` | Allowlist para o Git Repository |
 | Git Repository | `learn_microdados_anac_dados` | Espelho do repositório, fonte de verdade versionada |
 | Warehouse | `wh_anac` | Compute isolado deste domínio |
+| File Format | `anac_basica_csv_ff` | Parsing do CSV nomeado (Fase A, `sql/ingestao_snowflake/10_snowflake_file_format_and_stage.sql`) |
+| Stage | `stg_anac_basica` | Já existia via `07`; agora referencia `anac_basica_csv_ff` em vez de parsing inline |
 
 ---
 
@@ -32,8 +35,8 @@
 
 | Objeto | Papel | Justificativa (não forçado) |
 |---|---|---|
-| **File Format** | `anac_basica_csv_ff`, nomeando o parsing (delimitador, encoding Latin-1) hoje implícito nos scripts | Formaliza o que já existe; elimina repetição da definição em cada `COPY INTO` |
-| **Stage** | `anac_basica_stage`, interno, recebendo os `.txt` extraídos antes da carga | Já é usado de fato via `PUT`/`COPY INTO`; só nunca foi criado como objeto nomeado fora do script |
+| **File Format** ✅ | `anac_basica_csv_ff`, nomeando o parsing (CSV, aspas opcionais, skip header) hoje antes implícito no `CREATE STAGE` de `07` | Formaliza o que já existia; elimina repetição da definição em cada `COPY INTO`/stage futuro |
+| **Stage** ✅ | `stg_anac_basica` (nome mantido do que já existia via `07`, não `anac_basica_stage` como rascunhado aqui, para não quebrar `@stg_anac_basica` em `08`/`09`), recebendo o CSV consolidado antes da carga | Já era usado de fato via `PUT`/`COPY INTO`; agora referencia o File Format nomeado via `ALTER STAGE`, não mais parsing inline |
 | **Pipe** | `anac_basica_pipe`, auto-ingest disparado por chegada de arquivo no stage | Encaixe real, não forçado: a ANAC publica **um arquivo por mês**, evento discreto, exatamente o padrão que Snowpipe resolve. Diferente do Snowpipe *Streaming* (linha a linha), que eu já descartei antes por não bater com a cadência mensal. |
 
 ### Camada 1 — Raw + captura de mudança
@@ -90,7 +93,7 @@ orquestração/CI-CD discutido antes, tudo nativo, sem depender de Airflow.
 
 ## Ordem de implementação sugerida
 
-1. **Fase A** — File Format + Stage nomeados, substituindo o que hoje é implícito no script `09`.
+1. **Fase A** ✅ (2026-08-11) — File Format + Stage nomeados, `sql/ingestao_snowflake/10_snowflake_file_format_and_stage.sql`, substituindo o parsing inline que estava no `CREATE STAGE` do script `07`.
 2. **Fase B** — Procedure `sp_merge_basica` encapsulando a lógica de `COPY INTO` + `MERGE`.
 3. **Fase C** — Stream + Task disparando a Procedure (fecha o pipeline nativo de ingestão).
 4. **Fase D** — Sequence + tabelas de dimensão + Dynamic Table do fato (star schema).
@@ -99,8 +102,10 @@ orquestração/CI-CD discutido antes, tudo nativo, sem depender de Airflow.
 7. **Fase G** (opcional) — Pipe com auto-ingest real (exige stage externo com notificação de evento do provedor de nuvem) e Contact.
 8. **Fase H** (stretch, opcional) — Cortex Search Service sobre o dicionário de dados.
 
-Cada fase vira um ou mais scripts `.sql`/`.py` numerados em `scripts/`, versionados
-via o Git Repository já configurado na conta.
+Cada fase vira um ou mais scripts `.sql` numerados em `sql/ingestao_snowflake/`
+(ou `sql/tratamento/`, `sql/analise/`, conforme o papel) ou `.py` em
+`src/` (caso da Function Snowpark da Fase E), versionados via o
+Git Repository já configurado na conta.
 
 ---
 

@@ -1,5 +1,5 @@
 #!/home/bruno/miniconda3/envs/pesquisa-azul/bin/python
-"""Gera o DDL (sql/create_table_basica.sql) a partir do cabecalho validado.
+"""Gera o DDL (sql/ingestao_sqlite/create_table_basica.sql) a partir do cabecalho validado.
 Tabela 'raw': todas as colunas como TEXT, fieis ao arquivo original (padrao raw->typed).
 Chave: id_basica (verificado sem duplicatas na validacao). Coluna extra: nr_ano_mes_arquivo (proveniencia).
 DDL escrito em SQL ANSI-compativel (tipos padrao), para servir de base tambem a um CREATE TABLE no Snowflake.
@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 
 REPORT = Path("/home/bruno/Projetos/learn-microdados_anac_dados/data/anac/basica/_validation_report.json")
-SQL_OUT = Path("/home/bruno/Projetos/learn-microdados_anac_dados/sql/create_table_basica.sql")
+SQL_OUT = Path("/home/bruno/Projetos/learn-microdados_anac_dados/sql/ingestao_sqlite/create_table_basica.sql")
 
 with open(REPORT, encoding="utf-8") as f:
     report = json.load(f)
@@ -22,7 +22,7 @@ for col in header:
     else:
         cols_sql.append(f'    "{col}" TEXT')
 
-ddl = "-- Gerado por scripts/03_build_schema.py a partir do cabecalho real dos 30 arquivos da basica (2024-01 a 2026-06)\n"
+ddl = "-- Gerado por src/03_build_schema.py a partir do cabecalho real dos 30 arquivos da basica (2024-01 a 2026-06)\n"
 ddl += "-- Camada RAW: todas as colunas como TEXT, fieis ao arquivo de origem (Latin-1 -> UTF-8 na carga).\n"
 ddl += "-- Tipagem/limpeza fica para uma camada seguinte (view ou tabela derivada), nao aqui.\n"
 ddl += "-- DDL em SQL ANSI-compativel: mesma estrutura serve de base para CREATE TABLE no Snowflake.\n\n"

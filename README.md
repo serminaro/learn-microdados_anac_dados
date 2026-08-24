@@ -26,18 +26,27 @@ Este repositório trabalha só com a **Básica**. Fonte:
 
 ```
 scripts/
-  01_download.sh                    baixa os 30 zips mensais (2024-01 a 2026-06)
-  02_extract_validate.py            extrai e valida consistência entre os meses
-  03_build_schema.py                gera o DDL a partir do cabeçalho real
-  04_load_sqlite.py                 carga idempotente no SQLite
-  05_export_csv.py                  exporta CSV único consolidado (UTF-8)
-  07_snowflake_setup_and_load.sql   roteiro Snowflake (referência, por blocos)
-  08_snowflake_run_all.sql          idem, em arquivo único não-interativo
-  09_snowflake_copy_merge.sql       carga Snowflake via stage + MERGE idempotente
+  01_download.sh                          baixa os 30 zips mensais (2024-01 a 2026-06)
+src/
+  02_extract_validate.py                  extrai e valida consistência entre os meses (comum aos dois caminhos)
+  03_build_schema.py                      gera o DDL a partir do cabeçalho real (comum aos dois caminhos)
+  ingestao_sqlite/
+    04_load_sqlite.py                     carga idempotente no SQLite
+  ingestao_snowflake/
+    05_export_csv.py                      exporta CSV único consolidado (UTF-8), insumo do PUT/COPY do Snowflake
 sql/
-  create_table_basica.sql                  DDL SQLite (camada raw)
-  create_view_basica_typed_sqlite.sql      view tipada (SQLite)
-  create_table_basica_snowflake.sql        DDL + view tipada (Snowflake)
+  ingestao_sqlite/                        DDL + carga específicos do caminho SQLite
+    create_table_basica.sql               DDL SQLite (camada raw)
+  ingestao_snowflake/                     DDL + carga/orquestração específicos do caminho Snowflake
+    create_table_basica_snowflake.sql     DDL Snowflake (camada raw)
+    07_snowflake_setup_and_load.sql       roteiro Snowflake (referência, por blocos)
+    08_snowflake_run_all.sql              idem, em arquivo único não-interativo
+    09_snowflake_copy_merge.sql           carga Snowflake via stage + MERGE idempotente
+    10_snowflake_file_format_and_stage.sql  File Format + Stage nomeados (Fase A do plano de objetos)
+  tratamento/                             views tipadas / limpeza (as duas engines)
+    create_view_basica_typed_sqlite.sql   view tipada (SQLite)
+    create_view_basica_typed_snowflake.sql  view tipada (Snowflake)
+  analise/                                reservada, preparação analítica (vazia por enquanto)
 data/    (gitignored) zips, txts extraídos, CSV consolidado
 db/      (gitignored) banco SQLite final (~2,5GB)
 ```
@@ -52,18 +61,20 @@ Requer Python 3.12+, `sqlite3` de linha de comando e (opcional, só para a
 réplica Snowflake) o [Snowflake CLI](https://docs.snowflake.com/en/developer-guide/snowflake-cli/index).
 
 ```bash
-./scripts/01_download.sh              # baixa os 30 zips
-./scripts/02_extract_validate.py      # extrai + valida (gera _validation_report.json)
-./scripts/03_build_schema.py          # gera sql/create_table_basica.sql
-./scripts/04_load_sqlite.py           # carrega db/anac_basica.sqlite
-sqlite3 db/anac_basica.sqlite < sql/create_view_basica_typed_sqlite.sql
-./scripts/05_export_csv.py            # gera data/anac/basica_consolidado_2024_2026.csv
+./scripts/01_download.sh                       # baixa os 30 zips (comum aos dois caminhos)
+./src/02_extract_validate.py                   # extrai + valida (comum aos dois caminhos)
+./src/03_build_schema.py                       # gera sql/ingestao_sqlite/create_table_basica.sql
+./src/ingestao_sqlite/04_load_sqlite.py        # carrega db/anac_basica.sqlite
+sqlite3 db/anac_basica.sqlite < sql/tratamento/create_view_basica_typed_sqlite.sql
+./src/ingestao_snowflake/05_export_csv.py      # gera data/anac/basica_consolidado_2024_2026.csv
 ```
 
 Para replicar no Snowflake (depois de configurar uma conexão com
-`snow connection add`): rode `scripts/09_snowflake_copy_merge.sql` pela
-extensão do Snowflake no VS Code (ou `snow sql -f`), após criar
-infraestrutura e tabela com `sql/create_table_basica_snowflake.sql`.
+`snow connection add`): rode os scripts em `sql/ingestao_snowflake/` na ordem
+numérica (`07` → `10`) pela extensão do Snowflake no VS Code (ou `snow sql -f`),
+após criar infraestrutura e tabela com
+`sql/ingestao_snowflake/create_table_basica_snowflake.sql` e a view tipada
+com `sql/tratamento/create_view_basica_typed_snowflake.sql`.
 
 ## Camadas de dados
 

@@ -1,4 +1,4 @@
--- DDL adaptado para Snowflake a partir de sql/create_table_basica.sql.
+-- DDL adaptado para Snowflake a partir de sql/ingestao_sqlite/create_table_basica.sql.
 -- Diferencas reais em relacao ao SQLite (nao sao so sintaxe):
 --   1. Snowflake NAO tem indice manual (CREATE INDEX nao existe). O motor
 --      particiona automaticamente (micro-partitions) e usa metadata pruning.
@@ -6,8 +6,11 @@
 --   2. PRIMARY KEY / NOT NULL em Snowflake sao INFORMATIVOS, nao aplicados.
 --      O banco NAO impede duplicata de id_basica sozinho -- quem garante isso
 --      e o processo de carga (COPY INTO simples duplica se rodar 2x; use
---      MERGE INTO para carga idempotente, ver scripts/07_snowflake_load.sql).
+--      MERGE INTO para carga idempotente, ver sql/ingestao_snowflake/07_snowflake_setup_and_load.sql).
 --   3. TEXT e VARCHAR sao sinonimos em Snowflake, mantive TEXT por familiaridade.
+--
+-- View tipada (basica_typed) fica em sql/tratamento/create_view_basica_typed_snowflake.sql,
+-- separada deste DDL raw.
 
 CREATE TABLE IF NOT EXISTS basica_raw (
     id_basica TEXT NOT NULL,
@@ -124,44 +127,3 @@ CREATE TABLE IF NOT EXISTS basica_raw (
     nr_ano_mes_arquivo TEXT NOT NULL,
     PRIMARY KEY (id_basica)   -- informativo, ver nota acima
 );
-
--- View tipada equivalente a sql/create_view_basica_typed_sqlite.sql,
--- em dialeto Snowflake (TRY_CAST em vez de CAST para nao quebrar a carga
--- inteira se uma linha tiver lixo -- vira NULL em vez de erro; DATEDIFF
--- para o block time em vez de julianday).
-
-CREATE OR REPLACE VIEW basica_typed AS
-SELECT
-    TRY_CAST(id_basica AS INTEGER)              AS id_basica,
-    TRY_CAST(id_empresa AS INTEGER)              AS id_empresa,
-    sg_empresa_icao,
-    sg_empresa_iata,
-    nm_empresa,
-    ds_tipo_empresa,
-    nr_voo,
-    ds_natureza_etapa,
-    TRY_CAST(nr_etapa AS INTEGER)                AS nr_etapa,
-    sg_iata_origem,
-    sg_iata_destino,
-    TRY_TO_TIMESTAMP_NTZ(dt_partida_real || ' ' || hr_partida_real, 'YYYY-MM-DD HH24:MI:SS') AS partida_ts,
-    TRY_TO_TIMESTAMP_NTZ(dt_chegada_real || ' ' || hr_chegada_real, 'YYYY-MM-DD HH24:MI:SS') AS chegada_ts,
-    NULLIF(ds_matricula, '')                     AS ds_matricula,
-    sg_equipamento_icao,
-    ds_modelo,
-    TRY_CAST(km_distancia AS INTEGER)            AS km_distancia,
-    TRY_CAST(nr_assentos_ofertados AS INTEGER)   AS nr_assentos_ofertados,
-    TRY_CAST(kg_payload AS INTEGER)              AS kg_payload,
-    TRY_CAST(REPLACE(nr_horas_voadas, ',', '.') AS FLOAT) AS nr_horas_voadas,
-    TRY_CAST(nr_ask AS INTEGER)                  AS nr_ask,
-    TRY_CAST(nr_rpk AS INTEGER)                  AS nr_rpk,
-    TRY_CAST(nr_atk AS INTEGER)                  AS nr_atk,
-    TRY_CAST(nr_rtk AS INTEGER)                  AS nr_rtk,
-    TRY_CAST(nr_ano_referencia AS INTEGER)       AS nr_ano_referencia,
-    TRY_CAST(nr_mes_referencia AS INTEGER)       AS nr_mes_referencia,
-    nr_ano_mes_arquivo,
-    DATEDIFF(
-        'minute',
-        TRY_TO_TIMESTAMP_NTZ(dt_partida_real || ' ' || hr_partida_real, 'YYYY-MM-DD HH24:MI:SS'),
-        TRY_TO_TIMESTAMP_NTZ(dt_chegada_real || ' ' || hr_chegada_real, 'YYYY-MM-DD HH24:MI:SS')
-    ) AS bloco_tempo_min
-FROM basica_raw;
