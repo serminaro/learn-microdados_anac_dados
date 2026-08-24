@@ -1,0 +1,90 @@
+{
+  "documento": "DEC-001",
+  "tipo": "DEC",
+  "titulo_curto": "Fundação reflexiva",
+  "funcao": "Decidir fundar o projeto sob a governança META e fixar o mínimo que estrutura o SPEC-001.",
+  "audiencia": "todos, com ênfase em rastreabilidade",
+  "governanca": ["SPEC-META-001 §7", "DEC-META-002 §2.1.3", "DEC-META-014 §2.1-§2.2"],
+  "frontmatter_obrigatorio": ["documento", "titulo", "versao", "status", "data", "autor", "referencia", "escopo"],
+  "ordem_de_producao": {
+    "posicao": 1,
+    "de": 7,
+    "depende_de": ["rascunho/CONTEXTO_DO_PROJETO ou contexto/", "rascunho/MEMORIA.txt"],
+    "alimenta": ["SPEC-001", "REP-001"]
+  },
+  "principios": [
+    "DEC é atômica: uma decisão por documento.",
+    "DEC é imutável após aprovação; número nunca reutilizado.",
+    "Consequências negativas são obrigatórias.",
+    "Toda decisão tem rastro para artefato concreto."
+  ],
+  "secoes": [
+    {
+      "nome": "Contexto",
+      "obrigatoria": true,
+      "objetivo": "O problema que motiva a fundação, em um a dois parágrafos.",
+      "subtopicos": ["situação até aqui", "por que decidir agora"],
+      "checar": ["descreve o estado anterior à decisão", "justifica o momento"]
+    },
+    {
+      "nome": "Decisão",
+      "obrigatoria": true,
+      "objetivo": "Uma frase acionável: fundar o projeto e adotar o padrão fundacional META.",
+      "subtopicos": [],
+      "checar": ["é uma frase acionável, não um parágrafo vago"]
+    },
+    {
+      "nome": "Origem ou rastro",
+      "obrigatoria": true,
+      "objetivo": "Ponteiro para o artefato concreto que sustenta a decisão.",
+      "subtopicos": ["o que na pasta rascunho embasa a decisão"],
+      "checar": ["aponta para artefato concreto (arquivo do rascunho, dado, conversa)"]
+    },
+    {
+      "nome": "Alternativas consideradas",
+      "obrigatoria": true,
+      "objetivo": "Ao menos duas alternativas, com motivo honesto do descarte.",
+      "subtopicos": ["alternativa A e veredito", "alternativa B e veredito"],
+      "minimo": 2,
+      "checar": ["há pelo menos duas alternativas", "cada uma tem motivo de descarte"]
+    },
+    {
+      "nome": "Consequências",
+      "obrigatoria": true,
+      "objetivo": "Positivas, negativas e o que a decisão não resolve.",
+      "subtopicos": ["positivas", "negativas (obrigatórias)", "o que não resolve"],
+      "checar": ["a subseção de consequências negativas existe e não está vazia"]
+    },
+    {
+      "nome": "Critérios de reavaliação",
+      "obrigatoria": true,
+      "objetivo": "Sob que condições a decisão deve ser revisitada.",
+      "subtopicos": [],
+      "checar": ["lista ao menos um gatilho de reavaliação"]
+    },
+    {
+      "nome": "Histórico",
+      "obrigatoria": true,
+      "objetivo": "Data de aprovação e eventuais transições de status.",
+      "subtopicos": [],
+      "checar": ["registra a data e o status inicial"]
+    }
+  ],
+  "campos_estruturantes_do_SPEC_001": {
+    "objetivo": "O DEC-001 deve fixar o mínimo que o SPEC-001 vai formalizar.",
+    "campos": [
+      "nome do projeto e escopo de numeração (local | pessoal <ESCOPO> | META)",
+      "tipos de documento usados (SPEC, REP, GUIDE, BRIEF, DEC, AUDIT) e os que ficam de fora",
+      "estrutura de pastas e convenção de nomes",
+      "famílias de regras checáveis declaradas (R-TAX, R-FUN, R-CON) e onde",
+      "o que o SPEC-001 ajusta em relação ao SPEC-META-001"
+    ],
+    "checar": ["os cinco campos estão presentes e preenchidos"]
+  },
+  "checar_documento": [
+    "frontmatter YAML completo",
+    "nome do arquivo conforme convenção (DEC_001_descricao_curta.md)",
+    "status inicial proposto",
+    "não invade função de SPEC ou REP (decide, não descreve nem narra)"
+  ]
+}

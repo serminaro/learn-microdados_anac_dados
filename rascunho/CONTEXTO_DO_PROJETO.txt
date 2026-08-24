@@ -1,0 +1,143 @@
+================================================================================
+CONTEXTO DO PROJETO — learn-microdados_anac_dados
+Pasta: rascunho/
+Natureza: matéria-prima bruta para a fundação documental SERMI. Não é peça
+numerada. Destilado pela IA de apoio a partir do histórico real do projeto
+(commits, docs já produzidos, conversas de trabalho), não de suposição.
+================================================================================
+
+
+1. O QUE É O PROJETO, HOJE
+--------------------------------------------------------------------------------
+Repositório público no GitHub (`serminaro/learn-microdados_anac_dados`,
+licença MIT), criado para consolidar os microdados públicos de tráfego aéreo
+da ANAC e servir como peça de portfólio + veículo de estudo de engenharia de
+dados.
+
+Histórico real (não é o primeiro dia): o projeto já tem commits desde a
+consolidação inicial da tabela "Básica" (2024-2026) em SQLite, réplica no
+Snowflake, dicionário de colunas, e um plano de objetos Snowflake
+(`docs/plano_objetos_snowflake.md`, fases A-H, Fase A concluída em
+2026-08-11 — File Format + Stage nomeados). Em 2026-08-24, dentro da mesma
+sessão de trabalho que motiva esta fundação, dois eventos aconteceram, em
+ordem:
+
+  (a) Reorganização de pastas: `scripts/` e `sql/` deixaram de ser uma lista
+      linear numerada (01-05, 07-10) e passaram a ter subpastas por papel:
+      `scripts/` (bash), `src/`, `sql/ingestao_snowflake/`,
+      `sql/tratamento/`, `sql/analise/` (reservada). Feito e commitado
+      dentro da sessão.
+
+  (b) Expansão de escopo, registrada em `docs/plano_expansao_multidataset.md`:
+      de 1 dataset (Básica) para 3 (Básica, VRA, SIROS), com dois caminhos de
+      produção paralelos e igualmente investidos:
+
+        Caminho 1 (Snowflake, medalhão): File Format/Stage -> Raw -> Prata ->
+        Prata adicional -> Ouro -> Dashboard (Power BI ou Looker Studio).
+
+        Caminho 2 (SQLite + Python): verificação/limpeza -> SQLite (um banco
+        por dataset, fiel ao dado original) -> Ouro -> Dashboard Streamlit.
+
+      Jupyter Notebook é ferramenta de exploração/tratamento comum aos dois
+      caminhos, não duplicada por caminho.
+
+      Fontes de dado confirmadas por teste direto (HTTP), não por suposição:
+        - Básica: zip mensal, `gov.br/anac/.../basica/{ano}/basica{ano}-{mes}.zip`,
+          real desde 2000; o projeto usa 2010 como corte de início (decisão
+          deliberada, não limite da fonte).
+        - VRA (Voo Regular Ativo): csv+json mensal, mesma disponibilidade
+          desde 2000, mesmo corte de 2010.
+        - SIROS (Sistema de Registro de Operações, publicado como "Registro
+          de serviços aéreos"): csv+json DIÁRIO (não mensal), só a partir de
+          2019-11 — limite real da fonte, não escolha do projeto. Registrado
+          como limitação honesta, não forçado.
+
+      Decisões de convenção já fechadas nessa expansão: nomenclatura por
+      prefixo de dataset nos scripts (`basica_download.sh`, `vra_...`,
+      `siros_...`), um banco SQLite por dataset com `ATTACH DATABASE` para
+      cruzar, dashboard do caminho Snowflake em aberto (Power BI vs. Looker
+      Studio, decisão de fase posterior).
+
+
+2. POR QUE ESTA FUNDAÇÃO, AGORA
+--------------------------------------------------------------------------------
+O projeto era informal (sem SPEC/DEC) desde o início — decisão implícita, não
+registrada como tal. Isso era administrável enquanto o escopo era um dataset,
+um caminho, um pipeline linear. A expansão do item 1(b) muda isso: em uma
+única sessão, o projeto acumulou múltiplas decisões de arquitetura real
+(corte temporal, organização de banco, convenção de nomenclatura, paridade
+de investimento entre dois caminhos de produção) que hoje só existem em
+prosa dentro de `docs/plano_expansao_multidataset.md` e na memória de sessão
+da IA de apoio — sem alternativas descartadas registradas, sem critério de
+reavaliação, sem rastro formal de por que cada escolha foi essa e não outra.
+
+O pedido do usuário foi explícito: "vamos criar os documentos de fundação,
+pode olhar em serminaro-governance/_meta" — ou seja, adotar deliberadamente
+a taxonomia SERMI (a mesma que já governa projetos-irmãos, ver item 3) para
+este projeto, agora que ele deixou de ser pequeno o bastante para dispensar
+o registro formal.
+
+
+3. ECOSSISTEMA — O QUE JÁ EXISTE COMO PRECEDENTE
+--------------------------------------------------------------------------------
+O usuário mantém vários repositórios pessoais em `~/Projetos/`, com níveis de
+governança diferentes; a convenção estabelecida é checar a governança de
+cada projeto individualmente, não portar padrão de um para outro sem revisar.
+
+  - `serminaro-governance/_meta`: escopo de meta-governança, onde a
+    taxonomia SERMI é definida (SPEC-META-001) e evolui por DEC-META-NNN. A
+    fundação canônica atual é a de SETE peças em ordem generativa
+    decisão-primeiro (DEC-META-014, 2026-07-19): DEC-001 -> SPEC-001 ->
+    REP-001 -> DEC-002 -> SPEC-002 -> DEC-003 -> SPEC-003. Todo documento
+    pós-fundação, exceto AUDIT, rastreia a uma DEC.
+
+  - `learn-aviacao-cco-db`: projeto-irmão já formalmente governado, mas sob
+    a fundação ANTIGA de cinco peças (pré DEC-META-014) — SPEC-001, DEC-001,
+    SPEC-002, SPEC-003, sem REP-001/DEC-002/DEC-003 separados. Serve de
+    exemplo de estrutura de pastas (`docs/DEC/`, `docs/SPEC/`,
+    `INDEX_DEC.md`) e de nível de profundidade adequado a projeto solo
+    pequeno, mas não deve ser copiado literalmente na ordem/contagem de
+    peças — este projeto (learn-microdados_anac_dados) nasce sob a fundação
+    atual de sete peças, não a de cinco.
+
+  - `serminaro-governance/estudo`: caderno pessoal, deliberadamente fora da
+    taxonomia formal. Não é modelo para este projeto.
+
+Convenção de escopo de numeração (SPEC-META-001 §8.2): projeto com
+repositório próprio usa escopo LOCAL, sem prefixo (`DEC-001`, `SPEC-001`,
+não `DEC-ANAC-001`). `docs/` na raiz do repositório, subpasta por tipo
+(`docs/DEC/`, `docs/SPEC/`, etc.), `docs/DEC/INDEX_DEC.md` obrigatório.
+
+
+4. O QUE JÁ EXISTE EM `docs/` QUE NÃO É SERMI
+--------------------------------------------------------------------------------
+`docs/plano_objetos_snowflake.md` e `docs/plano_expansao_multidataset.md`
+são documentos de planejamento já produzidos, informais (sem frontmatter
+SERMI, sem tipo declarado). Não é decisão desta fundação retrofitá-los
+imediatamente — ficam como estão, coexistindo com a nova estrutura
+`docs/DEC/`, `docs/SPEC/`, etc. Podem alimentar o REP-001 (síntese) como
+fonte de conteúdo já decidido, e migrar para peças formais por oportunidade,
+no mesmo padrão que o próprio `_meta` já usa para fundações antigas
+(DEC-META-005: migração por oportunidade, sem prazo forçado).
+
+
+5. QUEM RESPONDE PELO PROJETO
+--------------------------------------------------------------------------------
+Autor único: Bruno Alexandre Serminaro. Projeto solo, sem outros
+participantes até o momento. Não há revisão humana externa; o freio
+compensatório disponível no ecossistema SERMI é a auditoria recorrente via
+skill (`gov-check`), que só se aplica depois que a fundação estiver completa
+e coerente (Nível 2 de "Definição de Pronto" da INSTRUCAO_DE_TRABALHO.txt).
+
+
+6. O QUE ESTE CONTEXTO NÃO DECIDE
+--------------------------------------------------------------------------------
+Este arquivo é matéria-prima, não decisão. As escolhas de escopo, entrega e
+critério de sucesso (SPEC-002), e de participação/responsabilidade
+(SPEC-003), ficam para DEC-002 e DEC-003, depois que SPEC-001 e REP-001
+existirem. Este documento também não resolve se/quando `docs/plano_*.md`
+migram para a taxonomia formal — fica registrado como pendência no item 4.
+
+================================================================================
+FIM DO CONTEXTO
+================================================================================

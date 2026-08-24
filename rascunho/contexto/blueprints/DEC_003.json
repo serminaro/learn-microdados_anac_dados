@@ -1,0 +1,91 @@
+{
+  "documento": "DEC-003",
+  "tipo": "DEC",
+  "titulo_curto": "Decisão de participação",
+  "funcao": "Registrar a escolha da estrutura de quem responde pelo projeto: participantes e papéis, ou o modo solo e como o solo opera. O SPEC-003 materializa esta decisão como contrato.",
+  "audiencia": "todos, com ênfase em rastreabilidade",
+  "governanca": ["SPEC-META-001 §7", "DEC-META-014 §2.1-§2.3", "DEC-META-013 (compromissos carregados)"],
+  "frontmatter_obrigatorio": ["documento", "titulo", "versao", "status", "data", "autor", "referencia", "escopo"],
+  "ordem_de_producao": {
+    "posicao": 6,
+    "de": 7,
+    "depende_de": ["SPEC-002", "REP-001"],
+    "alimenta": ["SPEC-003"]
+  },
+  "principios": [
+    "DEC é atômica: uma decisão por documento.",
+    "DEC é imutável após aprovação; número nunca reutilizado.",
+    "Consequências negativas são obrigatórias.",
+    "O modo solo é uma escolha deliberada, não um default: exige alternativas e consequências como qualquer decisão.",
+    "A DEC-003 decide quem responde; o SPEC-003 contrata como responde."
+  ],
+  "secoes": [
+    {
+      "nome": "Contexto",
+      "obrigatoria": true,
+      "objetivo": "O que o projeto exige de estrutura de responsabilidade, dado o escopo fixado no SPEC-002.",
+      "subtopicos": ["exigências do escopo", "pessoas disponíveis ou ausentes"],
+      "checar": ["conecta a estrutura de papéis ao escopo do SPEC-002"]
+    },
+    {
+      "nome": "Decisão",
+      "obrigatoria": true,
+      "objetivo": "Uma frase acionável: a estrutura de participação escolhida (equipe com papéis atribuídos, ou modo solo).",
+      "subtopicos": [],
+      "checar": ["é uma frase acionável, não um parágrafo vago"]
+    },
+    {
+      "nome": "Origem ou rastro",
+      "obrigatoria": true,
+      "objetivo": "Ponteiro para o que sustenta a escolha: escopo do SPEC-002, premissas do REP-001, disponibilidade real de pessoas.",
+      "subtopicos": [],
+      "checar": ["aponta para artefato ou fato concreto, não para preferência vaga"]
+    },
+    {
+      "nome": "Alternativas consideradas",
+      "obrigatoria": true,
+      "objetivo": "Ao menos duas: outra composição de equipe, ou solo versus buscar par de revisão, com motivo honesto do descarte.",
+      "subtopicos": ["composição alternativa e veredito", "solo vs. revisão externa e veredito"],
+      "minimo": 2,
+      "checar": ["há pelo menos duas alternativas", "cada uma tem motivo de descarte"]
+    },
+    {
+      "nome": "Consequências",
+      "obrigatoria": true,
+      "objetivo": "Positivas, negativas e o que a decisão não resolve. Em solo, as negativas incluem viés de confirmação e ausência de freio humano.",
+      "subtopicos": ["positivas", "negativas (obrigatórias)", "o que não resolve"],
+      "checar": ["a subseção de consequências negativas existe e não está vazia", "em solo, nomeia o risco do acúmulo de papéis"]
+    },
+    {
+      "nome": "Critérios de reavaliação",
+      "obrigatoria": true,
+      "objetivo": "Gatilhos de mudança da estrutura: entrada de terceiro vinculado, crescimento de risco a outros, freio compensatório não rodando.",
+      "subtopicos": [],
+      "checar": ["inclui o gatilho de graduação: surgimento de terceiro vinculado reabre esta DEC"]
+    },
+    {
+      "nome": "Histórico",
+      "obrigatoria": true,
+      "objetivo": "Data de aprovação e eventuais transições de status.",
+      "subtopicos": [],
+      "checar": ["registra a data e o status inicial"]
+    }
+  ],
+  "campos_estruturantes_do_SPEC_003": {
+    "objetivo": "A DEC-003 deve fixar o mínimo que o SPEC-003 vai contratar.",
+    "campos": [
+      "modo de participação: equipe (papéis atribuídos a pessoas) ou solo (acúmulo total de papéis declarado)",
+      "em solo: a operação deliberada sem revisão humana externa e a auditoria recorrente (regras R-*) como freio compensatório, com gatilhos de disparo",
+      "cadeia de papéis adotada (Diretor, Gestor, Supervisor, Peer Review, Autor) e atribuições provisórias admitidas",
+      "cadência de revisão pretendida e prazo de silêncio correspondente",
+      "gatilho de graduação: o que muda a estrutura (entrada de cliente, orientador, sócio, risco a terceiros)"
+    ],
+    "checar": ["os cinco campos estão presentes e preenchidos"]
+  },
+  "checar_documento": [
+    "frontmatter YAML completo, com referencia: apontando para SPEC-002 e REP-001",
+    "nome do arquivo conforme convenção (DEC_003_descricao_curta.md)",
+    "status inicial proposto",
+    "não invade função de SPEC (decide a estrutura, não redige o contrato)"
+  ]
+}

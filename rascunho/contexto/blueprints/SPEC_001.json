@@ -1,0 +1,106 @@
+{
+  "documento": "SPEC-001",
+  "tipo": "SPEC",
+  "titulo_curto": "Taxonomia documental do projeto",
+  "funcao": "Definir, de maneira clara e estruturada, quais documentos o projeto usa e como.",
+  "audiencia": "equipe técnica, mantenedor futuro",
+  "governanca": ["SPEC-META-001 §3, §8, §11A", "DEC-META-002 §2.1.1", "DEC-META-014 §2.1"],
+  "frontmatter_obrigatorio": ["documento", "titulo", "versao", "status", "data", "autor", "referencia", "escopo"],
+  "ordem_de_producao": {
+    "posicao": 2,
+    "de": 7,
+    "depende_de": ["DEC-001"],
+    "alimenta": ["REP-001", "DEC-002", "SPEC-002", "DEC-003", "SPEC-003", "todas as peças futuras"]
+  },
+  "principios": [
+    "Toda SPEC é viva: versionada, imutável na granularidade da versão.",
+    "SPEC descreve o que algo é e como funciona; não decide nem narra."
+  ],
+  "secoes": [
+    {
+      "nome": "Propósito",
+      "obrigatoria": true,
+      "objetivo": "Para que a taxonomia do projeto existe e o que ela governa.",
+      "subtopicos": [],
+      "checar": ["declara o escopo de governança documental do projeto"]
+    },
+    {
+      "nome": "Tipos de documento em uso",
+      "obrigatoria": true,
+      "objetivo": "Quais dos tipos META o projeto usa e quais ficam de fora.",
+      "subtopicos": ["SPEC", "REP", "GUIDE", "BRIEF", "DEC", "AUDIT", "tipos dispensados e por quê"],
+      "checar": ["cada tipo em uso tem função e audiência declaradas", "coerente com o DEC-001"]
+    },
+    {
+      "nome": "Frontmatter obrigatório",
+      "obrigatoria": true,
+      "objetivo": "Os campos YAML exigidos em toda peça do projeto.",
+      "subtopicos": ["campos", "valores admitidos de status"],
+      "checar": ["lista documento, titulo, versao, status, data, autor, referencia, escopo"]
+    },
+    {
+      "nome": "Convenção de nomes e numeração",
+      "obrigatoria": true,
+      "objetivo": "Padrão de nome de arquivo e escopo de numeração.",
+      "subtopicos": ["padrão por tipo", "escopo de numeração", "numeração nunca reutilizada"],
+      "checar": ["define o padrão SIGLA_NNN_descricao_curta", "declara o escopo (local | pessoal | META)"]
+    },
+    {
+      "nome": "Estrutura de pastas",
+      "obrigatoria": true,
+      "objetivo": "Onde cada tipo de documento e cada ativo vive.",
+      "subtopicos": ["docs/<TIPO>/", "assets/", "índices"],
+      "checar": ["mapa de pastas coerente com os tipos em uso"]
+    },
+    {
+      "nome": "Formato canônico",
+      "obrigatoria": true,
+      "objetivo": "Markdown como fonte; .docx e .pdf como derivados.",
+      "subtopicos": [],
+      "checar": ["declara Markdown canônico"]
+    },
+    {
+      "nome": "Regras checáveis (R-TAX)",
+      "obrigatoria": true,
+      "objetivo": "Declarar as regras auditáveis da taxonomia do projeto.",
+      "subtopicos": ["uma entrada por regra", "regra de rastro DEC obrigatório no pós-fundação, exceto AUDIT (SPEC-META-001 §11A.2)"],
+      "checar": ["cada regra tem id, enunciado, onde verificar e severidade", "há regra cobrindo o rastro a DEC dos documentos não-AUDIT"]
+    },
+    {
+      "nome": "Limitações conhecidas",
+      "obrigatoria": true,
+      "objetivo": "O que a taxonomia do projeto não cobre.",
+      "subtopicos": [],
+      "checar": ["nomeia ao menos um limite"]
+    },
+    {
+      "nome": "Critérios de revisão",
+      "obrigatoria": true,
+      "objetivo": "Sob que condições a SPEC-001 é revisitada.",
+      "subtopicos": [],
+      "checar": ["lista ao menos um gatilho de revisão"]
+    },
+    {
+      "nome": "Histórico",
+      "obrigatoria": true,
+      "objetivo": "Registro de versões.",
+      "subtopicos": [],
+      "checar": ["registra a versão inicial"]
+    }
+  ],
+  "regras_checaveis": {
+    "familia": "R-TAX",
+    "formato_da_regra": {
+      "id": "R-TAX-NN",
+      "enunciado": "o que a regra exige",
+      "onde_verificar": "arquivo, campo ou pasta",
+      "severidade": "Crítica | Alta | Média | Baixa"
+    }
+  },
+  "checar_documento": [
+    "frontmatter YAML completo",
+    "nome do arquivo conforme convenção (SPEC_001_descricao_curta.md)",
+    "campo versao presente",
+    "coerência com o que o DEC-001 fixou"
+  ]
+}

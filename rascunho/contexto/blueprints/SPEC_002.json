@@ -1,0 +1,113 @@
+{
+  "documento": "SPEC-002",
+  "tipo": "SPEC",
+  "titulo_curto": "Descrição do projeto",
+  "funcao": "Declarar o que o projeto se compromete a entregar.",
+  "audiencia": "equipe técnica, gestor",
+  "governanca": ["SPEC-META-001 §3", "DEC-META-002 §2.1.4", "DEC-META-014 §2.1"],
+  "frontmatter_obrigatorio": ["documento", "titulo", "versao", "status", "data", "autor", "referencia", "escopo"],
+  "ordem_de_producao": {
+    "posicao": 5,
+    "de": 7,
+    "depende_de": ["DEC-002", "REP-001"],
+    "alimenta": ["DEC-003", "SPEC-003"]
+  },
+  "principios": [
+    "Critérios de sucesso apontam para artefato verificável.",
+    "Frameworks externos são instrumento interno, não viram entregável."
+  ],
+  "secoes": [
+    {
+      "nome": "Propósito",
+      "obrigatoria": true,
+      "objetivo": "Para que o projeto existe, em alto nível.",
+      "subtopicos": [],
+      "checar": ["declara o propósito em uma a duas frases"]
+    },
+    {
+      "nome": "Audiência",
+      "obrigatoria": true,
+      "objetivo": "Papéis abstratos a quem o projeto serve.",
+      "subtopicos": [],
+      "checar": ["descreve papéis, não pessoas nomeadas"]
+    },
+    {
+      "nome": "Escopo",
+      "obrigatoria": true,
+      "objetivo": "O que é entregue e o que fica fora de escopo.",
+      "subtopicos": ["entregue", "fora de escopo"],
+      "checar": ["a subseção fora de escopo existe e não está vazia"]
+    },
+    {
+      "nome": "Decomposição do produto",
+      "obrigatoria": true,
+      "objetivo": "As partes que compõem o que o projeto entrega.",
+      "subtopicos": ["módulos, fases ou componentes"],
+      "checar": ["decompõe o produto em partes nomeadas"]
+    },
+    {
+      "nome": "Critérios de sucesso (C-NN)",
+      "obrigatoria": true,
+      "objetivo": "Critérios auditáveis, cada um apontando para artefato verificável.",
+      "subtopicos": ["C-01", "C-02", "..."],
+      "checar": ["cada C-NN aponta para artefato verificável", "provisórios marcados como tais"]
+    },
+    {
+      "nome": "Premissas e dependências",
+      "obrigatoria": true,
+      "objetivo": "O que o projeto assume e do que depende.",
+      "subtopicos": [],
+      "checar": ["lista premissas e dependências externas"]
+    },
+    {
+      "nome": "Não-objetivos",
+      "obrigatoria": true,
+      "objetivo": "Critérios contra os quais o projeto se recusa a otimizar.",
+      "subtopicos": [],
+      "checar": ["nomeia ao menos um não-objetivo"]
+    },
+    {
+      "nome": "Regras checáveis (R-FUN)",
+      "obrigatoria": true,
+      "objetivo": "Declarar as regras auditáveis da descrição do projeto.",
+      "subtopicos": ["uma entrada por regra"],
+      "checar": ["cada regra tem id, enunciado, onde verificar e severidade"]
+    },
+    {
+      "nome": "Limitações conhecidas",
+      "obrigatoria": true,
+      "objetivo": "O que a descrição não cobre.",
+      "subtopicos": [],
+      "checar": ["nomeia ao menos um limite"]
+    },
+    {
+      "nome": "Critérios de revisão",
+      "obrigatoria": true,
+      "objetivo": "Sob que condições a SPEC-002 é revisitada.",
+      "subtopicos": [],
+      "checar": ["lista ao menos um gatilho de revisão"]
+    },
+    {
+      "nome": "Histórico",
+      "obrigatoria": true,
+      "objetivo": "Registro de versões.",
+      "subtopicos": [],
+      "checar": ["registra a versão inicial"]
+    }
+  ],
+  "regras_checaveis": {
+    "familia": "R-FUN",
+    "formato_da_regra": {
+      "id": "R-FUN-NN",
+      "enunciado": "o que a regra exige",
+      "onde_verificar": "arquivo, campo ou pasta",
+      "severidade": "Crítica | Alta | Média | Baixa"
+    }
+  },
+  "checar_documento": [
+    "frontmatter YAML completo",
+    "nome do arquivo conforme convenção (SPEC_002_descricao_curta.md)",
+    "campo versao presente",
+    "coerência com a DEC-002 (DEC-mãe) e com o REP-001"
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "documento": "SPEC-003",
+  "tipo": "SPEC",
+  "titulo_curto": "Envolvidos, papéis e responsabilidades",
+  "funcao": "Atribuir papéis a pessoas sem que a SPEC-002 precise mudar quando a equipe mudar.",
+  "audiencia": "todos os envolvidos no projeto",
+  "governanca": ["SPEC-META-001 §3", "DEC-META-002 §2.1.5", "DEC-META-014 §2.1-§2.3"],
+  "frontmatter_obrigatorio": ["documento", "titulo", "versao", "status", "data", "autor", "referencia", "escopo"],
+  "ordem_de_producao": {
+    "posicao": 7,
+    "de": 7,
+    "depende_de": ["DEC-003", "SPEC-002"],
+    "alimenta": []
+  },
+  "principios": [
+    "Toda fundação tem SPEC-003; não há perfil solo que a dispense (DEC-META-013, mantido pela DEC-META-014 §2.3).",
+    "A SPEC-003 materializa a decisão de participação registrada no DEC-003.",
+    "Em projeto solo, a SPEC-003 registra o acúmulo de papéis e o freio compensatório."
+  ],
+  "secoes": [
+    {
+      "nome": "Propósito",
+      "obrigatoria": true,
+      "objetivo": "Para que o contrato de responsabilidade existe.",
+      "subtopicos": [],
+      "checar": ["declara a função de separar papéis de pessoas"]
+    },
+    {
+      "nome": "Escopo do contrato",
+      "obrigatoria": true,
+      "objetivo": "O que o contrato cobre e o que não cobre.",
+      "subtopicos": [],
+      "checar": ["delimita o alcance do contrato"]
+    },
+    {
+      "nome": "Atribuição papel-pessoa",
+      "obrigatoria": true,
+      "objetivo": "Quem ocupa cada papel da cadeia (Diretor, Gestor, Supervisor, Peer Review, Autor).",
+      "subtopicos": ["cadeia de papéis", "atribuições provisórias (convite a fazer)", "IA de apoio declarada como instrumento, não papel"],
+      "checar": ["cada papel tem ocupante ou está marcado como provisório", "em solo, registra o acúmulo de papéis", "declara que a IA de apoio nunca aprova nem decide divergência; toda aprovação é ato humano"]
+    },
+    {
+      "nome": "Fluxo de aprovação por tipo de artefato",
+      "obrigatoria": true,
+      "objetivo": "Quem aprova cada tipo de documento.",
+      "subtopicos": [],
+      "checar": ["define o aprovador por tipo (SPEC, DEC, REP, ...)"]
+    },
+    {
+      "nome": "Fronteiras de autonomia",
+      "obrigatoria": true,
+      "objetivo": "O que cada papel pode decidir sozinho e o que exige aprovação.",
+      "subtopicos": [],
+      "checar": ["separa o que segue sem confirmar do que para para confirmar"]
+    },
+    {
+      "nome": "Regime de exceção",
+      "obrigatoria": true,
+      "objetivo": "Como declarar urgência e registrá-la.",
+      "subtopicos": ["quem declara", "como registra"],
+      "checar": ["define quem pode declarar exceção e o registro exigido"]
+    },
+    {
+      "nome": "Cadência de revisão",
+      "obrigatoria": true,
+      "objetivo": "Ritmo de revisão e prazo de silêncio do supervisor.",
+      "subtopicos": ["semanal | quinzenal | mensal", "prazo de silêncio correspondente"],
+      "checar": ["cadência e prazo de silêncio calibrados ao volume do projeto"]
+    },
+    {
+      "nome": "Operação em modo degradado",
+      "obrigatoria": true,
+      "objetivo": "Como o projeto opera sem revisão humana externa.",
+      "subtopicos": ["freio compensatório (auditoria recorrente)"],
+      "checar": ["em solo, nomeia a auditoria recorrente como freio e declara que ela está em uso"]
+    },
+    {
+      "nome": "Regras checáveis (R-CON)",
+      "obrigatoria": true,
+      "objetivo": "Declarar as regras auditáveis do contrato.",
+      "subtopicos": ["uma entrada por regra"],
+      "checar": ["cada regra tem id, enunciado, onde verificar e severidade"]
+    },
+    {
+      "nome": "Limitações conhecidas",
+      "obrigatoria": true,
+      "objetivo": "O que o contrato não cobre.",
+      "subtopicos": [],
+      "checar": ["nomeia ao menos um limite"]
+    },
+    {
+      "nome": "Critérios de revisão",
+      "obrigatoria": true,
+      "objetivo": "Sob que condições a SPEC-003 é revisitada.",
+      "subtopicos": [],
+      "checar": ["lista ao menos um gatilho de revisão"]
+    },
+    {
+      "nome": "Histórico",
+      "obrigatoria": true,
+      "objetivo": "Registro de versões.",
+      "subtopicos": [],
+      "checar": ["registra a versão inicial"]
+    }
+  ],
+  "regras_checaveis": {
+    "familia": "R-CON",
+    "formato_da_regra": {
+      "id": "R-CON-NN",
+      "enunciado": "o que a regra exige",
+      "onde_verificar": "arquivo, campo ou pasta",
+      "severidade": "Crítica | Alta | Média | Baixa"
+    }
+  },
+  "checar_documento": [
+    "frontmatter YAML completo",
+    "nome do arquivo conforme convenção (SPEC_003_descricao_curta.md)",
+    "campo versao presente",
+    "coerência com SPEC-002 (não promete papel que não existe)"
+  ]
+}

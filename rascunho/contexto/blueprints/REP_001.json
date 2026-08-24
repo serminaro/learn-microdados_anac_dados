@@ -1,0 +1,83 @@
+{
+  "documento": "REP-001",
+  "tipo": "REP",
+  "titulo_curto": "Síntese da fundação",
+  "funcao": "Consolidar a base epistêmica do projeto: o que se sabe, o que se decidiu e o que fica em aberto.",
+  "audiencia": "equipe técnica, gestor, auditor",
+  "governanca": ["SPEC-META-001 §4", "DEC-META-002 §2.1.2"],
+  "frontmatter_obrigatorio": ["documento", "titulo", "versao", "status", "data", "autor", "referencia", "escopo"],
+  "ordem_de_producao": {
+    "posicao": 3,
+    "de": 7,
+    "depende_de": ["DEC-001", "SPEC-001", "contexto/", "MEMORIA.txt"],
+    "alimenta": ["DEC-002", "SPEC-002", "DEC-003", "SPEC-003"]
+  },
+  "principios": [
+    "Separar achado confirmado de hipótese candidata.",
+    "Todo achado tem rastro para o artefato que o sustenta.",
+    "Recomendações organizadas por escala temporal, com dono explícito."
+  ],
+  "secoes": [
+    {
+      "nome": "Contexto",
+      "obrigatoria": true,
+      "objetivo": "O que motivou o projeto e qual era o estado anterior.",
+      "subtopicos": ["a demanda", "estado anterior"],
+      "checar": ["descreve a origem do projeto"]
+    },
+    {
+      "nome": "Escopo",
+      "obrigatoria": true,
+      "objetivo": "O que o relatório cobre e o que fica deliberadamente de fora.",
+      "subtopicos": ["coberto", "fora de escopo"],
+      "checar": ["declara o que está fora de escopo"]
+    },
+    {
+      "nome": "Base epistêmica",
+      "obrigatoria": true,
+      "objetivo": "Princípios, pesquisa e referências que sustentam o projeto.",
+      "subtopicos": ["princípios", "pesquisa e referências", "mapeamento normativo (se houver)"],
+      "checar": ["nomeia a origem e o método de cada evidência usada"]
+    },
+    {
+      "nome": "Decisões iniciais",
+      "obrigatoria": true,
+      "objetivo": "As decisões D1..Dn tomadas na fundação.",
+      "subtopicos": ["D1", "D2", "..."],
+      "checar": ["cada decisão relevante remete a uma DEC ou vira pendência de DEC"]
+    },
+    {
+      "nome": "Achados e hipóteses candidatas",
+      "obrigatoria": true,
+      "objetivo": "Achados confirmados e hipóteses candidatas, separados.",
+      "subtopicos": ["achados confirmados", "hipóteses candidatas (com evidência que falta)"],
+      "checar": ["achado e hipótese estão em subseções distintas", "nenhuma hipótese apresentada como conclusão"]
+    },
+    {
+      "nome": "Premissas operacionais",
+      "obrigatoria": true,
+      "objetivo": "As premissas P1..Pn assumidas, incluindo vieses a vigiar.",
+      "subtopicos": ["P1", "P2", "vieses identificados"],
+      "checar": ["lista as premissas e nomeia os vieses fortes no projeto"]
+    },
+    {
+      "nome": "Recomendações por escala temporal",
+      "obrigatoria": false,
+      "objetivo": "Quando houver recomendações, organizá-las por horizonte.",
+      "subtopicos": ["dias", "semanas", "meses", "trimestres", "anos"],
+      "checar": ["cada recomendação declara escala e dono operacional"]
+    },
+    {
+      "nome": "Pendências e próximos passos",
+      "obrigatoria": true,
+      "objetivo": "O que ficou em aberto e o que se segue.",
+      "subtopicos": [],
+      "checar": ["lista pendências concretas"]
+    }
+  ],
+  "checar_documento": [
+    "frontmatter YAML completo",
+    "nome do arquivo conforme convenção (REP_001_descricao_curta.md)",
+    "não invade função de DEC (narra, não decide) nem de SPEC (relata, não especifica)"
+  ]
+}

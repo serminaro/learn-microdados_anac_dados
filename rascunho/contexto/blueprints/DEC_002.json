@@ -1,0 +1,91 @@
+{
+  "documento": "DEC-002",
+  "tipo": "DEC",
+  "titulo_curto": "Decisões de descrição",
+  "funcao": "Registrar, a partir do acúmulo de REP-001 e SPEC-001, as escolhas de escopo, entrega e critérios que o SPEC-002 vai apresentar como estado.",
+  "audiencia": "todos, com ênfase em rastreabilidade",
+  "governanca": ["SPEC-META-001 §7", "DEC-META-014 §2.1-§2.2"],
+  "frontmatter_obrigatorio": ["documento", "titulo", "versao", "status", "data", "autor", "referencia", "escopo"],
+  "ordem_de_producao": {
+    "posicao": 4,
+    "de": 7,
+    "depende_de": ["REP-001", "SPEC-001"],
+    "alimenta": ["SPEC-002"]
+  },
+  "principios": [
+    "DEC é atômica: uma decisão por documento.",
+    "DEC é imutável após aprovação; número nunca reutilizado.",
+    "Consequências negativas são obrigatórias.",
+    "Toda decisão tem rastro para artefato concreto (aqui: REP-001 e SPEC-001).",
+    "A DEC-002 decide; o SPEC-002 descreve. Não descrever aqui o que o SPEC-002 vai formalizar."
+  ],
+  "secoes": [
+    {
+      "nome": "Contexto",
+      "obrigatoria": true,
+      "objetivo": "O que o acúmulo de REP-001 e SPEC-001 estabeleceu e por que é hora de fixar a descrição.",
+      "subtopicos": ["o que o REP-001 consolidou", "por que decidir agora"],
+      "checar": ["ancora no aprendizado do REP-001, não repete o rascunho"]
+    },
+    {
+      "nome": "Decisão",
+      "obrigatoria": true,
+      "objetivo": "Uma frase acionável: adotar o recorte de escopo e os critérios que o SPEC-002 formaliza.",
+      "subtopicos": [],
+      "checar": ["é uma frase acionável, não um parágrafo vago"]
+    },
+    {
+      "nome": "Origem ou rastro",
+      "obrigatoria": true,
+      "objetivo": "Ponteiro para os trechos de REP-001 (achados, premissas) e do contexto que sustentam cada escolha.",
+      "subtopicos": ["achados do REP-001 usados", "premissas assumidas"],
+      "checar": ["cada escolha estruturante aponta para achado ou premissa concreta"]
+    },
+    {
+      "nome": "Alternativas consideradas",
+      "obrigatoria": true,
+      "objetivo": "Ao menos duas: recortes de escopo ou critérios de sucesso descartados, com motivo honesto.",
+      "subtopicos": ["recorte alternativo e veredito", "critério descartado e veredito"],
+      "minimo": 2,
+      "checar": ["há pelo menos duas alternativas", "cada uma tem motivo de descarte"]
+    },
+    {
+      "nome": "Consequências",
+      "obrigatoria": true,
+      "objetivo": "Positivas, negativas e o que a decisão não resolve.",
+      "subtopicos": ["positivas", "negativas (obrigatórias)", "o que não resolve"],
+      "checar": ["a subseção de consequências negativas existe e não está vazia"]
+    },
+    {
+      "nome": "Critérios de reavaliação",
+      "obrigatoria": true,
+      "objetivo": "Sob que condições o recorte de escopo ou os critérios devem ser revisitados.",
+      "subtopicos": [],
+      "checar": ["lista ao menos um gatilho de reavaliação"]
+    },
+    {
+      "nome": "Histórico",
+      "obrigatoria": true,
+      "objetivo": "Data de aprovação e eventuais transições de status.",
+      "subtopicos": [],
+      "checar": ["registra a data e o status inicial"]
+    }
+  ],
+  "campos_estruturantes_do_SPEC_002": {
+    "objetivo": "A DEC-002 deve fixar o mínimo que o SPEC-002 vai formalizar.",
+    "campos": [
+      "recorte de escopo: o que o projeto entrega e o que fica deliberadamente fora",
+      "critérios de sucesso adotados (candidatos a C-NN) e os descartados, com motivo",
+      "não-objetivos: contra o que o projeto se recusa a otimizar",
+      "decomposição escolhida (módulos, fases ou componentes) e as alternativas de recorte descartadas",
+      "premissas e dependências externas assumidas"
+    ],
+    "checar": ["os cinco campos estão presentes e preenchidos"]
+  },
+  "checar_documento": [
+    "frontmatter YAML completo, com referencia: apontando para REP-001 e SPEC-001",
+    "nome do arquivo conforme convenção (DEC_002_descricao_curta.md)",
+    "status inicial proposto",
+    "não invade função de SPEC (decide o recorte, não descreve o produto)"
+  ]
+}
