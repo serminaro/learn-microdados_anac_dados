@@ -80,8 +80,8 @@ DEC-META-014, que refinou a DEC-META-002 §2.2.
 
   3.1  LER E ENQUADRAR (sensemaking) — feito: ver CONTEXTO_DO_PROJETO.txt.
   3.2  MEMÓRIA — feito: fatos duráveis na seção 5 abaixo.
-  3.3  DEC-001 (fundação reflexiva) — em produção nesta rodada.
-  3.4  SPEC-001 (taxonomia do projeto) — próximo bloco, após revisão do DEC-001.
+  3.3  DEC-001 (fundação reflexiva) — concluído, aprovado em 2026-08-24.
+  3.4  SPEC-001 (taxonomia do projeto) — próximo bloco de trabalho.
   3.5  REP-001 (síntese da fundação) — mesmo bloco de 3.4.
   3.6  DEC-002 (decisões de descrição) — bloco seguinte.
   3.7  SPEC-002 (descrição) — mesmo bloco de 3.6.

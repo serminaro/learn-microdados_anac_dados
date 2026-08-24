@@ -2,7 +2,7 @@
 documento: DEC-001
 titulo: Fundação do projeto learn-microdados_anac_dados sob a governança documental SERMI
 versao: v1
-status: proposto
+status: aprovado
 data: 2026-08-24
 autor: Bruno Alexandre Serminaro
 referencia: —
@@ -17,7 +17,11 @@ escopo: projeto
 > DEC-003 → SPEC-003. Fixa o mínimo que estrutura o SPEC-001: escopo de
 > numeração local, os seis tipos de documento adotados, a estrutura de
 > pastas `docs/<TIPO>/`, e as três famílias de regra checável (R-TAX,
-> R-FUN, R-CON) distribuídas por SPEC-001/002/003.
+> R-FUN, R-CON) distribuídas por SPEC-001/002/003. Fixa também, como adendo
+> específico deste projeto e não um dos cinco campos do blueprint, a
+> convenção de nomes `TIPO_NNN_descricao_curta` para arquivo de
+> código-fonte (não peça SERMI) — BASH/SRC/DDL/DML/NOTE/R, prospectiva,
+> incluindo a separação física de ingestão SQLite e Snowflake (§6.6).
 
 ---
 
@@ -351,6 +355,7 @@ Esta decisão deve ser revisitada se:
 | Data | Evento |
 |---|---|
 | 2026-08-24 | DEC-001 produzida em status `proposto`. Funda o projeto sob a taxonomia SERMI de sete peças (DEC-META-014), escopo local, seis tipos de documento adotados, `docs/<TIPO>/` como estrutura de pastas. Origem: expansão de escopo da mesma sessão (`docs/plano_expansao_multidataset.md`) e pedido explícito do autor. Aguardando revisão do autor antes de aprovar e seguir para SPEC-001 + REP-001. |
+| 2026-08-24 | **Aprovada.** O autor pediu revisão e aprovação explicitamente. Revisão encontrou uma divergência real antes de aprovar: o resumo no topo do documento não refletia o conteúdo já incorporado ao §6.6 (convenção de nomes para código-fonte, adicionada em rodada de trabalho posterior à redação inicial) — corrigido no mesmo momento da aprovação, não deixado como dívida. Nenhuma outra divergência estrutural encontrada contra o blueprint (`rascunho/contexto/blueprints/DEC_001.json`): todas as seções obrigatórias presentes, 4 alternativas com veredito (mínimo 2), consequências negativas não vazias, ao menos um critério de reavaliação. Segue para SPEC-001 + REP-001. |
 
 ---
 

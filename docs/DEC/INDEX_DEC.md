@@ -9,14 +9,14 @@ SPEC-001 deste projeto, quando produzido, passa a ser a referência local.
 
 | Nº | Título | Data | Descrição curta |
 |---|---|---|---|
-
-_(nenhuma ainda — DEC-001 está em `proposto`, ver abaixo)_
+| [DEC-001](DEC_001_Fundacao_sob_SERMI.md) | Fundação do projeto sob a governança documental SERMI | 2026-08-24 | Funda o projeto sob a taxonomia de sete peças (DEC-META-014), escopo local, seis tipos de documento, `docs/<TIPO>/`. Fixa também a convenção `TIPO_NNN` para código-fonte (§6.6). |
 
 ## DECs em proposta (status `proposto`)
 
 | Nº | Título | Data | Descrição curta |
 |---|---|---|---|
-| [DEC-001](DEC_001_Fundacao_sob_SERMI.md) | Fundação do projeto sob a governança documental SERMI | 2026-08-24 | Funda o projeto sob a taxonomia de sete peças (DEC-META-014), escopo local, seis tipos de documento, `docs/<TIPO>/`. Aguardando revisão do autor. |
+
+_(nenhuma)_
 
 ## DECs previstas (de conteúdo, a materializar)
 
@@ -50,7 +50,9 @@ _(nenhuma ainda)_
 
 > **Nota de fundação (2026-08-24).** O projeto adota a fundação de sete
 > peças em ordem decisão-primeiro (DEC-META-014): DEC-001 → SPEC-001 →
-> REP-001 → DEC-002 → SPEC-002 → DEC-003 → SPEC-003. DEC-001 está em
-> `proposto`, aguardando revisão do autor antes de seguir para SPEC-001 e
-> REP-001. Material de trabalho da fundação (contexto bruto, blueprints)
-> em `rascunho/`, na raiz do repositório.
+> REP-001 → DEC-002 → SPEC-002 → DEC-003 → SPEC-003. DEC-001 foi
+> **aprovada** em 2026-08-24, depois de revisão que corrigiu uma
+> divergência entre o resumo do documento e o §6.6 (ver Histórico do
+> DEC-001). Próximo bloco de trabalho: SPEC-001 + REP-001. Material de
+> trabalho da fundação (contexto bruto, blueprints) em `rascunho/`, na raiz
+> do repositório.
