@@ -81,12 +81,19 @@ DEC-META-014, que refinou a DEC-META-002 §2.2.
   3.1  LER E ENQUADRAR (sensemaking) — feito: ver CONTEXTO_DO_PROJETO.txt.
   3.2  MEMÓRIA — feito: fatos duráveis na seção 5 abaixo.
   3.3  DEC-001 (fundação reflexiva) — concluído, aprovado em 2026-08-24.
-  3.4  SPEC-001 (taxonomia do projeto) — próximo bloco de trabalho.
-  3.5  REP-001 (síntese da fundação) — mesmo bloco de 3.4.
-  3.6  DEC-002 (decisões de descrição) — bloco seguinte.
-  3.7  SPEC-002 (descrição) — mesmo bloco de 3.6.
-  3.8  DEC-003 (decisão de participação) — bloco seguinte.
-  3.9  SPEC-003 (envolvidos) — mesmo bloco de 3.8.
+  3.4  SPEC-001 (taxonomia do projeto) — concluído, aprovado em 2026-08-24.
+  3.5  REP-001 (síntese da fundação) — concluído, aprovado em 2026-08-24.
+  3.6  DEC-002 (decisões de descrição) — concluído, proposto em 2026-08-24.
+       Formaliza D1/D2/D3 do REP-001; sinaliza que D4/D7 são candidatos a
+       DEC de conteúdo dedicada (DEC-004+), não a DEC-002/SPEC-002.
+  3.7  SPEC-002 (descrição) — concluído, proposto em 2026-08-24.
+  3.8  DEC-003 (decisão de participação) — concluído, proposto em 2026-08-24.
+       Fixa solo (Autor/Gestor/Diretor acumulados), Claude par assistivo
+       sem autoridade de aprovação, cadência de auditoria por marco (piso
+       trimestral) — diferença deliberada do precedente cco-db, pela
+       conexão de carreira já ativa deste projeto.
+  3.9  SPEC-003 (envolvidos) — concluído, proposto em 2026-08-24. Última
+       peça da fundação de sete; aguardando aprovação do autor.
 
 
 4. GOVERNANÇA DE REFERÊNCIA
@@ -143,10 +150,13 @@ prevalece e a divergência é registrada.
       como opcional.
 
   Envolvidos e papéis (mesmo que solo):
-    - autor/decisor/executor: Bruno Alexandre Serminaro (papéis acumulados,
-      projeto solo).
-    - apoio de execução: IA de apoio (Claude Code), sob o papel de Arquiteto
-      de Decisão.
+    - Autor/Gestor/Diretor: Bruno Alexandre Serminaro (acumulados, DEC-003
+      + SPEC-003 §3.1).
+    - IA de apoio: Claude Code, sob o papel de Arquiteto de Decisão;
+      declarada instrumento (não papel da cadeia), sem autoridade de
+      aprovação (SPEC-003 §3.2).
+    - Supervisor de validação, Peer Review humano: formalmente não
+      previstos (SPEC-003 §3.1).
 
   Restrições e prazos:
     - Sem prazo externo. Repositório público, portfólio pessoal.
@@ -168,8 +178,17 @@ prevalece e a divergência é registrada.
     - Migração ou não de docs/plano_objetos_snowflake.md e
       docs/plano_expansao_multidataset.md para a taxonomia formal (ver
       CONTEXTO_DO_PROJETO.txt item 4) — decisão futura, por oportunidade.
-    - SPEC-001, REP-001, DEC-002, SPEC-002, DEC-003, SPEC-003 ainda não
-      escritas — blocos seguintes desta fundação.
+    - SPEC-003 em `proposto`, aguardando aprovação do autor — falta só ela
+      para a fundação de sete peças estar completa.
+    - DEC-004 (organização de dado e ingestão, retroativa) em `proposto`,
+      aguardando aprovação do autor — produzida em 2026-08-25 por achado
+      do gov-check AUDIT-001 (R-FUN-06), resolvendo a pendência D4/D7 do
+      REP-001 §4.
+    - Primeira rodada de gov-check já feita (AUDIT-001, 2026-08-25): 17
+      Conforme, 5 Divergência (2 resolvidas na sessão: REP-001 Histórico
+      adicionado, DEC-004 produzida; 3 esperadas — C-01/C-02/C-03 do
+      SPEC-002 ainda não implementados), 3 N/A, 0 Crítica. Próxima
+      auditoria: por marco ou até 2026-11-25 (piso trimestral).
 
 ================================================================================
 FIM DA MEMÓRIA
