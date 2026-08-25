@@ -1,5 +1,13 @@
-# Dados brutos e derivados (zips, txt, csv) -- grandes, reprodutiveis pelo pipeline
-data/
+# Dados brutos e derivados (zips, txt, csv) -- grandes, reprodutiveis pelo pipeline.
+# "data/*" (nao "data/") para permitir excecoes pontuais abaixo -- um diretorio
+# ignorado por inteiro bloqueia re-inclusao de arquivo dentro dele.
+data/*
+
+# Excecoes: dado de referencia pequeno, com correcoes manuais documentadas
+# (nao dump bruto reproduzivel 1:1 so por rede) -- ver src/SRC_001_enriquecer_bases_aerodromos.py
+!data/Bases_dos_microdados_2015_2026.txt
+!data/aerodromos_enriquecido.csv
+!data/aerodromos_sem_match.csv
 
 # Banco local -- 2,5GB+, excede o limite de arquivo do GitHub (100MB) de qualquer forma
 db/
