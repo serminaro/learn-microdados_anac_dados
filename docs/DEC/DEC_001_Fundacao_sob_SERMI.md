@@ -356,6 +356,7 @@ Esta decisão deve ser revisitada se:
 |---|---|
 | 2026-08-24 | DEC-001 produzida em status `proposto`. Funda o projeto sob a taxonomia SERMI de sete peças (DEC-META-014), escopo local, seis tipos de documento adotados, `docs/<TIPO>/` como estrutura de pastas. Origem: expansão de escopo da mesma sessão (`docs/plano_expansao_multidataset.md`) e pedido explícito do autor. Aguardando revisão do autor antes de aprovar e seguir para SPEC-001 + REP-001. |
 | 2026-08-24 | **Aprovada.** O autor pediu revisão e aprovação explicitamente. Revisão encontrou uma divergência real antes de aprovar: o resumo no topo do documento não refletia o conteúdo já incorporado ao §6.6 (convenção de nomes para código-fonte, adicionada em rodada de trabalho posterior à redação inicial) — corrigido no mesmo momento da aprovação, não deixado como dívida. Nenhuma outra divergência estrutural encontrada contra o blueprint (`rascunho/contexto/blueprints/DEC_001.json`): todas as seções obrigatórias presentes, 4 alternativas com veredito (mínimo 2), consequências negativas não vazias, ao menos um critério de reavaliação. Segue para SPEC-001 + REP-001. |
+| 2026-08-26 | **Supersede pontual pelo DEC-005** (não reabre nem reescreve esta DEC, que é imutável após aprovada): o trecho do §6.6 que declarava a convenção `TIPO_NNN` retroativa não autorizada é substituído pela autorização explícita do DEC-005, motivada pela expansão para 3 datasets. O restante do §6.6 (convenção prospectiva, regras de slug/DDL/DML) permanece em vigor sem alteração. |
 
 ---
 

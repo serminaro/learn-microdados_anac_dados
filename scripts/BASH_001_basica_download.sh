@@ -1,19 +1,26 @@
 #!/usr/bin/env bash
-# Baixa os zips da tabela "basica" (microdados ANAC) para 2024-01 a 2026-06.
-# Trata a excecao de nome do arquivo mais recente (basica202606.zip, sem hifen).
+# Baixa os zips da tabela "basica" (microdados ANAC) para 2010-01 ate o mes
+# corrente (DEC-002: corte historico em 2010, nao 2000).
+# Trata a excecao de nome do arquivo mais recente (basica202606.zip, sem hifen)
+# -- se a mesma excecao (sem hifen) se repetir em meses futuros, precisa virar
+# deteccao real (tentar as duas formas), nao suposicao; ver nota em
+# docs/plano_expansao_multidataset.md sobre validacao de schema ao longo do tempo.
 set -euo pipefail
 
 UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36"
 BASE="https://www.gov.br/anac/pt-br/assuntos/regulados/empresas-aereas/Instrucoes-para-a-elaboracao-e-apresentacao-das-demonstracoes-contabeis/envio-de-informacoes/basica"
 DEST="/home/bruno/Projetos/learn-microdados_anac_dados/data/anac/basica"
 
+ANO_FIM=$(date +%Y)
+MES_FIM=$(date +%m)
+
 mkdir -p "$DEST"
 LOG="$DEST/_download_log.csv"
 echo "ano,mes,url,arquivo,http_status,bytes" > "$LOG"
 
-for ano in 2024 2025 2026; do
+for ano in $(seq 2010 "$ANO_FIM"); do
   for mes in 01 02 03 04 05 06 07 08 09 10 11 12; do
-    if [ "$ano" = "2026" ] && [ "$mes" -gt 6 ]; then
+    if [ "$ano" = "$ANO_FIM" ] && [ "$mes" -gt "$((10#$MES_FIM))" ]; then
       continue
     fi
     # excecao conhecida: 2026-06 nao tem hifen no nome do arquivo
@@ -45,4 +52,4 @@ done
 
 echo ""
 echo "=== Resumo ==="
-echo "Arquivos baixados: $(ls "$DEST"/*.zip 2>/dev/null | wc -l) de 30 esperados"
+echo "Arquivos baixados: $(ls "$DEST"/*.zip 2>/dev/null | wc -l)"

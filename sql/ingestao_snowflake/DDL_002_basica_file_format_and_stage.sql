@@ -1,6 +1,6 @@
 -- Fase A do plano Snowflake (docs/plano_objetos_snowflake.md): formaliza
 -- como objetos nomeados o File Format e o parsing do Stage que ate aqui
--- viviam inline dentro do CREATE STAGE de 07_snowflake_setup_and_load.sql,
+-- viviam inline dentro do CREATE STAGE de DML_001_basica_setup_and_load.sql,
 -- neste mesmo diretorio.
 -- Sem mudanca de comportamento: mesmo parsing (CSV, aspas opcionais, 1a
 -- linha de cabecalho pulada) que ja estava em producao, so deixa de ficar
@@ -16,7 +16,7 @@ CREATE OR REPLACE FILE FORMAT anac_basica_csv_ff
     TYPE = CSV
     FIELD_OPTIONALLY_ENCLOSED_BY = '"'
     SKIP_HEADER = 1
-    COMMENT = 'Parsing do CSV consolidado da tabela Basica (UTF-8, gerado por src/ingestao_snowflake/05_export_csv.py)';
+    COMMENT = 'Parsing do CSV consolidado da tabela Basica (UTF-8, gerado por src/ingestao_snowflake/SRC_001_basica_export_csv.py)';
 
 -- 2) Stage existente passa a referenciar o File Format nomeado.
 -- ALTER, nao CREATE OR REPLACE STAGE: o stage pode ja ter o CSV enviado via

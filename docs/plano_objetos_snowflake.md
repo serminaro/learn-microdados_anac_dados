@@ -24,7 +24,7 @@
 | API Integration | `ANAC_GITHUB_INTEGRATION` | Allowlist para o Git Repository |
 | Git Repository | `learn_microdados_anac_dados` | Espelho do repositório, fonte de verdade versionada |
 | Warehouse | `wh_anac` | Compute isolado deste domínio |
-| File Format | `anac_basica_csv_ff` | Parsing do CSV nomeado (Fase A, `sql/ingestao_snowflake/10_snowflake_file_format_and_stage.sql`) |
+| File Format | `anac_basica_csv_ff` | Parsing do CSV nomeado (Fase A, `sql/ingestao_snowflake/DDL_002_basica_file_format_and_stage.sql`) |
 | Stage | `stg_anac_basica` | Já existia via `07`; agora referencia `anac_basica_csv_ff` em vez de parsing inline |
 
 ---
@@ -93,7 +93,7 @@ orquestração/CI-CD discutido antes, tudo nativo, sem depender de Airflow.
 
 ## Ordem de implementação sugerida
 
-1. **Fase A** ✅ (2026-08-11) — File Format + Stage nomeados, `sql/ingestao_snowflake/10_snowflake_file_format_and_stage.sql`, substituindo o parsing inline que estava no `CREATE STAGE` do script `07`.
+1. **Fase A** ✅ (2026-08-11) — File Format + Stage nomeados, `sql/ingestao_snowflake/DDL_002_basica_file_format_and_stage.sql`, substituindo o parsing inline que estava no `CREATE STAGE` do script `07`.
 2. **Fase B** — Procedure `sp_merge_basica` encapsulando a lógica de `COPY INTO` + `MERGE`.
 3. **Fase C** — Stream + Task disparando a Procedure (fecha o pipeline nativo de ingestão).
 4. **Fase D** — Sequence + tabelas de dimensão + Dynamic Table do fato (star schema).

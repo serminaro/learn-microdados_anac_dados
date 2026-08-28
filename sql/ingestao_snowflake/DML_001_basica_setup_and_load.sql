@@ -17,19 +17,19 @@ USE DATABASE anac;
 USE SCHEMA basica;
 
 -- 2) Tabela raw + view tipada ---------------------------------------------
--- Rode create_table_basica_snowflake.sql, neste mesmo diretorio (CREATE TABLE basica_raw), e
--- sql/tratamento/create_view_basica_typed_snowflake.sql (CREATE VIEW basica_typed) aqui.
+-- Rode DDL_001_basica_create_table_snowflake.sql, neste mesmo diretorio (CREATE TABLE basica_raw), e
+-- sql/tratamento/DDL_002_basica_view_typed_snowflake.sql (CREATE VIEW basica_typed) aqui.
 
 -- 3) Stage interno -----------------------------------------------------------
 -- Cria o stage sem parsing proprio; o File Format nomeado e a associacao ao
--- stage vivem em 10_snowflake_file_format_and_stage.sql, neste mesmo diretorio
+-- stage vivem em DDL_002_basica_file_format_and_stage.sql, neste mesmo diretorio
 -- (Fase A do plano), rode-o logo em seguida para o COPY INTO do passo 5 funcionar.
 CREATE STAGE IF NOT EXISTS stg_anac_basica;
 
 -- 4) Upload do CSV local para o stage (rodar no terminal via Snowflake CLI, nao aqui) --
 -- snow sql -c anac
 -- USE DATABASE anac; USE SCHEMA basica;
--- PUT file:///home/bruno/Projetos/learn-microdados_anac_dados/data/anac/basica_consolidado_2024_2026.csv @stg_anac_basica AUTO_COMPRESS=TRUE;
+-- PUT file:///home/bruno/Projetos/learn-microdados_anac_dados/data/anac/basica_consolidado_2010_2026.csv @stg_anac_basica AUTO_COMPRESS=TRUE;
 --   -- isso comprime em .gz localmente antes de subir; para 2GB de CSV,
 --   -- espere uns minutos dependendo da sua banda de upload.
 -- (a conexao "anac" e criada com `snow connection add`, ver guia)
@@ -41,7 +41,7 @@ CREATE STAGE IF NOT EXISTS stg_anac_basica;
 CREATE OR REPLACE TEMPORARY TABLE basica_stage_tmp LIKE basica_raw;
 
 COPY INTO basica_stage_tmp
-FROM @stg_anac_basica/basica_consolidado_2024_2026.csv.gz
+FROM @stg_anac_basica/basica_consolidado_2010_2026.csv.gz
 ON_ERROR = 'ABORT_STATEMENT';
 
 MERGE INTO basica_raw AS destino

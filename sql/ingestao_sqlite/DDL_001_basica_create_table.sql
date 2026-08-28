@@ -1,4 +1,4 @@
--- Gerado por src/03_build_schema.py a partir do cabecalho real dos 30 arquivos da basica (2024-01 a 2026-06)
+-- Gerado por src/SRC_002_basica_build_schema.py a partir do cabecalho real dos 30 arquivos da basica (2024-01 a 2026-06)
 -- Camada RAW: todas as colunas como TEXT, fieis ao arquivo de origem (Latin-1 -> UTF-8 na carga).
 -- Tipagem/limpeza fica para uma camada seguinte (view ou tabela derivada), nao aqui.
 -- DDL em SQL ANSI-compativel: mesma estrutura serve de base para CREATE TABLE no Snowflake.

@@ -1,4 +1,4 @@
--- DDL adaptado para Snowflake a partir de sql/ingestao_sqlite/create_table_basica.sql.
+-- DDL adaptado para Snowflake a partir de sql/ingestao_sqlite/DDL_001_basica_create_table.sql.
 -- Diferencas reais em relacao ao SQLite (nao sao so sintaxe):
 --   1. Snowflake NAO tem indice manual (CREATE INDEX nao existe). O motor
 --      particiona automaticamente (micro-partitions) e usa metadata pruning.
@@ -6,10 +6,10 @@
 --   2. PRIMARY KEY / NOT NULL em Snowflake sao INFORMATIVOS, nao aplicados.
 --      O banco NAO impede duplicata de id_basica sozinho -- quem garante isso
 --      e o processo de carga (COPY INTO simples duplica se rodar 2x; use
---      MERGE INTO para carga idempotente, ver sql/ingestao_snowflake/07_snowflake_setup_and_load.sql).
+--      MERGE INTO para carga idempotente, ver sql/ingestao_snowflake/DML_001_basica_setup_and_load.sql).
 --   3. TEXT e VARCHAR sao sinonimos em Snowflake, mantive TEXT por familiaridade.
 --
--- View tipada (basica_typed) fica em sql/tratamento/create_view_basica_typed_snowflake.sql,
+-- View tipada (basica_typed) fica em sql/tratamento/DDL_002_basica_view_typed_snowflake.sql,
 -- separada deste DDL raw.
 
 CREATE TABLE IF NOT EXISTS basica_raw (

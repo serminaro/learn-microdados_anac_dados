@@ -12,6 +12,7 @@ SPEC-001 deste projeto, quando produzido, passa a ser a referência local.
 | [DEC-001](DEC_001_Fundacao_sob_SERMI.md) | Fundação do projeto sob a governança documental SERMI | 2026-08-24 | Funda o projeto sob a taxonomia de sete peças (DEC-META-014), escopo local, seis tipos de documento, `docs/<TIPO>/`. Fixa também a convenção `TIPO_NNN` para código-fonte (§6.6). |
 | [DEC-002](DEC_002_Decisoes_de_Descricao.md) | Decisões de descrição | 2026-08-24 | Fixa recorte de escopo (3 datasets, 2 caminhos, corte 2010), critério de sucesso incremental e não-objetivos, a partir do acúmulo de REP-001/SPEC-001. |
 | [DEC-003](DEC_003_Decisao_de_Participacao.md) | Decisão de participação | 2026-08-24 | Fixa operação solo (Autor/Gestor/Diretor acumulados), Claude como par assistivo sem autoridade de aprovação, e cadência mínima de auditoria por marco (piso trimestral). |
+| [DEC-005](DEC_005_Renomeacao_em_Lote_TIPO_NNN.md) | Renomeação em lote para TIPO_NNN | 2026-08-26 | Autoriza a exceção que o DEC-001 §6.6 deixou explicitamente em aberto: renomeia em lote `scripts/01_download.sh`, `src/02_...`, `sql/07_...` etc. para `TIPO_NNN_descricao_curta`, motivada pela expansão para 3 datasets. Supersede pontual do DEC-001 §6.6 (só o trecho sobre retroatividade). |
 
 ## DECs em proposta (status `proposto`)
 

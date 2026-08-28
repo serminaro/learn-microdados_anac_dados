@@ -10,7 +10,7 @@ from pathlib import Path
 
 DEST = Path("/home/bruno/Projetos/learn-microdados_anac_dados/data/anac/basica")
 DB_PATH = Path("/home/bruno/Projetos/learn-microdados_anac_dados/db/anac_basica.sqlite")
-DDL_PATH = Path("/home/bruno/Projetos/learn-microdados_anac_dados/sql/ingestao_sqlite/create_table_basica.sql")
+DDL_PATH = Path("/home/bruno/Projetos/learn-microdados_anac_dados/sql/ingestao_sqlite/DDL_001_basica_create_table.sql")
 BATCH = 5000
 
 def month_files():

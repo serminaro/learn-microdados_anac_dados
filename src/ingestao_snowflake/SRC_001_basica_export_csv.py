@@ -6,7 +6,7 @@ import sqlite3
 from pathlib import Path
 
 DB_PATH = Path("/home/bruno/Projetos/learn-microdados_anac_dados/db/anac_basica.sqlite")
-CSV_OUT = Path("/home/bruno/Projetos/learn-microdados_anac_dados/data/anac/basica_consolidado_2024_2026.csv")
+CSV_OUT = Path("/home/bruno/Projetos/learn-microdados_anac_dados/data/anac/basica_consolidado_2010_2026.csv")
 
 def main():
     conn = sqlite3.connect(DB_PATH)

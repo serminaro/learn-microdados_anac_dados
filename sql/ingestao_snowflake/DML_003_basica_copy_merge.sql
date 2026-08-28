@@ -11,7 +11,7 @@ USE SCHEMA basica;
 CREATE OR REPLACE TEMPORARY TABLE basica_stage_tmp LIKE basica_raw;
 
 COPY INTO basica_stage_tmp
-FROM @stg_anac_basica/basica_consolidado_2024_2026.csv.gz
+FROM @stg_anac_basica/basica_consolidado_2010_2026.csv.gz
 ON_ERROR = 'ABORT_STATEMENT';
 
 -- 2) Merge idempotente: so insere o que ainda nao existe por id_basica

@@ -1,8 +1,8 @@
--- View tipada equivalente a sql/tratamento/create_view_basica_typed_sqlite.sql,
+-- View tipada equivalente a sql/tratamento/DDL_001_basica_view_typed_sqlite.sql,
 -- em dialeto Snowflake (TRY_CAST em vez de CAST para nao quebrar a carga
 -- inteira se uma linha tiver lixo -- vira NULL em vez de erro; DATEDIFF
 -- para o block time em vez de julianday).
--- Depende da tabela basica_raw, criada por sql/ingestao_snowflake/create_table_basica_snowflake.sql.
+-- Depende da tabela basica_raw, criada por sql/ingestao_snowflake/DDL_001_basica_create_table_snowflake.sql.
 
 CREATE OR REPLACE VIEW basica_typed AS
 SELECT
