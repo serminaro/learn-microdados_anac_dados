@@ -78,7 +78,21 @@ orquestração/CI-CD discutido antes, tudo nativo, sem depender de Airflow.
 | Objeto | Papel | Honestidade sobre escala |
 |---|---|---|
 | **Contact** | Associado à Task e à `BASICA_RAW`, indicando quem notificar em falha de carga | Em conta trial solo isso é exercício de sintaxe, não necessidade operacional real; documentado como tal, é o seu diferencial (governança) praticado em miniatura |
+| **Role** | `ANAC_ANALYST`, role customizada com só `SELECT` na camada ouro (star schema / `BASICA_TYPED`), concedida a um segundo usuário de teste | Fecha o domínio *Account Access and Security* (17% da COF-C03), que este plano não cobria até 2026-08-30 (`rascunho/plano_certificacao_snowpro.md` §3-4) |
+| **Masking Policy** / **Row Access Policy** | Masking num campo sensível (ex. matrícula de aeronave em `BASICA_RAW`/`DIM_AERONAVE`); row access policy por UF na fact table | Mesmo fechamento de domínio acima; testado com o usuário sob `ANAC_ANALYST` para confirmar que a política se aplica de fato, não só existe como DDL |
 | **Cortex Search Service** *(opcional, stretch)* | Busca em linguagem natural sobre um **dicionário de dados** (nome de coluna → descrição, extraído da documentação oficial da ANAC), não sobre os dados de voo em si | Único jeito honesto de encaixar esse objeto: dado de voo é estruturado, não texto. Um dicionário de campos É texto. Sem esse corpus, não vale forçar o objeto só para aparecer na lista. |
+
+### Nota complementar — Performance Concepts (sem objeto dedicado)
+
+O domínio *Performance Concepts* (15% da COF-C03) não tem objeto de schema
+próprio para mapear aqui — é prática operacional, não DDL. Exercício
+honesto: comparar Query Profile de uma agregação pesada na fact table
+com/sem clustering key; redimensionar `wh_anac` (X-Small → Small) e
+comparar tempo/crédito na mesma query; observar cache de resultado
+(rodar a mesma query 2×). Achados registrados como nota empírica, no
+mesmo estilo das "Notas de consistência" do `README.md`, não como fase
+numerada deste plano — não gera objeto de schema novo. Ver
+`rascunho/plano_certificacao_snowpro.md` §4.
 
 ---
 
@@ -107,13 +121,28 @@ Cada fase vira um ou mais scripts `.sql` numerados em `sql/ingestao_snowflake/`
 `src/` (caso da Function Snowpark da Fase E), versionados via o
 Git Repository já configurado na conta.
 
+Os exercícios de *Account Access and Security* (Role + Masking/Row Access
+Policy, Camada 5) e a nota empírica de *Performance Concepts* rodam em
+paralelo a esta sequência, sem letra própria — não têm dependência
+sequencial com A-H (`rascunho/plano_certificacao_snowpro.md` §4).
+
 ---
 
-## Mapa objeto → domínio SnowPro Core
+## Mapa objeto → domínio SnowPro Core (COF-C03)
 
-| Domínio do exame (aproximado, confirmar blueprint oficial) | Objetos praticados |
+> Nomenclatura e pesos do exame vigente, **COF-C03** (o COF-C02 foi
+> aposentado pela Snowflake em 14/05/2026); pesos de fonte terceira,
+> consistentes internamente mas não confirmados contra o PDF oficial do
+> exam guide (`rascunho/plano_certificacao_snowpro.md` §2). Substitui a
+> versão anterior desta tabela, que cobria só 4 domínios na nomenclatura
+> antiga da COF-C02, deixando 32% da prova (Account Access and Security +
+> Performance Concepts) sem exercício mapeado neste plano.
+
+| Domínio (peso aprox.) | Objetos/exercícios praticados |
 |---|---|
-| Arquitetura da plataforma | Table, View, Dynamic Table, Warehouse |
-| Carga e descarga de dados | Stage, File Format, Pipe, Stream |
-| Transformação de dados | Task, Procedure, Function, Sequence |
-| Proteção e compartilhamento de dados | Contact, API Integration, Git Repository |
+| Snowflake AI Data Cloud Features & Architecture (25%) | Table, View, Dynamic Table, Warehouse |
+| Account Access and Security (17%) | Role (`ANAC_ANALYST`), Masking Policy, Row Access Policy — Camada 5 |
+| Data Transformations (17%) | Task, Procedure, Function, Sequence |
+| Performance Concepts (15%) | Clustering key, warehouse sizing, result cache — nota empírica, sem objeto dedicado |
+| Data Loading and Unloading (15%) | Stage, File Format, Pipe, Stream |
+| Data Protection and Data Sharing (11%) | Contact, API Integration, Git Repository, Time Travel/zero-copy clone (a demonstrar) |
