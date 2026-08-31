@@ -1,24 +1,22 @@
 ---
 documento: DEC-007
 titulo: Arquitetura de camadas para as Perguntas de Análise (Deep Dive GOL/Azul) — genérica, dois caminhos
-versao: v1
+versao: v2
 status: aprovado
 data: 2026-08-31
 autor: Bruno Alexandre Serminaro
-referencia: SPEC-002, rascunho/SPEC-010-ANAC-Perguntas_Analise-Deep_Dive-Gol.md, rascunho/Deep_Dive_Gol_ANAC_1a_.docx
+referencia: SPEC-002
 escopo: projeto
 ---
 
 # DEC-007 · Arquitetura para as Perguntas de Análise: Trusted_Essencial + Curated Deep Dive (GOL, Azul), genérica e dual-path
 
 > DEC de conteúdo: fixa a arquitetura de camadas e o método para responder,
-> dentro deste projeto, as perguntas de análise de
-> `rascunho/SPEC-010-ANAC-Perguntas_Analise-Deep_Dive-Gol.md` e de
-> `rascunho/Deep_Dive_Gol_ANAC_1a_.docx`, de forma **agnóstica de engine**
-> — a decisão de arquitetura é única, válida para os dois caminhos de
-> produção do projeto (`SPEC-002 §3.1`: Snowflake e SQLite+Python); a
-> implementação concreta em cada caminho é descrita, não decidida, na
-> `SPEC-004`.
+> dentro deste projeto, seis perguntas de análise sobre a operação de GOL
+> e Azul, de forma **agnóstica de engine** — a decisão de arquitetura é
+> única, válida para os dois caminhos de produção do projeto
+> (`SPEC-002 §3.1`: Snowflake e SQLite+Python); a implementação concreta
+> em cada caminho é descrita, não decidida, na `SPEC-004`.
 
 ---
 
@@ -33,14 +31,12 @@ análise devem ser especificadas de forma genérica, sem pensar em engine;
 separadamente; (iii) uma das perguntas deve ser detalhada por completo,
 como exemplo de tradução genérico → implementação.
 
-Um segundo documento de origem entrou nesta revisão:
-`rascunho/Deep_Dive_Gol_ANAC_1a_.docx`, iteração mais avançada da análise
-— mesmo ambiente de trabalho do `rascunho/SPEC-010`, dado 100% público —
-já com resultado real para três perguntas (destinos, frota, tempo de solo
-hub/off-hub), cobrindo GOL **e** Azul lado a lado, na janela 2021-01-01
-até "o momento atual" (a mesma janela que esta DEC já fixava). Esse
-documento também **redefine** o conteúdo de duas perguntas frente ao
-`rascunho/SPEC-010`:
+Uma iteração mais avançada da análise, do mesmo ambiente de trabalho,
+dado 100% público, trouxe resultado real para três perguntas (destinos,
+frota, tempo de solo hub/off-hub), cobrindo GOL **e** Azul lado a lado,
+na janela 2021-01-01 até "o momento atual" (a mesma janela que esta DEC
+já fixava), e **redefiniu** o conteúdo de duas perguntas frente à
+formulação original:
 
 - "Utilização de frota" (horas voadas/dia por tipo) vira **"Distribuição
   da frota"** (composição percentual por modelo + idade de serviço por
@@ -61,10 +57,10 @@ Fixar, para este projeto, **de forma agnóstica de engine** — válida
 igualmente para o caminho Snowflake e o caminho SQLite+Python
 (`SPEC-002 §3.1`):
 
-**(a) Método.** Manter a metodologia de perguntas do `rascunho/SPEC-010
-§2` — destravar o conceito, mapear colunas candidatas, declarar
-premissas/incertezas antes de calcular, reportar alternativas quando há
-mais de uma definição válida.
+**(a) Método.** Manter a metodologia de perguntas já estabelecida para
+este bloco de análise — destravar o conceito, mapear colunas candidatas,
+declarar premissas/incertezas antes de calcular, reportar alternativas
+quando há mais de uma definição válida.
 
 **(b) As cinco perguntas de análise deste projeto passam a ser:**
 
@@ -89,7 +85,7 @@ prefixo de engine), derivada da camada já existente `basica_typed`
 (mesmo nome literal nos dois caminhos hoje —
 `sql/tratamento/DDL_001_basica_view_typed_sqlite.sql` e
 `DDL_002_basica_view_typed_snowflake.sql`), restrita às 29 colunas
-essenciais de `rascunho/colunas.txt`.
+essenciais marcadas em `SPEC-005` (Dicionário de Colunas — Básica).
 
 **(d) Duas camadas fixas `curated_deep_dive_gol` e
 `curated_deep_dive_azul`**, sobre `trusted_essencial`, filtro
@@ -130,23 +126,22 @@ vez** por carga, não recalculado a cada consulta:
 
 ## 3. Origem ou rastro
 
-- `rascunho/SPEC-010-ANAC-Perguntas_Analise-Deep_Dive-Gol.md`: metodologia
-  (§2), formulação original das cinco perguntas (§3).
-- `rascunho/Deep_Dive_Gol_ANAC_1a_.docx`: iteração mais avançada, já com
-  achados reais para destinos, frota e tempo de solo hub/off-hub, GOL e
-  Azul, janela 2021-01-01 até o presente — origem da redefinição de duas
-  perguntas (§1) e do método detalhado da pergunta 3 (IQR para outlier,
-  regra de Pareto para classificar hub/off-hub, ambos formalizados na
-  `SPEC-004 §6`).
-- `rascunho/colunas.txt`: lista de 29 colunas essenciais, base literal da
-  `trusted_essencial`.
+- Metodologia de análise já validada em trabalho anterior — destravar
+  conceito, mapear colunas, declarar premissas, reportar alternativas
+  (§2.a) — e achados reais já obtidos para destinos, frota e tempo de
+  solo hub/off-hub (GOL e Azul, janela 2021-01-01 até o presente): origem
+  da redefinição de duas perguntas (§1) e do método detalhado da
+  pergunta 3 (IQR para outlier, regra de Pareto para hub/off-hub, ambos
+  formalizados na `SPEC-004 §6`).
+- `SPEC-005` (Dicionário de Colunas — Básica): lista de colunas essenciais,
+  base literal da `trusted_essencial`.
 - Pedido do autor nesta sessão (2026-08-31): perguntas genéricas
   (sem pensar em engine), implementação descrita depois por caminho, uma
   pergunta detalhada como exemplo.
 - `SPEC-002 §3.1` e §3.2: dois caminhos de produção igualmente investidos
   — usado para descartar a v1 desta DEC, que cobria só Snowflake (§4.1).
-- `docs/dicionario_colunas_basica.md` linha 14 e `rascunho/colunas.txt`
-  linha 11: `DT_PARTIDA_REAL` como coluna de ancoragem da janela temporal.
+- `SPEC-005`: `DT_PARTIDA_REAL` como coluna de ancoragem da janela
+  temporal, categoria `BLOCK_TIME`.
 - `DEC-004 §5.2/§6`: nomeia o custo de `ATTACH DATABASE` para cruzar
   datasets no SQLite e já prevê critério de reavaliação se isso virar
   operação frequente — a materialização única (§2.g), não repetida por
@@ -191,7 +186,7 @@ de consumir num BI, ao custo aceito de duplicar a definição de filtro.
 
 ### 4.4 Responder "block time" com proxy, sem esperar o VRA
 
-`rascunho/SPEC-010 §5` já sugeria essa via.
+Já cogitada em iteração anterior desta análise.
 
 **Por que descartada.** O autor pediu explicitamente que só essa pergunta
 dependa do VRA — manter o bloqueio evita achado inflado (proxy reportada
@@ -202,7 +197,8 @@ como se respondesse a pergunta original).
 **Adotada.** Corrige o escopo Snowflake-only da v1, mantém a camada
 intermediária e as curated fixas (razões de 4.2/4.3 continuam válidas),
 mantém "block time" bloqueada (razão de 4.4 continua válida), e absorve a
-redefinição de perguntas trazida pelo `rascunho/Deep_Dive_Gol_ANAC_1a_.docx`.
+redefinição de perguntas trazida pela iteração mais avançada da análise
+(§1).
 
 ### 4.6 Mesclar `basica.sqlite` e `vra.sqlite` num banco único, para simplificar a junção
 
@@ -241,9 +237,9 @@ execução continua bloqueada até o VRA existir.
 - `trusted_essencial` e o método de cada pergunta ficam definidos uma vez
   só, reduzindo risco de os dois caminhos divergirem em conceito (só
   divergem em implementação, o esperado).
-- Absorve achados já validados em `rascunho/Deep_Dive_Gol_ANAC_1a_.docx`
-  (IQR para outlier de tempo de solo, Pareto para hub/off-hub) como método
-  de referência, não repete trabalho de definição já feito.
+- Absorve achados já validados em iteração anterior da análise (IQR para
+  outlier de tempo de solo, Pareto para hub/off-hub) como método de
+  referência, não repete trabalho de definição já feito.
 - Fecha a lacuna de honestidade sobre "block time" (§2.g): o padrão de
   junção cross-dataset fica registrado, sem forçar implementação
   prematura nem reabrir o isolamento por dataset da `DEC-004`.
@@ -328,6 +324,7 @@ Esta decisão deve ser revisitada se:
 | 2026-08-31 | Duas decisões do autor fecham pontos em aberto da extensão de rota/mercado: mercado definido por **par de aeroportos**; assimetria medida por **frequência de etapas**, capacidade (ASK/assentos ofertados) deliberadamente adiada. §2.b, §6 atualizados. |
 | 2026-08-31 | Debate sobre engenharia de dado com três bancos separados (Básica, VRA, SIROS): registrado o padrão de junção cross-dataset para "block time" (§2.g) — objeto dedicado (`curated_block_time_gol`/`azul`), materialização única por caminho (`ATTACH`+`CREATE TABLE` no SQLite; cross-schema nativo no Snowflake), chave de junção hipotética (empresa+voo+data+origem). Descartadas duas alternativas: mesclar bancos (reabriria DEC-004) e deixar o padrão indefinido até o VRA existir. Isolamento por dataset da DEC-004 preservado. |
 | 2026-08-31 | **Aprovada.** Revisão estrutural sem divergência: sete seções obrigatórias presentes, oito alternativas avaliadas com veredito, consequências negativas não vazias (inclui as assimetrias de custo entre caminhos), `referencia:` cita SPEC-002 e as duas origens informais (SPEC-010, docx). Autor revisou o resumo (quadro "Aprovações ANAC") e aprovou explicitamente. Chave de junção Básica×VRA e implementação da pergunta 6 seguem como premissa/bloqueio registrados, não pendências que impedem esta aprovação. |
+| 2026-08-31 | **v2 — correção pós-aprovação, decisão inalterada.** A pedido do autor, `rascunho/SPEC-010-ANAC-Perguntas_Analise-Deep_Dive-Gol.md` e `rascunho/Deep_Dive_Gol_ANAC_1a_.docx` foram excluídos do repositório; toda citação a eles no corpo desta DEC foi removida ou reescrita em prosa (o conteúdo que sustentavam — metodologia, achados de IQR/Pareto — já estava descrito por completo no texto, não dependia da citação). Citações a `rascunho/colunas.txt` substituídas por `SPEC-005` (Dicionário de Colunas — Básica), peça que o formaliza. `referencia:` do frontmatter atualizado para `SPEC-002` apenas. Nenhuma decisão de arquitetura muda; edição puramente de rastro/citação. |
 
 ---
 

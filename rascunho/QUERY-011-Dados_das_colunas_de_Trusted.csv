@@ -1,0 +1,113 @@
+﻿c;SURGIU;MORTA;FUND;REP;?;DEEP;Column1;CATEGORIA 1;CATEGORIA2;COLUMN_NAME;DATA_TYPE;CONFIANÇA;COMMENT
+1;;FALSE;TRUE;FALSE;FALSE;TRUE;10;ESSENCIAIS;ESSENCIAL_VOO;ID_BASICA;NUMBER;confirmado;Chave primária do registro (uma linha = uma etapa de voo realizada) 
+2;;FALSE;FALSE;FALSE;FALSE;FALSE;;;;ID_EMPRESA;NUMBER;alta confiança;Identificador numérico da empresa aérea 
+3;;FALSE;TRUE;FALSE;FALSE;TRUE;12;ESSENCIAIS;ESSENCIAL_VOO;SG_EMPRESA_ICAO;TEXT;alta confiança;Código ICAO (3 letras) da empresa aérea, ex.: GLO, TAM, AZU 
+4;;FALSE;TRUE;FALSE;FALSE;TRUE;13;ESSENCIAIS;ESSENCIAL_VOO;SG_EMPRESA_IATA;TEXT;alta confiança;Código IATA (2 caracteres) da empresa aérea, ex.: G3, JJ, AD 
+5;;FALSE;TRUE;FALSE;FALSE;FALSE;;;;NM_EMPRESA;TEXT;alta confiança;Nome/razão social da empresa aérea 
+6;;FALSE;FALSE;TRUE;FALSE;FALSE;;;;NM_PAIS;TEXT;inferido (padrão de nome);País de registro da empresa aérea 
+7;;FALSE;TRUE;FALSE;FALSE;FALSE;;;;DS_TIPO_EMPRESA;TEXT;incerto — checar dicionário oficial ANAC;Classificação do tipo de empresa aérea (ex.: nacional regular) — categorias exatas não verificadas 
+8;;FALSE;TRUE;FALSE;FALSE;TRUE;14;ESSENCIAIS;ESSENCIAL_VOO;NR_VOO;TEXT;alta confiança;Número comercial do voo 
+9;;FALSE;FALSE;FALSE;TRUE;FALSE;;;;NR_SINGULAR;NUMBER;incerto — checar dicionário oficial ANAC;"Identificador numérico da etapa nos sistemas ANAC — termo ""singular"" não confirmado com precisão "
+10;;FALSE;FALSE;FALSE;TRUE;FALSE;;;;ID_DI;NUMBER;incerto — checar dicionário oficial ANAC;"Identificador do ""DI"" associado à etapa — sigla DI não confirmada com certeza (possível ""Discriminação de Itinerário"") "
+11;;FALSE;FALSE;FALSE;TRUE;FALSE;;;;CD_DI;TEXT;incerto — checar dicionário oficial ANAC;Código do DI (ver ID_DI) 
+12;;FALSE;FALSE;FALSE;TRUE;FALSE;;;;DS_DI;TEXT;incerto — checar dicionário oficial ANAC;Descrição textual do DI (ver ID_DI) 
+13;;FALSE;FALSE;FALSE;TRUE;FALSE;;;;DS_GRUPO_DI;TEXT;incerto — checar dicionário oficial ANAC;Descrição do grupo/categoria a que o DI pertence 
+14;;FALSE;TRUE;FALSE;FALSE;TRUE;11;ESSENCIAIS;ESSENCIAL_VOO;DT_REFERENCIA;DATE;alta confiança;Data de referência do boletim (mês/ano de apuração) 
+15;;FALSE;FALSE;TRUE;FALSE;FALSE;;;;NR_ANO_REFERENCIA;NUMBER;alta confiança;Ano de referência 
+16;;FALSE;FALSE;TRUE;FALSE;FALSE;;;;NR_SEMESTRE_REFERENCIA;NUMBER;alta confiança;Semestre de referência (1 ou 2) 
+17;;FALSE;FALSE;TRUE;FALSE;FALSE;;;;NM_SEMESTRE_REFERENCIA;TEXT;alta confiança;Nome do semestre de referência (ex.: 1º Semestre) 
+18;;FALSE;FALSE;TRUE;FALSE;FALSE;;;;NR_TRIMESTRE_REFERENCIA;NUMBER;alta confiança;Trimestre de referência (1 a 4) 
+19;;FALSE;FALSE;TRUE;FALSE;FALSE;;;;NM_TRIMESTRE_REFERENCIA;TEXT;alta confiança;Nome do trimestre de referência 
+20;;FALSE;FALSE;TRUE;FALSE;FALSE;;;;NR_MES_REFERENCIA;NUMBER;alta confiança;Mês de referência (1 a 12) 
+21;;FALSE;FALSE;TRUE;FALSE;FALSE;;;;NM_MES_REFERENCIA;TEXT;alta confiança;Nome do mês de referência 
+22;;FALSE;FALSE;TRUE;FALSE;FALSE;;;;NR_SEMANA_REFERENCIA;NUMBER;alta confiança;Número da semana no ano de referência 
+23;;FALSE;FALSE;TRUE;FALSE;FALSE;;;;NM_DIA_SEMANA_REFERENCIA;TEXT;alta confiança;Nome do dia da semana de referência 
+24;;FALSE;FALSE;TRUE;FALSE;FALSE;;;;NR_DIA_REFERENCIA;NUMBER;alta confiança;Dia do mês de referência 
+25;;FALSE;FALSE;TRUE;FALSE;FALSE;;;;NR_ANO_MES_REFERENCIA;NUMBER;alta confiança;Ano-mês de referência, formato AAAAMM 
+26;;FALSE;FALSE;TRUE;FALSE;FALSE;;;;ID_TIPO_LINHA;NUMBER;alta confiança;Identificador do tipo de linha aérea 
+27;;FALSE;FALSE;TRUE;FALSE;FALSE;;;;CD_TIPO_LINHA;TEXT;alta confiança;Código do tipo de linha aérea 
+28;;TRUE;TRUE;FALSE;FALSE;TRUE;20;CARAC_LINHA_ETAPA;CARAC_LINHA;DS_TIPO_LINHA;TEXT;alta confiança;Descrição do tipo de linha (ex.: doméstica mista, internacional mista, doméstica cargueira) 
+29;;FALSE;TRUE;FALSE;FALSE;TRUE;21;CARAC_LINHA_ETAPA;CARAC_LINHA;DS_NATUREZA_TIPO_LINHA;TEXT;inferido (padrão de nome);Natureza do tipo de linha (ex.: doméstica / internacional) 
+30;;TRUE;TRUE;FALSE;FALSE;TRUE;22;CARAC_LINHA_ETAPA;CARAC_LINHA;DS_SERVICO_TIPO_LINHA;TEXT;inferido (padrão de nome);Tipo de serviço prestado na linha (ex.: passageiro, carga,) 
+31;;FALSE;TRUE;FALSE;FALSE;TRUE;23;CARAC_LINHA_ETAPA;CARAC_ETAPA;DS_NATUREZA_ETAPA;TEXT;inferido (padrão de nome);Natureza da etapa de voo (ex.: comercial, não comercial/posicionamento) 
+32;;FALSE;TRUE;FALSE;FALSE;TRUE;32;BLOCK_TIME;;HR_PARTIDA_REAL;TIME;confirmado;Hora real de partida (decolagem) 
+33;;FALSE;TRUE;FALSE;FALSE;TRUE;31;BLOCK_TIME;;DT_PARTIDA_REAL;DATE;confirmado;Data real de partida 
+34;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NR_ANO_PARTIDA_REAL;NUMBER;alta confiança;Ano de partida real 
+35;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NR_SEMESTRE_PARTIDA_REAL;NUMBER;alta confiança;Semestre de partida real (1 ou 2) 
+36;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NM_SEMESTRE_PARTIDA_REAL;TEXT;alta confiança;Nome do semestre de partida real (ex.: 1º Semestre) 
+37;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NR_TRIMESTRE_PARTIDA_REAL;NUMBER;alta confiança;Trimestre de partida real (1 a 4) 
+38;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NM_TRIMESTRE_PARTIDA_REAL;TEXT;alta confiança;Nome do trimestre de partida real 
+39;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NR_MES_PARTIDA_REAL;NUMBER;alta confiança;Mês de partida real (1 a 12) 
+40;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NM_MES_PARTIDA_REAL;TEXT;alta confiança;Nome do mês de partida real 
+41;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NR_SEMANA_PARTIDA_REAL;NUMBER;alta confiança;Número da semana no ano de partida real 
+42;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NM_DIA_SEMANA_PARTIDA_REAL;TEXT;alta confiança;Nome do dia da semana de partida real 
+43;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NR_DIA_PARTIDA_REAL;NUMBER;alta confiança;Dia do mês de partida real 
+44;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NR_ANO_MES_PARTIDA_REAL;NUMBER;alta confiança;Ano-mês de partida real, formato AAAAMM 
+45;;FALSE;FALSE;TRUE;FALSE;FALSE;;DESTINOS;;ID_AERODROMO_ORIGEM;NUMBER;alta confiança;Identificador do aeródromo de origem 
+46;;FALSE;TRUE;FALSE;FALSE;TRUE;40;TRECHOS;ORIGEM;SG_ICAO_ORIGEM;TEXT;alta confiança;Código ICAO do aeródromo de origem 
+47;;FALSE;TRUE;FALSE;FALSE;TRUE;41;TRECHOS;ORIGEM;SG_IATA_ORIGEM;TEXT;confirmado;Código IATA do aeródromo de origem 
+48;;FALSE;FALSE;TRUE;FALSE;FALSE;;TRECHOS;ORIGEM;NM_AERODROMO_ORIGEM;TEXT;alta confiança;Nome do aeródromo de origem 
+49;;FALSE;TRUE;FALSE;FALSE;TRUE;42;TRECHOS;ORIGEM;NM_MUNICIPIO_ORIGEM;TEXT;alta confiança;Município do aeródromo de origem 
+50;;FALSE;TRUE;FALSE;FALSE;TRUE;43;TRECHOS;ORIGEM;SG_UF_ORIGEM;TEXT;alta confiança;UF do aeródromo de origem 
+51;;FALSE;FALSE;FALSE;FALSE;FALSE;;TRECHOS;ORIGEM;NM_REGIAO_ORIGEM;TEXT;alta confiança;Região geográfica (Norte/Sul/etc.) do aeródromo de origem 
+52;;FALSE;TRUE;FALSE;FALSE;TRUE;44;TRECHOS;ORIGEM;NM_PAIS_ORIGEM;TEXT;alta confiança;País do aeródromo de origem 
+53;;FALSE;TRUE;FALSE;FALSE;FALSE;45;TRECHOS;ORIGEM;NM_CONTINENTE_ORIGEM;TEXT;alta confiança;Continente do aeródromo de origem 
+54;;FALSE;TRUE;FALSE;FALSE;TRUE;15;;ESSENCIAL_VOO;NR_ETAPA;NUMBER;confirmado;Número sequencial da etapa dentro do voo (voos com múltiplas escalas têm mais de uma etapa) 
+55;;FALSE;TRUE;FALSE;FALSE;TRUE;36;BLOCK_TIME;;HR_CHEGADA_REAL;TIME;confirmado;Hora real de chegada (pouso) 
+56;;FALSE;TRUE;FALSE;FALSE;TRUE;35;BLOCK_TIME;;DT_CHEGADA_REAL;DATE;confirmado;Data real de chegada 
+57;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NR_ANO_CHEGADA_REAL;NUMBER;alta confiança;Ano de chegada real 
+58;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NR_SEMESTRE_CHEGADA_REAL;NUMBER;alta confiança;Semestre de chegada real (1 ou 2) 
+59;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NM_SEMESTRE_CHEGADA_REAL;TEXT;alta confiança;Nome do semestre de chegada real (ex.: 1º Semestre) 
+60;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NR_TRIMESTRE_CHEGADA_REAL;NUMBER;alta confiança;Trimestre de chegada real (1 a 4) 
+61;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NM_TRIMESTRE_CHEGADA_REAL;TEXT;alta confiança;Nome do trimestre de chegada real 
+62;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NR_MES_CHEGADA_REAL;NUMBER;alta confiança;Mês de chegada real (1 a 12) 
+63;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NM_MES_CHEGADA_REAL;TEXT;alta confiança;Nome do mês de chegada real 
+64;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NR_SEMANA_CHEGADA_REAL;NUMBER;alta confiança;Número da semana no ano de chegada real 
+65;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NM_DIA_SEMANA_CHEGADA_REAL;TEXT;alta confiança;Nome do dia da semana de chegada real 
+66;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NR_DIA_CHEGADA_REAL;NUMBER;alta confiança;Dia do mês de chegada real 
+67;;FALSE;FALSE;TRUE;FALSE;FALSE;;BLOCK_TIME;;NR_ANO_MES_CHEGADA_REAL;NUMBER;alta confiança;Ano-mês de chegada real, formato AAAAMM 
+68;;FALSE;TRUE;FALSE;FALSE;FALSE;;FROTA;;ID_EQUIPAMENTO;NUMBER;alta confiança;Identificador do tipo/modelo de aeronave (equipamento) 
+69;;FALSE;TRUE;FALSE;FALSE;TRUE;63;FROTA;;SG_EQUIPAMENTO_ICAO;TEXT;alta confiança;Código ICAO do tipo de aeronave, ex.: A320, B738 
+70;;FALSE;TRUE;FALSE;FALSE;TRUE;62;FROTA;;DS_MODELO;TEXT;alta confiança;Descrição do modelo da aeronave 
+71;;FALSE;TRUE;FALSE;FALSE;TRUE;61;FROTA;;DS_MATRICULA;TEXT;confirmado;Matrícula (prefixo de registro) da aeronave — vazia em ~12% das linhas quando a etapa não identifica a aeronave 
+72;;FALSE;FALSE;TRUE;FALSE;FALSE;;TRECHOS;DESTINOS;ID_AERODROMO_DESTINO;NUMBER;alta confiança;Identificador do aeródromo de destino 
+73;;FALSE;TRUE;FALSE;FALSE;TRUE;50;TRECHOS;DESTINOS;SG_ICAO_DESTINO;TEXT;alta confiança;Código ICAO do aeródromo de destino 
+74;;FALSE;TRUE;FALSE;FALSE;TRUE;51;TRECHOS;DESTINOS;SG_IATA_DESTINO;TEXT;confirmado;Código IATA do aeródromo de destino 
+75;;FALSE;FALSE;TRUE;FALSE;FALSE;;TRECHOS;DESTINOS;NM_AERODROMO_DESTINO;TEXT;alta confiança;Nome do aeródromo de destino 
+76;;FALSE;TRUE;FALSE;FALSE;TRUE;52;TRECHOS;DESTINOS;NM_MUNICIPIO_DESTINO;TEXT;alta confiança;Município do aeródromo de destino 
+77;;FALSE;TRUE;FALSE;FALSE;TRUE;53;TRECHOS;DESTINOS;SG_UF_DESTINO;TEXT;alta confiança;UF do aeródromo de destino 
+78;;FALSE;FALSE;FALSE;FALSE;FALSE;;TRECHOS;DESTINOS;NM_REGIAO_DESTINO;TEXT;alta confiança;Região geográfica do aeródromo de destino 
+79;;FALSE;TRUE;FALSE;FALSE;TRUE;54;TRECHOS;DESTINOS;NM_PAIS_DESTINO;TEXT;alta confiança;País do aeródromo de destino 
+80;;FALSE;TRUE;FALSE;FALSE;FALSE;55;TRECHOS;DESTINOS;NM_CONTINENTE_DESTINO;TEXT;alta confiança;Continente do aeródromo de destino 
+81;;TRUE;TRUE;FALSE;FALSE;FALSE;;MORTA;MORTA;NR_ESCALA_DESTINO;NUMBER;incerto — checar dicionário oficial ANAC;Posição/número da escala na rota até este destino — definição exata não verificada 
+82;;FALSE;TRUE;FALSE;FALSE;FALSE;73;CARAC_DESPACHO;PERF_DE_VOO;LT_COMBUSTIVEL;NUMBER;inferido (padrão de nome);Combustível consumido ou embarcado na etapa, em litros 
+83;;FALSE;TRUE;FALSE;FALSE;FALSE;;CARAC_DESPACHO;;NR_ASSENTOS_OFERTADOS;NUMBER;confirmado;Número de assentos ofertados na etapa 
+84;;FALSE;TRUE;FALSE;FALSE;FALSE;;CARAC_DESPACHO;;KG_PAYLOAD;NUMBER;confirmado;Payload: capacidade de carga paga (passageiros + carga + correio), em kg 
+85;;FALSE;TRUE;FALSE;FALSE;TRUE;71;CARAC_DESPACHO;PERF_DE_VOO;KM_DISTANCIA;NUMBER;confirmado;Distância voada na etapa, em km 
+86;;FALSE;TRUE;FALSE;FALSE;FALSE;;CARAC_DESPACHO;;NR_PASSAG_PAGOS;NUMBER;alta confiança;Número de passageiros pagantes transportados 
+87;;FALSE;TRUE;FALSE;FALSE;FALSE;;CARAC_DESPACHO;;NR_PASSAG_GRATIS;NUMBER;alta confiança;Número de passageiros em cortesia/gratuidade 
+88;;FALSE;TRUE;FALSE;FALSE;FALSE;;CARAC_DESPACHO;;KG_BAGAGEM_LIVRE;NUMBER;alta confiança;Peso de bagagem despachada dentro da franquia gratuita, em kg 
+89;;FALSE;TRUE;FALSE;FALSE;FALSE;;CARAC_DESPACHO;;KG_BAGAGEM_EXCESSO;NUMBER;alta confiança;Peso de bagagem despachada acima da franquia, paga pelo passageiro, em kg 
+90;;FALSE;TRUE;FALSE;FALSE;FALSE;;CARAC_DESPACHO;;KG_CARGA_PAGA;NUMBER;alta confiança;Peso de carga paga transportada, em kg 
+91;;FALSE;TRUE;FALSE;FALSE;FALSE;;CARAC_DESPACHO;;KG_CARGA_GRATIS;NUMBER;alta confiança;Peso de carga transportada gratuitamente, em kg 
+92;;FALSE;TRUE;FALSE;FALSE;FALSE;;CARAC_DESPACHO;;KG_CORREIO;NUMBER;alta confiança;Peso de correio (mala postal) transportado, em kg 
+93;;FALSE;TRUE;FALSE;FALSE;FALSE;70;CARAC_DESPACHO;PERF_DE_VOO;NR_DECOLAGEM;NUMBER;incerto — checar dicionário oficial ANAC;Contagem de decolagens da etapa (tipicamente 1) — uso exato (ex.: fins de tarifa de pouso) não verificado 
+94;;FALSE;TRUE;FALSE;FALSE;TRUE;72;CARAC_DESPACHO;PERF_DE_VOO;NR_HORAS_VOADAS;NUMBER;confirmado;Duração voada da etapa, em horas (decimal com vírgula no arquivo original) 
+95;;FALSE;TRUE;FALSE;FALSE;FALSE;;CARAC_DESPACHO;;KG_PESO;NUMBER;incerto — checar dicionário oficial ANAC;Peso associado à etapa, em kg — se refere a payload realizado, peso da aeronave ou outro, não verificado 
+96;;FALSE;TRUE;FALSE;FALSE;FALSE;;CARAC_DESPACHO;PERF_DE_VOO;NR_VELOCIDADE_MEDIA;NUMBER;inferido (padrão de nome);Velocidade média da etapa 
+97;;FALSE;TRUE;FALSE;FALSE;FALSE;;CARAC_DESPACHO;;NR_PAX_GRATIS_KM;NUMBER;inferido (padrão de nome);Passageiros gratuitos × km voado (produção análoga ao RPK, para gratuidade) 
+98;;FALSE;TRUE;FALSE;FALSE;FALSE;;CARAC_DESPACHO;;NR_CARGA_PAGA_KM;NUMBER;inferido (padrão de nome);Toneladas de carga paga × km voado 
+99;;FALSE;TRUE;FALSE;FALSE;FALSE;;CARAC_DESPACHO;;NR_CARGA_GRATIS_KM;NUMBER;inferido (padrão de nome);Toneladas de carga gratuita × km voado 
+100;;FALSE;TRUE;FALSE;FALSE;FALSE;;CARAC_DESPACHO;;NR_CORREIO_KM;NUMBER;inferido (padrão de nome);Toneladas de correio × km voado 
+101;;FALSE;TRUE;FALSE;FALSE;FALSE;;CARAC_DESPACHO;;NR_BAGAGEM_PAGA_KM;NUMBER;inferido (padrão de nome);Toneladas de bagagem excedente (paga) × km voado 
+102;;FALSE;TRUE;FALSE;FALSE;FALSE;;CARAC_DESPACHO;;NR_BAGAGEM_GRATIS_KM;NUMBER;inferido (padrão de nome);Toneladas de bagagem franqueada (gratuita) × km voado 
+103;;FALSE;TRUE;FALSE;FALSE;FALSE;;EQUITY;;NR_ASK;NUMBER;alta confiança;"Available Seat-Kilometers — assentos ofertados × km voado; métrica-padrão da indústria aérea para capacidade de transporte de passageiros "
+104;;FALSE;TRUE;FALSE;FALSE;FALSE;;EQUITY;;NR_RPK;NUMBER;alta confiança;"Revenue Passenger-Kilometers — passageiros pagos × km voado; métrica-padrão de demanda de passageiros "
+105;;FALSE;TRUE;FALSE;FALSE;FALSE;;EQUITY;;NR_ATK;NUMBER;alta confiança;Available Ton-Kilometers — capacidade total ofertada (payload, em toneladas) × km voado 
+106;;FALSE;TRUE;FALSE;FALSE;FALSE;;EQUITY;;NR_RTK;NUMBER;alta confiança;Revenue Ton-Kilometers — carga paga total transportada (toneladas) × km voado 
+107;;FALSE;FALSE;TRUE;TRUE;FALSE;;INTERNOS ANAC;;ID_ARQUIVO;NUMBER;alta confiança;Identificador do arquivo de origem do registro no sistema ANAC 
+108;;FALSE;FALSE;TRUE;TRUE;FALSE;;INTERNOS ANAC;;NM_ARQUIVO;TEXT;alta confiança;Nome do arquivo de origem do registro 
+109;;FALSE;FALSE;TRUE;FALSE;FALSE;;INTERNOS ANAC;;NR_LINHA;NUMBER;alta confiança;Número da linha do registro dentro do arquivo de origem 
+110;;FALSE;FALSE;TRUE;FALSE;FALSE;;INTERNOS ANAC;;DT_SISTEMA;TIMESTAMP_NTZ;inferido (padrão de nome);Data/timestamp de processamento do registro pelo sistema da ANAC 
+111;;FALSE;FALSE;TRUE;TRUE;FALSE;;INTERNOS ANAC;;NR_CHAVE;TEXT;incerto — checar dicionário oficial ANAC;Chave técnica adicional do registro — papel exato no processo ANAC não verificado 
+112;;FALSE;FALSE;TRUE;FALSE;FALSE;;INTERNOS ANAC;;NR_ANO_MES_ARQUIVO;TEXT;confirmado;Ano-mês (AAAA-MM) do arquivo de origem — coluna de proveniência ADICIONADA por este pipeline (03_build_schema.py), não pertence ao arquivo ANAC original 

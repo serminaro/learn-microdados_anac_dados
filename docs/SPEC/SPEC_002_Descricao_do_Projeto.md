@@ -1,7 +1,7 @@
 ---
 documento: SPEC-002
 titulo: Descrição do Projeto learn-microdados_anac_dados
-versao: v1
+versao: v2
 status: aprovado
 data: 2026-08-24
 autor: Bruno Alexandre Serminaro
@@ -58,9 +58,9 @@ ouro → dashboard** — para os **3 datasets ANAC** (Básica, VRA, SIROS), nos
 
 1. **Download bruto** (`scripts/`), único e compartilhado pelos dois
    caminhos — não duplicado por engine (DEC-001 §6.6, REP-001 P2).
-2. **Preparação comum** (`src/02_extract_validate.py`,
-   `src/03_build_schema.py`) — extração, validação de consistência e
-   geração de DDL, comuns aos dois caminhos.
+2. **Preparação comum** (`src/SRC_001_basica_extract_validate.py`,
+   `src/SRC_002_basica_build_schema.py`) — extração, validação de
+   consistência e geração de DDL, comuns aos dois caminhos.
 3. **Ingestão específica de engine** (`src/ingestao_sqlite/`,
    `src/ingestao_snowflake/`, `sql/ingestao_sqlite/`,
    `sql/ingestao_snowflake/`) — carga em SQLite (um banco por dataset) e
@@ -142,13 +142,18 @@ não iniciado e serão calibrados quando esse trabalho começar.
 
 ### 5.1 Básica estendida (dataset já em produção, extensão de escopo)
 
-- **C-01** — `scripts/01_download.sh` baixa o intervalo 2010-01 até o mês
+- **C-01** — `scripts/BASH_001_basica_download.sh` baixa o intervalo 2010-01 até o mês
   mais recente disponível, sem falha, tratando exceções de nome de arquivo
   conhecidas (ex.: `basica202606.zip`).
-- **C-02** — `src/02_extract_validate.py` confirma cabeçalho estável em
-  todo o intervalo 2010-2026, ou documenta e localiza exatamente onde
-  diverge. Resolve a hipótese candidata do REP-001 §5.2 (estabilidade de
-  schema não testada) em achado confirmado ou achado refutado.
+- **C-02** — **Cumprido, achado confirmado (2026-08-31, `SPEC-008 v2`)**:
+  o cabeçalho da Básica **não é estável** em 2010-2026 — a ANAC acrescentou
+  a coluna `nr_chave` a partir de 2020-01 (arquivos 2010-01 a 2019-12 têm
+  110 colunas; 2020-01 em diante, 111). Divergência localizada com
+  precisão, não é falha de dado: `nr_chave` é `NULL` para todo registro
+  anterior a 2020, tratado como ausência real na fonte
+  (`src/ingestao_sqlite/SRC_001_basica_load_sqlite.py`). Resolve a
+  hipótese candidata do `REP-001 §5.2` em achado confirmado, não
+  refutado.
 - **C-03** — Básica 2010-presente carregada e validada nos dois caminhos
   (SQLite e Snowflake), com contagem de linhas batendo entre os dois.
 
@@ -157,9 +162,13 @@ não iniciado e serão calibrados quando esse trabalho começar.
 - **C-04** *(provisório)* — VRA: pipeline completo (download → ingestão →
   tratamento) funcional em ao menos um caminho, para um recorte inicial a
   definir quando o trabalho começar, antes de estender para 2010-presente.
-- **C-05** *(provisório)* — SIROS: desenho de download diário implementado
-  e testado para ao menos um mês completo, com volume real medido —
-  resolve a hipótese candidata do REP-001 §5.2 sobre volume estimado.
+- **C-05** — **Cumprido, achado confirmado (2026-08-31, `SPEC-010 v2`)**:
+  volume real do SIROS medido — ~1,54M linhas/mês em carga diária, ~37 GB
+  para o histórico diário completo. Resolve a hipótese candidata do
+  `REP-001 §5.2` sobre volume estimado. Decisão consequente: carga adota
+  amostragem semanal, não diária (custo/benefício, `SPEC-010 §4`); dado
+  disponível cobre 2019-11 a 2024-09 em CSV, período seguinte (JSON) ainda
+  sem loader.
 
 ### 5.3 Camada ouro e consumo
 
@@ -189,8 +198,11 @@ Herdadas do DEC-002 §6.5, mais as específicas desta SPEC:
   ampliado (16 anos de Básica/VRA a mais, SIROS diário desde 2019).
 - **Volume do SIROS dentro do que o ambiente suporta** sem redesenho —
   premissa não testada até C-05.
-- **Schema estável de Básica/VRA em 2010-2026** — premissa até C-02
-  confirmar ou refutar.
+- **Schema de Básica em 2010-2026**: **não é estável, achado confirmado**
+  (C-02) — divergência localizada em 2020-01 (`nr_chave`), tratada na
+  ingestão, não bloqueia o projeto. Schema de VRA segue premissa não
+  testada além da amostra de `SPEC-006`/`SPEC-009` (2010, 2015, 2020,
+  2024, consistentes nessa amostra).
 - **Ambiente local configurado** (conda `pesquisa-azul`, Snowflake CLI)
   permanece disponível ao longo do trabalho.
 
@@ -223,8 +235,8 @@ otimizar**, mesmo dentro do que entrega.
 
 | ID | Regra | Onde verificar | Severidade |
 |---|---|---|---|
-| **R-FUN-01** | `scripts/01_download.sh` cobre o intervalo 2010-presente para Básica, sem falha registrada no log de download (C-01). | Execução do script + `_download_log.csv` | Alta |
-| **R-FUN-02** | Relatório de `src/02_extract_validate.py` cobre 2010-2026 e confirma cabeçalho estável, ou aponta exatamente a divergência (C-02). | `_validation_report.json` | Alta |
+| **R-FUN-01** | `scripts/BASH_001_basica_download.sh` cobre o intervalo 2010-presente para Básica, sem falha registrada no log de download (C-01). | Execução do script + `_download_log.csv` | Alta |
+| **R-FUN-02** | Cabeçalho da Básica documentado por completo, incluindo a divergência de 2020-01 (`nr_chave`); nenhuma carga trata a divergência como erro (C-02). **Cumprido** — ver `SPEC-008 §4`. | `SPEC-008 §4` × `SRC_001_basica_load_sqlite.py` | Alta |
 | **R-FUN-03** | Contagem de linhas da Básica bate entre `basica.sqlite` e `BASICA_RAW` (Snowflake) para o intervalo 2010-presente (C-03). | `COUNT(*)` nas duas engines | Alta |
 | **R-FUN-04** | Dataset Combinada não aparece em nenhum script de download ou ingestão (§3.2). | Inspeção de `scripts/`, `src/`, `sql/` | Média |
 | **R-FUN-05** | Cada dataset com ingestão ativa tem scripts equivalentes em `src/ingestao_sqlite/` e `src/ingestao_snowflake/` (ou pendência registrada, se um caminho ainda não começou). | Listagem de `src/ingestao_*/` por dataset | Média |
@@ -247,8 +259,9 @@ otimizar**, mesmo dentro do que entrega.
   A-H para Snowflake) mais do que uma hierarquia real entre os caminhos;
   será equalizado conforme o caminho SQLite avançar.
 - Não fixa números-alvo (ex.: "processar N milhões de linhas") — os
-  critérios de volume (C-05) são de medição, não de meta, porque a medição
-  ainda não aconteceu.
+  critérios de volume eram de medição, não de meta; C-05 já mediu
+  (~1,54M linhas/mês, SIROS) e C-03 segue como critério de contagem
+  cruzada, não meta fixa.
 
 ---
 
@@ -256,10 +269,12 @@ otimizar**, mesmo dentro do que entrega.
 
 Revisitar esta SPEC quando:
 
-- **C-02** (validação de schema 2010-2026) revelar quebra de cabeçalho que
-  mude o recorte temporal viável.
-- **C-05** (volume real do SIROS) invalidar a premissa de viabilidade do
-  §6.
+- Uma nova quebra de cabeçalho aparecer além da já documentada em
+  2020-01 (C-02, resolvida) — mudaria o recorte temporal viável de novo.
+- O volume real do SIROS (C-05, medido: ~37 GB/histórico diário completo)
+  invalidar a premissa de viabilidade do §6 conforme mais dado for
+  carregado (hoje só o período CSV, 2019-11 a 2024-09, está em
+  `siros_raw`).
 - **DEC-003/SPEC-003** fixarem papéis de forma que altere alguma premissa
   de audiência (§2) aqui assumida.
 - A pendência D4/D7 do REP-001 for resolvida por uma DEC de conteúdo
@@ -275,6 +290,7 @@ Revisitar esta SPEC quando:
 |---|---|
 | 2026-08-24 | SPEC-002 v1 produzida em status `proposto`. Materializa o DEC-002 (aprovado): propósito, audiência, escopo (3 datasets, 2 caminhos, 2010-presente), decomposição em matriz dataset × caminho, 9 critérios de sucesso incrementais (4 provisórios), premissas, 4 não-objetivos, 8 regras `R-FUN-NN`. Aguarda aprovação do autor antes de seguir para DEC-003. |
 | 2026-08-24 | **Aprovada.** Revisão contra o blueprint (`SPEC_002.json`) sem divergência: onze seções obrigatórias presentes, cada `C-NN` aponta artefato verificável ou método de medição, provisórios marcados como tais, cada `R-FUN-NN` com id/enunciado/onde-verificar/severidade. Segue para DEC-003. |
+| 2026-08-31 | **v2 — correção pós-aprovação, decisão inalterada.** Nomes de script desatualizados corrigidos (`scripts/01_download.sh`→`BASH_001_basica_download.sh`, `src/02_extract_validate.py`→`SRC_001_basica_extract_validate.py`, `src/03_build_schema.py`→`SRC_002_basica_build_schema.py` — renomeados pela `DEC-005` em 2026-08-26, nunca refletidos aqui). C-02 e C-05 fechados como **cumpridos, achado confirmado**: cabeçalho da Básica diverge em 2020-01 (`nr_chave`, `SPEC-008 v2`); volume do SIROS medido em ~1,54M linhas/mês (`SPEC-010 v2`). §5.1, §5.2, §6, §8, §9, §10 atualizados. Nenhuma decisão de escopo muda. |
 
 ---
 

@@ -1,6 +1,8 @@
 #!/home/bruno/miniconda3/envs/pesquisa-azul/bin/python
-"""Carrega os 30 meses de basica (data/anac/basica/*.txt) no SQLite (db/anac_basica.sqlite).
-Idempotente: id_basica e chave primaria, INSERT OR IGNORE nao duplica em reexecucao.
+"""Carrega os meses de basica 2010-01 a 2026-06 (data/anac/basica/*.txt) no SQLite
+(db/anac_basica.sqlite). Idempotente: id_basica e chave primaria, INSERT OR IGNORE
+nao duplica em reexecucao. Lida com a mudanca de schema real da ANAC (nr_chave
+existe so a partir de 2020-01; meses anteriores carregam nr_chave = NULL).
 """
 import csv
 import sqlite3
@@ -15,7 +17,7 @@ BATCH = 5000
 
 def month_files():
     out = []
-    for ano in (2024, 2025, 2026):
+    for ano in range(2010, 2027):
         for mes in range(1, 13):
             if ano == 2026 and mes > 6:
                 continue
@@ -33,7 +35,12 @@ def main():
     cur = conn.cursor()
     cur.execute("PRAGMA table_info(basica_raw)")
     cols = [r[1] for r in cur.fetchall()]  # inclui nr_ano_mes_arquivo no final
-    n_data_cols = len(cols) - 1  # todas menos nr_ano_mes_arquivo
+    n_data_cols = len(cols) - 1  # todas menos nr_ano_mes_arquivo (111: ... ate nr_chave)
+    # Achado (2026-08-31, extensao 2010-2023): a ANAC acrescentou a coluna
+    # nr_chave (ultima antes de nr_ano_mes_arquivo) a partir de 2020-01.
+    # Arquivos 2010-01 a 2019-12 tem 110 colunas (sem nr_chave); carregados
+    # com nr_chave = NULL, nao e erro de dado, e ausencia real na fonte.
+    n_data_cols_sem_chave = n_data_cols - 1
     placeholders = ",".join(["?"] * len(cols))
     insert_sql = f"INSERT OR IGNORE INTO basica_raw ({','.join(cols)}) VALUES ({placeholders})"
 
@@ -51,13 +58,22 @@ def main():
         with open(txt_path, encoding="latin-1", newline="") as f:
             reader = csv.reader(f, delimiter=";", quotechar='"')
             header = next(reader)
-            assert header == cols[:n_data_cols], f"cabecalho inesperado em {txt_path.name}"
+            if header == cols[:n_data_cols]:
+                tem_nr_chave = True
+            elif header == cols[:n_data_cols_sem_chave]:
+                tem_nr_chave = False
+            else:
+                raise AssertionError(f"cabecalho inesperado em {txt_path.name} ({len(header)} colunas)")
 
             batch = []
             n_mes = 0
             for row in reader:
-                assert len(row) == n_data_cols, f"linha com {len(row)} campos, esperado {n_data_cols} em {txt_path.name}"
-                batch.append(row + [ano_mes_arquivo])
+                if tem_nr_chave:
+                    assert len(row) == n_data_cols, f"linha com {len(row)} campos, esperado {n_data_cols} em {txt_path.name}"
+                    batch.append(row + [ano_mes_arquivo])
+                else:
+                    assert len(row) == n_data_cols_sem_chave, f"linha com {len(row)} campos, esperado {n_data_cols_sem_chave} em {txt_path.name}"
+                    batch.append(row + [None, ano_mes_arquivo])
                 n_mes += 1
                 if len(batch) >= BATCH:
                     cur.executemany(insert_sql, batch)
@@ -75,7 +91,7 @@ def main():
 
     dt = time.time() - t0
     print()
-    print(f"Total de linhas lidas dos 30 arquivos: {total_lidas:,}")
+    print(f"Total de linhas lidas dos arquivos: {total_lidas:,}")
     print(f"Total de linhas no banco apos carga:   {total_no_banco:,}")
     print(f"Tempo total: {dt:.1f}s")
     print(f"Banco em: {DB_PATH}")

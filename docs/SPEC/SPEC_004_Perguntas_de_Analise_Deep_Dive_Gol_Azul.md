@@ -1,11 +1,11 @@
 ---
 documento: SPEC-004
 titulo: Perguntas de Análise — Deep Dive GOL e Azul via microdados ANAC (genérico, dois caminhos)
-versao: v1
+versao: v2
 status: aprovado
 data: 2026-08-31
 autor: Bruno Alexandre Serminaro
-referencia: DEC-007
+referencia: DEC-007, SPEC-005
 escopo: projeto
 ---
 
@@ -22,10 +22,8 @@ escopo: projeto
 
 ## 1. Propósito
 
-Responder, dentro deste projeto de portfólio, as perguntas de análise de
-`rascunho/SPEC-010-ANAC-Perguntas_Analise-Deep_Dive-Gol.md` e
-`rascunho/Deep_Dive_Gol_ANAC_1a_.docx`, para dois concorrentes (GOL e
-Azul), com: (i) cada pergunta definida de forma genérica, sem pensar em
+Responder, dentro deste projeto de portfólio, seis perguntas de análise
+sobre a operação de dois concorrentes (GOL e Azul), com: (i) cada pergunta definida de forma genérica, sem pensar em
 engine; (ii) duas perguntas — comportamento do tempo de solo e
 caracterização das bases hub/off-hub — detalhadas por completo, do
 conceito até a implementação em cada caminho de produção, como referência
@@ -61,8 +59,8 @@ Autor futuro, Leitor do repositório) — nenhum papel novo.
   (destinos/rota/mercado, distribuição da frota, etapa média) — esta
   versão fixa só a definição genérica (§5); a implementação segue o
   padrão do §6 quando for a vez de cada uma.
-- Métodos avançados do `rascunho/Deep_Dive_Gol_ANAC_1a_.docx` que vão além
-  da definição mínima da pergunta (ex.: decomposição em frequência/Fourier
+- Métodos avançados de análise que vão além da definição mínima da
+  pergunta (ex.: decomposição em frequência/Fourier
   da sazonalidade de destinos) — tratados como extensão opcional de
   referência, não requisito desta SPEC (§5.1).
 - Análise de rota e mercado (§5.1): esta versão só **define o conceito e
@@ -110,7 +108,7 @@ Número exato de cada `DDL_NNN` decidido na ordem de criação
 
 ### 4.3 Mapa pergunta → colunas → camada
 
-| # | Pergunta | Colunas-chave (`rascunho/colunas.txt`) | Camada | Status |
+| # | Pergunta | Colunas-chave (`SPEC-005`) | Camada | Status |
 |---|---|---|---|---|
 | 1 | Números de destinos, rotas e mercados | `SG_ICAO_ORIGEM`/`DESTINO`, `SG_IATA_ORIGEM`/`DESTINO`, `NM_MUNICIPIO_ORIGEM`/`DESTINO`, `DS_NATUREZA_TIPO_LINHA` | `curated_deep_dive_*` | Destinos: respondida. Rota/mercado: em andamento |
 | 2 | Distribuição da frota | `DS_MATRICULA`, `SG_EQUIPAMENTO_ICAO`, `DS_MODELO`, `DT_PARTIDA_REAL` | `curated_deep_dive_*` | Respondível agora |
@@ -121,16 +119,15 @@ Número exato de cada `DDL_NNN` decidido na ordem de criação
 
 ## 5. Definição genérica de cada pergunta
 
-Método comum (`rascunho/SPEC-010 §2`, mantido pela `DEC-007 §2.a`):
-destravar o conceito, mapear colunas candidatas, declarar
+Método comum (mantido pela `DEC-007 §2.a`): destravar o conceito, mapear
+colunas candidatas, declarar
 premissas/incertezas antes de calcular, reportar alternativas quando há
 mais de uma definição igualmente válida.
 
 ### 5.1 Números de destinos, rotas e mercados
 
-**Conceito — destinos (respondido).** Malha de destinos, herdado de
-`rascunho/SPEC-010 §A`: aeroporto-destino, município-destino, ou malha
-unificada (união de aeroportos como origem **ou** destino) — a leitura
+**Conceito — destinos (respondido).** Malha de destinos: aeroporto-destino,
+município-destino, ou malha unificada (união de aeroportos como origem **ou** destino) — a leitura
 literal (só destino) subestima a rede real.
 
 **Colunas — destinos.** `SG_ICAO_ORIGEM`/`SG_ICAO_DESTINO`,
@@ -143,11 +140,10 @@ temporal).
 município) e malha unificada, por período (mês, ano); reportar quebra
 doméstica/internacional.
 
-**Extensão de referência, não requisito mínimo.** O
-`rascunho/Deep_Dive_Gol_ANAC_1a_.docx` já demonstra análise de ciclos
-semanais e decomposição em frequência (Fourier) da variação do número de
-destinos, para GOL e Azul, 2021-2026 — fica registrada como método
-avançado de referência, não como critério de sucesso desta versão.
+**Extensão de referência, não requisito mínimo.** Já existe análise de
+ciclos semanais e decomposição em frequência (Fourier) da variação do
+número de destinos, para GOL e Azul, 2021-2026 — fica registrada como
+método avançado de referência, não como critério de sucesso desta versão.
 
 ---
 
@@ -205,9 +201,8 @@ autor; vira parte de C-03 quando implementada.
 
 **Conceito.** Composição percentual da frota por modelo de equipamento e
 idade de serviço por matrícula (tempo entre primeira e última aparição no
-dado). Substitui a antiga "utilização de frota" (horas voadas/dia,
-`rascunho/SPEC-010 §C`) — o foco muda de intensidade de uso para
-composição/idade (`DEC-007 §1`).
+dado). Substitui a antiga "utilização de frota" (horas voadas/dia) — o
+foco muda de intensidade de uso para composição/idade (`DEC-007 §1`).
 
 **Colunas.** `DS_MATRICULA`, `SG_EQUIPAMENTO_ICAO`, `DS_MODELO`,
 `DT_PARTIDA_REAL`.
@@ -216,9 +211,9 @@ composição/idade (`DEC-007 §1`).
 ano a ano; idade de serviço por matrícula = `MAX(DT_PARTIDA_REAL) −
 MIN(DT_PARTIDA_REAL)`, agregada por modelo (mediana, quartis).
 
-**Premissa herdada de `rascunho/SPEC-010 §C.1`**: `DS_MATRICULA` sem nulos
-para o recorte GOL 2025 era achado confirmado; para o recorte 2021-presente
-e para Azul, é premissa a reconfirmar, não achado herdado automaticamente.
+**Premissa herdada de análise anterior**: `DS_MATRICULA` sem nulos para o
+recorte GOL 2025 era achado confirmado; para o recorte 2021-presente e
+para Azul, é premissa a reconfirmar, não achado herdado automaticamente.
 
 ### 5.3 Comportamento do tempo de solo
 
@@ -238,15 +233,14 @@ próprios.
 
 ### 5.5 Etapa média
 
-**Conceito.** Retoma a "etapa média" (stage length) do
-`rascunho/SPEC-010 §B`, mas com a duração do voo — não a distância —
-como métrica principal, por decisão do autor (2026-08-31): a pergunta
+**Conceito.** Retoma a "etapa média" (stage length), mas com a duração do
+voo — não a distância — como métrica principal, por decisão do autor (2026-08-31): a pergunta
 fundamentalmente é sobre quanto tempo a aeronave passa no ar por etapa,
 não sobre quantos km ela percorre. Três métricas, uma pergunta:
 
 1. **Duração** (principal): tempo no ar (airborne) médio por etapa —
    `NR_HORAS_VOADAS`. Não é tempo de bloco porta-a-porta (mesma ressalva
-   do `rascunho/SPEC-010 §4`, item 1); por isso esta pergunta não
+   já registrada para essa coluna, §11); por isso esta pergunta não
    substitui a pergunta 6 (block time), são conceitos distintos mesmo
    usando a coluna de origem em comum.
 2. **Distância** (complementar): distância média por etapa —
@@ -266,15 +260,15 @@ não sobre quantos km ela percorre. Três métricas, uma pergunta:
 modelo de equipamento. Duração e distância: média (e mediana, se a
 distribuição for assimétrica) por etapa. Velocidade: duas formas de
 agregação não coincidem, mesmo problema já nomeado para a etapa média
-original no `rascunho/SPEC-010 §B` —
+original —
   - **razão das somas**: `SUM(KM_DISTANCIA) / SUM(NR_HORAS_VOADAS)` no
     segmento, mais robusta (não é distorcida por etapas de duração muito
     curta com razão instável);
   - **média das razões por etapa**: `AVG(KM_DISTANCIA / NR_HORAS_VOADAS)`,
     dá peso igual a cada etapa independente da duração.
 
-  Reportar as duas, seguindo a mesma prática do `rascunho/SPEC-010 §2`
-  (alternativas quando há mais de uma definição válida); razão das somas
+  Reportar as duas, seguindo a mesma prática já adotada nesta SPEC
+  (alternativas quando há mais de uma definição válida, §5); razão das somas
   como métrica principal recomendada, por ser menos sensível a etapas
   atípicas de duração muito curta.
 
@@ -314,9 +308,8 @@ vez** por carga, não repetida a cada consulta:
 ## 6. Perguntas de referência, detalhadas: Tempo de solo e Bases hub/off-hub
 
 > As perguntas 3 (comportamento do tempo de solo) e 4 (caracterização das
-> bases hub/off-hub) nasceram como uma pergunta só em
-> `rascunho/Deep_Dive_Gol_ANAC_1a_.docx` ("Tempo de Solo – Hub e
-> Off-Hub"). O autor pediu (2026-08-31) separá-las em duas perguntas
+> bases hub/off-hub) nasceram como uma pergunta só ("Tempo de Solo –
+> Hub e Off-Hub"). O autor pediu (2026-08-31) separá-las em duas perguntas
 > formais — conceito e critério de sucesso próprios para cada uma — sem
 > perder o fato de que a implementação é compartilhada (a classificação
 > hub/off-hub, pergunta 4, é insumo do passo 7 da pergunta 3). Por isso
@@ -334,15 +327,15 @@ equipamento — sem depender de classificação de base.
 
 **Pergunta 4 — caracterização das bases (hub/off-hub).** "Hub" e
 "off-hub" não existem como classificação no dado ANAC — não há coluna —
-são derivados por volume de chegadas, seguindo a convenção do
-`rascunho/Deep_Dive_Gol_ANAC_1a_.docx`: regra de Pareto, aeroportos que,
+são derivados por volume de chegadas, seguindo a convenção adotada nesta
+análise: regra de Pareto, aeroportos que,
 ordenados por número de chegadas decrescente, somam até 80% do total
 acumulado são **hub**; os demais, **off-hub**. É convenção, não valor
 absoluto — outra convenção (ex.: top-N fixo) mudaria a lista. Esta
 pergunta é de estrutura de rede (quais bases concentram volume), não de
 tempo — pode ser respondida independentemente da pergunta 3.
 
-### 6.2 Colunas usadas (das 29 essenciais, `rascunho/colunas.txt`)
+### 6.2 Colunas usadas (das 29 essenciais, `SPEC-005`)
 
 **Pergunta 3.** `DS_MATRICULA` (chave de sequência por aeronave),
 `SG_EQUIPAMENTO_ICAO` (segmentação por modelo), `DT_PARTIDA_REAL`,
@@ -388,17 +381,16 @@ aeroporto).
 - Gaps de dado (troca de matrícula não capturada, aeronave que sai/entra
   de operador) geram tempos de solo espúrios — mitigado pelo corte IQR do
   passo 4, não eliminado. (Pergunta 3.)
-- Classificação hub/off-hub por Pareto (80%) é convenção adotada em
-  `rascunho/Deep_Dive_Gol_ANAC_1a_.docx`; outra convenção (top-10 fixo,
-  corte em 90%) mudaria a lista de hubs — reportar sempre a lista junto
-  com o critério usado. (Pergunta 4.)
+- Classificação hub/off-hub por Pareto (80%) é convenção adotada nesta
+  análise; outra convenção (top-10 fixo, corte em 90%) mudaria a lista de
+  hubs — reportar sempre a lista junto com o critério usado. (Pergunta 4.)
 - Etapas onde o destino de uma etapa não bate com a origem da seguinte são
   descartadas do cálculo (passo 3) — reduz a amostra, é comportamento
   esperado, não erro de dado. (Pergunta 3.)
-- Valor de referência do `rascunho/Deep_Dive_Gol_ANAC_1a_.docx` (GOL,
-  janela ~2021-presente): limiar de outlier ≈ 212,5 min (3h30) — **valor a
-  recalcular neste projeto**, não herdado como constante fixa (fonte de
-  dado e momento de extração são diferentes). (Pergunta 3.)
+- Valor de referência de análise anterior (GOL, janela ~2021-presente):
+  limiar de outlier ≈ 212,5 min (3h30) — **valor a recalcular neste
+  projeto**, não herdado como constante fixa (fonte de dado e momento de
+  extração são diferentes). (Pergunta 3.)
 
 ### 6.5 Implementação — caminho SQLite+Python
 
@@ -508,15 +500,14 @@ implementação (`sql/analise/`), fora do escopo desta SPEC.
 ## 7. Critérios de sucesso
 
 - **C-01** — `trusted_essencial` criada e validada nos dois caminhos
-  (SQLite, Snowflake): as 29 colunas de `rascunho/colunas.txt` presentes,
+  (SQLite, Snowflake): as 29 colunas de `SPEC-005` presentes,
   tipos herdados corretamente de `basica_typed`.
 - **C-02** — `curated_deep_dive_gol` e `curated_deep_dive_azul` criadas
   nos dois caminhos, contagem de linhas maior que zero para cada, filtro
   de empresa e janela temporal confirmados por amostragem.
 - **C-03** — Perguntas 1 (destinos; rota/mercado quando implementada), 2
   (distribuição da frota) e 5 (etapa média) respondidas para GOL e para
-  Azul, seguindo a metodologia do `rascunho/SPEC-010 §2`, registradas em
-  REP futura.
+  Azul, seguindo a metodologia da §5, registradas em REP futura.
 - **C-04** — Perguntas 3 (comportamento do tempo de solo) e 4
   (caracterização das bases hub/off-hub) respondidas **e** implementadas
   nos dois caminhos, seguindo o método do §6 — critério mais forte que
@@ -558,11 +549,11 @@ implementação (`sql/analise/`), fora do escopo desta SPEC.
 
 | ID | Regra | Onde verificar | Severidade |
 |---|---|---|---|
-| **R-ANL-01** | `trusted_essencial` contém exatamente as 29 colunas de `rascunho/colunas.txt`, nos dois caminhos — `NR_ASK`/`NR_ASSENTOS_OFERTADOS` ficam de fora. | `DESCRIBE`/`PRAGMA table_info` vs. lista desta SPEC, nos dois caminhos | Alta |
+| **R-ANL-01** | `trusted_essencial` contém exatamente as 29 colunas de `SPEC-005`, nos dois caminhos — `NR_ASK`/`NR_ASSENTOS_OFERTADOS` ficam de fora. | `DESCRIBE`/`PRAGMA table_info` vs. lista desta SPEC, nos dois caminhos | Alta |
 | **R-ANL-02** | `curated_deep_dive_gol` filtra só `sg_empresa_icao = 'GLO'`; `curated_deep_dive_azul` filtra só `'AZU'`; nenhuma mistura. | `SELECT DISTINCT sg_empresa_icao` em cada view, nos dois caminhos | Crítica |
 | **R-ANL-03** | Ambas as `curated` restringem `dt_partida_real >= '2021-01-01'`, sem limite superior fixo. | `MIN(dt_partida_real)` em cada view | Alta |
 | **R-ANL-04** | A pergunta 6 (block time) não aparece como "respondida" em nenhuma REP futura antes do VRA existir neste projeto. | Inspeção de REP futura × estado do pipeline VRA | Alta |
-| **R-ANL-05** | Cada pergunta respondida (REP futura) segue a estrutura do `rascunho/SPEC-010 §2`: conceito, colunas usadas, premissas/incertezas, definição adotada. | Estrutura da REP × §2 do rascunho | Média |
+| **R-ANL-05** | Cada pergunta respondida (REP futura) segue a estrutura da §5 desta SPEC: conceito, colunas usadas, premissas/incertezas, definição adotada. | Estrutura da REP × §5 desta SPEC | Média |
 | **R-ANL-06** | As perguntas 3 e 4 (comportamento do tempo de solo; caracterização das bases hub/off-hub) têm definição equivalente nos dois caminhos — mesmo conceito, mesmo corte IQR, mesma regra de Pareto; a divergência entre caminhos fica só na técnica (SQL puro vs. SQL+Python), nunca na definição. | Comparação §6.5 × §6.6 × implementação real | Alta |
 
 ## 11. Limitações conhecidas
@@ -573,14 +564,13 @@ implementação (`sql/analise/`), fora do escopo desta SPEC.
   diferentes (interpolação) — pequena diferença numérica não é erro, é
   fricção esperada de dois motores; grande diferença é sinal de bug.
 - Pesos/definições de "destino", "distribuição da frota" e "etapa média"
-  carregam a mesma ambiguidade conceitual já reconhecida no
-  `rascunho/SPEC-010` — esta SPEC herda, não resolve a ambiguidade, só fixa
-  onde e como calcular.
-- `NR_HORAS_VOADAS` é airborne time, não block time real
-  (`rascunho/SPEC-010 §4`, item 1) — afeta a pergunta 5 (duração e
-  velocidade inferida).
+  carregam ambiguidade conceitual reconhecida desde a formulação original
+  das perguntas — esta SPEC herda, não resolve a ambiguidade, só fixa onde
+  e como calcular.
+- `NR_HORAS_VOADAS` é airborne time, não block time real — afeta a
+  pergunta 5 (duração e velocidade inferida).
 - `DS_MATRICULA` tem ~12% de nulos na base histórica completa
-  (`rascunho/colunas.txt`, linha 25); não testado se esse percentual se
+  (`SPEC-005`, linha 25); não testado se esse percentual se
   mantém no recorte 2021-presente para GOL/Azul.
 - A velocidade média inferida (§5.5) tem duas formas de agregação não
   coincidentes (razão das somas vs. média das razões); a escolha de qual
@@ -630,6 +620,7 @@ Revisitar esta SPEC quando:
 | 2026-08-31 | Duas decisões do autor fecham pontos em aberto da §5.1: mercado definido por **par de aeroportos** (não por município); assimetria medida por **frequência de etapas**, capacidade (ASK/assentos ofertados) deliberadamente adiada para outro momento. §5.1, §9, §11, §12 atualizados. |
 | 2026-08-31 | Debate sobre engenharia de dado com três bancos separados (Básica, VRA, SIROS): registrado o desenho de `curated_block_time_gol`/`azul` (§5.6) — objeto dedicado, materialização única por caminho, chave de junção hipotética (empresa+voo+data+origem). §9, §11, §12 atualizados. |
 | 2026-08-31 | **Aprovada.** Treze seções presentes, cada `C-NN` com artefato/método de verificação, seis regras `R-ANL-NN` com id/enunciado/onde-verificar/severidade, `referencia: DEC-007` coerente com R-TAX-06. Autor revisou o resumo (quadro "Aprovações ANAC") e aprovou explicitamente. |
+| 2026-08-31 | **v2 — correção pós-aprovação, decisão inalterada.** A pedido do autor, `rascunho/SPEC-010-ANAC-Perguntas_Analise-Deep_Dive-Gol.md` e `rascunho/Deep_Dive_Gol_ANAC_1a_.docx` foram excluídos do repositório; toda citação a eles foi removida ou reescrita em prosa autocontida. Citações a `rascunho/colunas.txt` substituídas por `SPEC-005` (Dicionário de Colunas — Básica), que o formaliza. `referencia:` do frontmatter passa a `DEC-007, SPEC-005`. Nenhuma definição de pergunta, método ou critério de sucesso muda. |
 
 ---
 
