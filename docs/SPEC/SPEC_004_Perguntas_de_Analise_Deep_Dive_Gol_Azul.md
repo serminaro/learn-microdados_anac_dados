@@ -1,7 +1,7 @@
 ---
 documento: SPEC-004
 titulo: Perguntas de Análise — Deep Dive GOL e Azul via microdados ANAC (genérico, dois caminhos)
-versao: v2
+versao: v3
 status: aprovado
 data: 2026-08-31
 autor: Bruno Alexandre Serminaro
@@ -76,22 +76,26 @@ Autor futuro, Leitor do repositório) — nenhum papel novo.
   `DEC-007 §4.4` descartou essa via.
 - Reaproveitar objetos do ambiente de trabalho `SANDBOX_CCO` — este
   projeto usa dado público recarregado nos próprios objetos
-  (`basica_raw`/`basica_typed`), sem dependência daquele schema.
+  (`basica_raw`/`basica_silver`), sem dependência daquele schema.
 
 ## 4. Decomposição do produto
 
 ### 4.1 Cadeia de camadas (genérica, um nome por objeto nos dois caminhos)
 
 ```
-basica_raw → basica_typed → trusted_essencial → curated_deep_dive_gol
-                                               → curated_deep_dive_azul
+basica_raw → basica_silver → trusted_essencial → curated_deep_dive_gol
+                                                → curated_deep_dive_azul
 ```
 
-`trusted_essencial` reduz de 111 para 29 colunas; cada `curated` filtra
+`trusted_essencial` reduz de 112 para 29 colunas; cada `curated` filtra
 por `sg_empresa_icao` e pela janela `dt_partida_real >= '2021-01-01'`.
-Mesmos nomes literais nos dois caminhos, seguindo o precedente de
-`basica_typed` (`sql/tratamento/DDL_001_..._sqlite.sql` e
-`DDL_002_..._snowflake.sql`).
+`basica_silver` (2026-08-31) substitui `basica_typed` — cobre as 112
+colunas de `basica_raw`, organizadas e comentadas a partir de `SPEC-005`,
+não mais um recorte de ~27 colunas com métrica derivada misturada
+(`SPEC-008 v3`). Mesmos nomes literais nos dois caminhos, seguindo o
+precedente de `sql/tratamento/DDL_003_..._sqlite.sql` (Snowflake segue
+com `basica_typed`, divergência temporária registrada, não resolvida
+aqui).
 
 ### 4.2 Estrutura de pastas (código, por caminho)
 
@@ -501,7 +505,7 @@ implementação (`sql/analise/`), fora do escopo desta SPEC.
 
 - **C-01** — `trusted_essencial` criada e validada nos dois caminhos
   (SQLite, Snowflake): as 29 colunas de `SPEC-005` presentes,
-  tipos herdados corretamente de `basica_typed`.
+  tipos herdados corretamente de `basica_silver`.
 - **C-02** — `curated_deep_dive_gol` e `curated_deep_dive_azul` criadas
   nos dois caminhos, contagem de linhas maior que zero para cada, filtro
   de empresa e janela temporal confirmados por amostragem.
@@ -517,8 +521,10 @@ implementação (`sql/analise/`), fora do escopo desta SPEC.
 
 ## 8. Premissas e dependências
 
-- `basica_typed` já existe e está correta nos dois caminhos.
-- Cobertura temporal de `basica_raw`/`typed` inclui 2021-01-01 até o
+- `basica_silver` já existe e está validada no caminho SQLite (112
+  colunas, ver `SPEC-008 §6`); caminho Snowflake segue com `basica_typed`
+  por ora (divergência registrada, `SPEC-004 §4.1`).
+- Cobertura temporal de `basica_raw`/`silver` inclui 2021-01-01 até o
   presente, dentro do corte geral 2010-presente (`DEC-002 §4.3`) —
   premissa a confirmar por contagem simples antes de rodar as `curated`.
 - `SG_EMPRESA_ICAO` `'GLO'` e `'AZU'` existem e são estáveis no período —
@@ -621,6 +627,7 @@ Revisitar esta SPEC quando:
 | 2026-08-31 | Debate sobre engenharia de dado com três bancos separados (Básica, VRA, SIROS): registrado o desenho de `curated_block_time_gol`/`azul` (§5.6) — objeto dedicado, materialização única por caminho, chave de junção hipotética (empresa+voo+data+origem). §9, §11, §12 atualizados. |
 | 2026-08-31 | **Aprovada.** Treze seções presentes, cada `C-NN` com artefato/método de verificação, seis regras `R-ANL-NN` com id/enunciado/onde-verificar/severidade, `referencia: DEC-007` coerente com R-TAX-06. Autor revisou o resumo (quadro "Aprovações ANAC") e aprovou explicitamente. |
 | 2026-08-31 | **v2 — correção pós-aprovação, decisão inalterada.** A pedido do autor, `rascunho/SPEC-010-ANAC-Perguntas_Analise-Deep_Dive-Gol.md` e `rascunho/Deep_Dive_Gol_ANAC_1a_.docx` foram excluídos do repositório; toda citação a eles foi removida ou reescrita em prosa autocontida. Citações a `rascunho/colunas.txt` substituídas por `SPEC-005` (Dicionário de Colunas — Básica), que o formaliza. `referencia:` do frontmatter passa a `DEC-007, SPEC-005`. Nenhuma definição de pergunta, método ou critério de sucesso muda. |
+| 2026-08-31 | **v3 — correção pós-aprovação, decisão inalterada.** `basica_typed` retirada; `basica_silver` (112 colunas, `SPEC-008 v3`) assume seu papel na cadeia de camadas (§4.1) e como base de `trusted_essencial` (C-01, §8). Caminho Snowflake segue com `basica_typed` por ora, divergência registrada. Nenhum critério de sucesso ou definição de pergunta muda. |
 
 ---
 

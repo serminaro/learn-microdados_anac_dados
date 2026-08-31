@@ -22,9 +22,10 @@ projeto). Criado ao cruzar o limiar de ~10 documentos que a própria
 | [SPEC-005](SPEC_005_Dicionario_de_Colunas_Basica.md) | Dicionário de Colunas — Básica | 2026-08-31 | Documenta as 112 colunas de `BASICA_RAW`, 29 marcadas essenciais; consolida `QUERY-011.csv`, `colunas.txt` e supera `dicionario_colunas_basica.md`. |
 | [SPEC-006](SPEC_006_Colunas_Essenciais_VRA.md) | Colunas Essenciais — VRA | 2026-08-31 | Levantamento das 12 colunas do VRA, grounded em arquivo real; confirma estruturalmente a hipótese de chave de junção com a Básica (`DEC-007 §2.g`). |
 | [SPEC-007](SPEC_007_Colunas_Essenciais_SIROS.md) | Colunas Essenciais — SIROS | 2026-08-31 | Levantamento das 28 colunas do SIROS, grounded em arquivo real; achado de que é registro de autorização de slot, não voo-por-data. |
-| [SPEC-008](SPEC_008_Ingestao_SQLite_Basica.md) | Ingestão SQLite — Básica | 2026-08-31 | Retroativa: documenta o pipeline de ingestão da Básica já implementado (raw → typed). |
-| [SPEC-009](SPEC_009_Ingestao_SQLite_VRA.md) | Ingestão SQLite — VRA | 2026-08-31 | Prospectiva: DDL raw/typed propostos, plano de teste do `JOIN` com a Básica. Nada implementado ainda. |
-| [SPEC-010](SPEC_010_Ingestao_SQLite_SIROS.md) | Ingestão SQLite — SIROS | 2026-08-31 | Prospectiva: DDL raw/typed propostos, expansão autorização→voo-por-data explicitamente fora de escopo. Nada implementado ainda. |
+| [SPEC-008](SPEC_008_Ingestao_SQLite_Basica.md) | Ingestão SQLite — Básica | 2026-08-31 | Retroativa: documenta o pipeline de ingestão da Básica já implementado (raw → silver, 112 colunas). |
+| [SPEC-009](SPEC_009_Ingestao_SQLite_VRA.md) | Ingestão SQLite — VRA | 2026-08-31 | Implementada: `vra_raw`/`vra_silver` carregados (17.459.155 linhas, 2010-2026); dois achados de qualidade de dado (formato de data, corrupção BlobColumn) documentados e tratados. |
+| [SPEC-010](SPEC_010_Ingestao_SQLite_SIROS.md) | Ingestão SQLite — SIROS | 2026-08-31 | `siros_raw` implementado (carga semanal, 10.677.382 linhas); DDL `siros_silver` (renomeado de `siros_typed`) segue proposto, não implementado. Expansão autorização→voo-por-data fora de escopo. |
+| [SPEC-011](SPEC_011_Dimensao_Aerodromo.md) | Dimensão de Aeródromo — Localização e Fuso Horário | 2026-08-31 | Retroativa: documenta `dim_airport_location_time_zone` (858 aeródromos, sem colunas de horário de verão), carregada em `anac_basica.sqlite`. Materializa `DEC-009`. |
 
 ## SPECs de conteúdo (status `proposto`)
 

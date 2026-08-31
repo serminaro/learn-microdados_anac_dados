@@ -1,0 +1,284 @@
+BASE_ICAO,BASE_IATA,LATITUDE,LONGITUDE,TZ_IANA,UTC_OFFSET,HOR_VERAO_ATUAL,JA_TEVE_HORARIO_VERAO,NOME_OURAIRPORTS,MUNICIPIO_OURAIRPORTS,PAIS_ISO,TIPO_OURAIRPORTS
+SBKP,VCP,-23.007404,-47.134502,America/Sao_Paulo,-3,FALSE,TRUE,Viracopos International Airport,Campinas,BR,large_airport
+SBCF,CNF,-19.635710,-43.966928,America/Sao_Paulo,-3,FALSE,TRUE,Tancredo Neves International Airport,Belo Horizonte,BR,large_airport
+SBRF,REC,-8.127470,-34.922961,America/Recife,-3,FALSE,TRUE,Recife/Guararapes - Gilberto Freyre International Airport,Recife,BR,large_airport
+SBRJ,SDU,-22.910397,-43.162820,America/Sao_Paulo,-3,FALSE,TRUE,Santos Dumont Airport,Rio de Janeiro,BR,large_airport
+SBCT,CWB,-25.528500,-49.175800,America/Sao_Paulo,-3,FALSE,TRUE,Curitiba-Afonso Pena International Airport,Curitiba,BR,large_airport
+SBPA,POA,-29.993984,-51.167482,America/Sao_Paulo,-3,FALSE,TRUE,Porto Alegre-Salgado Filho International Airport,Porto Alegre,BR,large_airport
+SBGR,GRU,-23.431274,-46.469954,America/Sao_Paulo,-3,FALSE,TRUE,São Paulo/Guarulhos–Governor André Franco Montoro International Airport,São Paulo,BR,large_airport
+SBSP,CGH,-23.627657,-46.654601,America/Sao_Paulo,-3,FALSE,TRUE,Congonhas–Deputado Freitas Nobre Airport,São Paulo,BR,large_airport
+SBCY,CGB,-15.652900,-56.116699,America/Cuiaba,-4,FALSE,TRUE,Várzea Grande–Marechal Rondon International Airport,Cuiabá,BR,large_airport
+SBBE,BEL,-1.379279,-48.476207,America/Belem,-3,FALSE,TRUE,Val de Cans/Júlio Cezar Ribeiro International Airport,Belém,BR,large_airport
+SBSV,SSA,-12.908611,-38.322498,America/Bahia,-3,FALSE,TRUE,Deputado Luiz Eduardo Magalhães International Airport,Salvador,BR,large_airport
+SBBR,BSB,-15.869167,-47.920834,America/Sao_Paulo,-3,FALSE,TRUE,Presidente Juscelino Kubitschek International Airport,Brasília,BR,large_airport
+SBGO,GYN,-16.632000,-49.220699,America/Sao_Paulo,-3,FALSE,TRUE,Santa Genoveva International Airport,Goiânia,BR,large_airport
+SBEG,MAO,-3.038610,-60.049702,America/Manaus,-4,FALSE,TRUE,Eduardo Gomes International Airport,Manaus,BR,large_airport
+SBVT,VIX,-20.258000,-40.285000,America/Sao_Paulo,-3,FALSE,TRUE,Eurico de Aguiar Salles International Airport,Vitória,BR,large_airport
+SBFZ,FOR,-3.775833,-38.532222,America/Fortaleza,-3,FALSE,TRUE,Pinto Martins International Airport,Fortaleza,BR,large_airport
+SBGL,GIG,-22.809999,-43.250557,America/Sao_Paulo,-3,FALSE,TRUE,Rio de Janeiro Galeão – Tom Jobim International Airport,Rio De Janeiro,BR,large_airport
+SBFL,FLN,-27.670279,-48.552502,America/Sao_Paulo,-3,FALSE,TRUE,Hercílio Luz International Airport,Florianópolis,BR,large_airport
+SBUL,UDI,-18.883579,-48.225936,America/Sao_Paulo,-3,FALSE,TRUE,Ten. Cel. Aviador César Bombonato Airport,Uberlândia,BR,medium_airport
+SBPS,BPS,-16.438426,-39.080584,America/Bahia,-3,FALSE,TRUE,Porto Seguro International Airport,Porto Seguro,BR,large_airport
+SBMO,MCZ,-9.512559,-35.791839,America/Maceio,-3,FALSE,TRUE,Zumbi dos Palmares International Airport,Maceió,BR,large_airport
+SBSL,SLZ,-2.586386,-44.235008,America/Fortaleza,-3,FALSE,TRUE,Marechal Cunha Machado International Airport,São Luís,BR,large_airport
+SBRP,RAO,-21.134314,-47.774053,America/Sao_Paulo,-3,FALSE,TRUE,Leite Lopes Airport,Ribeirão Preto,BR,medium_airport
+SBSG,NAT,-5.769822,-35.366610,America/Fortaleza,-3,FALSE,TRUE,Rio Grande do Norte/São Gonçalo do Amarante,Natal,BR,large_airport
+SBNF,NVT,-26.879431,-48.650979,America/Sao_Paulo,-3,FALSE,TRUE,Ministro Victor Konder International Airport,Navegantes,BR,large_airport
+SBCG,CGR,-20.469998,-54.673988,America/Campo_Grande,-4,FALSE,TRUE,Campo Grande Airport,Campo Grande,BR,medium_airport
+SBLO,LDB,-23.334375,-51.128365,America/Sao_Paulo,-3,FALSE,TRUE,Governor José Richa Airport,Londrina,BR,medium_airport
+SBSR,SJP,-20.817113,-49.406963,America/Sao_Paulo,-3,FALSE,TRUE,Prof. Eribelto Manoel Reino State Airport,São José do Rio Preto,BR,medium_airport
+SBFI,IGU,-25.594167,-54.489444,America/Sao_Paulo,-3,FALSE,TRUE,Cataratas International Airport,Foz do Iguaçu,BR,large_airport
+SBMG,MGF,-23.476060,-52.016187,America/Sao_Paulo,-3,FALSE,TRUE,Regional de Maringá - Sílvio Name Júnior Airport,Maringá,BR,medium_airport
+SBAR,AJU,-10.983940,-37.072873,America/Maceio,-3,FALSE,TRUE,Aracaju - Santa Maria Airport,Aracaju,BR,medium_airport
+SBTE,THE,-5.060250,-42.823712,America/Fortaleza,-3,FALSE,TRUE,Senador Petrônio Portela Airport,Teresina,BR,medium_airport
+SBPV,PVH,-8.708491,-63.902338,America/Porto_Velho,-4,FALSE,TRUE,Governador Jorge Teixeira de Oliveira International Airport,Porto Velho,BR,large_airport
+SBJP,JPA,-7.148691,-34.950554,America/Fortaleza,-3,FALSE,TRUE,Presidente Castro Pinto International Airport,João Pessoa,BR,large_airport
+SBFN,FEN,-3.854534,-32.423017,America/Noronha,-2,FALSE,TRUE,Fernando de Noronha Airport,Fernando de Noronha,BR,medium_airport
+SBMK,MOC,-16.706919,-43.818901,America/Sao_Paulo,-3,FALSE,TRUE,Mário Ribeiro Airport,Montes Claros,BR,medium_airport
+SBSN,STM,-2.422423,-54.793060,America/Santarem,-3,FALSE,TRUE,Santarém - Maestro Wilson Fonseca International Airport,Santarém,BR,medium_airport
+SBCA,CAC,-25.000323,-53.501208,America/Sao_Paulo,-3,FALSE,TRUE,Coronel Adalberto Mendes da Silva Airport,Cascavel,BR,medium_airport
+SBIL,IOS,-14.815929,-39.033458,America/Bahia,-3,FALSE,TRUE,Bahia - Jorge Amado Airport,Ilhéus,BR,medium_airport
+SBIP,IPN,-19.470699,-42.487598,America/Sao_Paulo,-3,FALSE,TRUE,Usiminas Airport,Ipatinga,BR,medium_airport
+SBCH,XAP,-27.134199,-52.656601,America/Sao_Paulo,-3,FALSE,TRUE,Serafin Enoss Bertaso Airport,Chapecó,BR,medium_airport
+SBJV,JOI,-26.224501,-48.797401,America/Sao_Paulo,-3,FALSE,TRUE,Lauro Carneiro de Loyola Airport,Joinville,BR,medium_airport
+SBDN,PPB,-22.175100,-51.424599,America/Sao_Paulo,-3,FALSE,TRUE,Presidente Prudente Airport,Presidente Prudente,BR,medium_airport
+SBMQ,MCP,0.050664,-51.072201,America/Belem,-3,FALSE,TRUE,Macapá - Alberto Alcolumbre International Airport,Macapá,BR,medium_airport
+SBPJ,PMW,-10.291500,-48.356998,America/Araguaina,-3,FALSE,TRUE,Brigadeiro Lysias Rodrigues Airport,Palmas,BR,medium_airport
+SBMA,MAB,-5.368590,-49.138000,America/Belem,-3,FALSE,TRUE,João Correa da Rocha Airport,Marabá,BR,medium_airport
+SBJU,JDO,-7.219320,-39.269096,America/Fortaleza,-3,FALSE,TRUE,Orlando Bezerra de Menezes Airport,Juazeiro do Norte,BR,small_airport
+SBPL,PNZ,-9.362422,-40.569098,America/Recife,-3,FALSE,TRUE,Senador Nilo Coelho Airport,Petrolina,BR,medium_airport
+SBAE,JTC,-22.160755,-49.070325,America/Sao_Paulo,-3,FALSE,TRUE,Bauru/Arealva–Moussa Nakhal Tobias State Airport,Bauru,BR,medium_airport
+SBAU,ARU,-21.141479,-50.424575,America/Sao_Paulo,-3,FALSE,TRUE,Araçatuba Airport,Araçatuba,BR,medium_airport
+SBUR,UBA,-19.765036,-47.964805,America/Sao_Paulo,-3,FALSE,TRUE,Mário de Almeida Franco Airport,Uberaba,BR,medium_airport
+SBGV,GVR,-18.895882,-41.982869,America/Sao_Paulo,-3,FALSE,TRUE,Coronel Altino Machado Airport,Governador Valadares,BR,medium_airport
+SBKG,CPV,-7.269662,-35.896057,America/Fortaleza,-3,FALSE,TRUE,Presidente João Suassuna Airport,Campina Grande,BR,medium_airport
+KFLL,FLL,26.072599,-80.152702,America/New_York,-5,TRUE,TRUE,Fort Lauderdale Hollywood International Airport,Fort Lauderdale,US,large_airport
+SBCJ,CKS,-6.117841,-50.003372,America/Belem,-3,FALSE,TRUE,Carajás Airport,Parauapebas,BR,medium_airport
+SBZM,IZA,-21.513086,-43.173069,America/Sao_Paulo,-3,FALSE,TRUE,Presidente Itamar Franco Airport,Juiz de Fora,BR,medium_airport
+SBHT,ATM,-3.253144,-52.253938,America/Santarem,-3,FALSE,TRUE,Altamira Interstate Airport,Altamira,BR,medium_airport
+SBML,MII,-22.196899,-49.926485,America/Sao_Paulo,-3,FALSE,TRUE,Frank Miloye Milenkowichi–Marília State Airport,Marília,BR,medium_airport
+SBPF,PFB,-28.243976,-52.327770,America/Sao_Paulo,-3,FALSE,TRUE,Lauro Kurtz Airport,Passo Fundo,BR,medium_airport
+SBIZ,IMP,-5.531290,-47.459999,America/Fortaleza,-3,FALSE,TRUE,Prefeito Renato Moreira Airport,Imperatriz,BR,medium_airport
+KMCO,MCO,28.429399,-81.308998,America/New_York,-5,TRUE,TRUE,Orlando International Airport,Orlando,US,large_airport
+SBBV,BVB,2.846150,-60.690648,America/Boa_Vista,-4,FALSE,TRUE,Atlas Brasil Cantanhede International Airport,Boa Vista,BR,large_airport
+SBBH,PLU,-19.850740,-43.950316,America/Sao_Paulo,-3,FALSE,TRUE,Pampulha - Carlos Drummond de Andrade Airport,Belo Horizonte,BR,medium_airport
+SBSI,OPS,-11.885001,-55.586109,America/Cuiaba,-4,FALSE,TRUE,Presidente João Batista Figueiredo Airport,Sinop,BR,small_airport
+LPPT,LIS,38.781300,-9.135920,Europe/Lisbon,0,TRUE,TRUE,Lisbon Humberto Delgado Airport,Lisbon,PT,large_airport
+SBVC,VDC,-14.907885,-40.914804,America/Bahia,-3,FALSE,TRUE,Glauber de Andrade Rocha Airport,Vitória da Conquista,BR,medium_airport
+SBTT,TBT,-4.255670,-69.935799,America/Manaus,-4,FALSE,TRUE,Tabatinga International Airport,Tabatinga,BR,medium_airport
+SNBR,BRA,-12.078900,-45.008999,America/Bahia,-3,FALSE,TRUE,Dom Ricardo Weberberger Airport,Barreiras,BR,small_airport
+SBAT,AFL,-9.866389,-56.106298,America/Cuiaba,-4,FALSE,TRUE,Piloto Osvaldo Marques Dias Airport,Alta Floresta,BR,medium_airport
+SBCP,CAW,-21.698299,-41.301701,America/Sao_Paulo,-3,FALSE,TRUE,Bartolomeu Lisandro Airport,Campos dos Goytacazes,BR,medium_airport
+SBDO,DOU,-22.201900,-54.926601,America/Campo_Grande,-4,FALSE,TRUE,Dourados Airport,Dourados,BR,small_airport
+SBCB,CFB,-22.921485,-42.071874,America/Sao_Paulo,-3,FALSE,TRUE,Cabo Frio Airport,Cabo Frio,BR,small_airport
+SUMU,MVD,-34.835647,-56.026497,America/Montevideo,-3,FALSE,TRUE,Carrasco General Cesáreo L. Berisso International Airport,Ciudad de la Costa,UY,large_airport
+SBCX,CXJ,-29.197183,-51.187647,America/Sao_Paulo,-3,FALSE,TRUE,Hugo Cantergiani Regional Airport,Caxias Do Sul,BR,medium_airport
+SBSM,RIA,-29.711399,-53.688202,America/Sao_Paulo,-3,FALSE,TRUE,Santa Maria Airport,Santa Maria,BR,medium_airport
+SBPK,PET,-31.717189,-52.327796,America/Sao_Paulo,-3,FALSE,TRUE,João Simões Lopes Neto International Airport,Pelotas,BR,medium_airport
+SBRD,ROO,-16.584292,-54.724803,America/Cuiaba,-4,FALSE,TRUE,Maestro Marinho Franco Airport,Rondonópolis,BR,medium_airport
+SBTG,TJL,-20.752643,-51.682026,America/Campo_Grande,-4,FALSE,TRUE,Plínio Alarcom Airport,Três Lagoas,BR,small_airport
+SWLC,RVD,-17.834723,-50.956112,America/Sao_Paulo,-3,FALSE,TRUE,General Leite de Castro Airport,Rio Verde,BR,small_airport
+SAEZ,EZE,-34.822200,-58.535800,America/Argentina/Buenos_Aires,-3,FALSE,TRUE,Ezeiza International Airport - Ministro Pistarini,Buenos Aires (Ezeiza),AR,large_airport
+SBVH,BVH,-12.694400,-60.098301,America/Porto_Velho,-4,FALSE,TRUE,Brigadeiro Camarão Airport,Vilhena,BR,medium_airport
+SBJI,JPR,-10.870743,-61.846675,America/Porto_Velho,-4,FALSE,TRUE,Ji-Paraná Airport,Ji-Paraná,BR,small_airport
+SBTF,TFF,-3.382940,-64.724098,America/Manaus,-4,FALSE,TRUE,Tefé Airport,Tefé,BR,medium_airport
+SBSO,SMT,-12.479177,-55.672341,America/Cuiaba,-4,FALSE,TRUE,Adolino Bedin Regional Airport,Sorriso,BR,small_airport
+SBJA,JJG,-28.675300,-49.059600,America/Sao_Paulo,-3,FALSE,TRUE,Humberto Ghizzo Bortoluzzi Regional Airport,Jaguaruna,BR,small_airport
+SBCR,CMG,-19.011930,-57.672772,America/Campo_Grande,-4,FALSE,TRUE,Corumbá International Airport,Corumbá,BR,medium_airport
+SSKW,OAL,-11.496000,-61.450800,America/Porto_Velho,-4,FALSE,TRUE,Cacoal Airport,Cacoal,BR,small_airport
+SBUG,URG,-29.782200,-57.038200,America/Sao_Paulo,-3,FALSE,TRUE,Rubem Berta Airport,Uruguaiana,BR,medium_airport
+SBJE,JJD,-2.906425,-40.357338,America/Fortaleza,-3,FALSE,TRUE,Comandante Ariston Pessoa Airport,Cruz,BR,medium_airport
+SWPI,PIN,-2.673521,-56.777625,America/Manaus,-4,FALSE,TRUE,Parintins Airport,Parintins,BR,small_airport
+SBDB,BYO,-21.247300,-56.452399,America/Campo_Grande,-4,FALSE,TRUE,Bonito Airport,Bonito,BR,small_airport
+SNTF,TXF,-17.524392,-39.668499,America/Bahia,-3,FALSE,TRUE,9 de Maio - Teixeira de Freitas Airport,Teixeira de Freitas,BR,small_airport
+SBNM,GEL,-28.282503,-54.169623,America/Sao_Paulo,-3,FALSE,TRUE,Santo Ângelo Airport,Santo Ângelo,BR,medium_airport
+SBMS,MVF,-5.201920,-37.364300,America/Fortaleza,-3,FALSE,TRUE,Dix-Sept Rosado Airport,Mossoró,BR,medium_airport
+SBCN,CLV,-17.725096,-48.606324,America/Sao_Paulo,-3,FALSE,TRUE,Nelson Ribeiro Guimarães Airport,Caldas Novas,BR,small_airport
+SNGI,GNM,-14.208200,-42.746101,America/Bahia,-3,FALSE,TRUE,Guanambi Airport,Guanambi,BR,small_airport
+SBPO,PTO,-26.217184,-52.694463,America/Sao_Paulo,-3,FALSE,TRUE,Juvenal Loureiro Cardoso Airport,Pato Branco,BR,small_airport
+SBRB,RBR,-9.869031,-67.893984,America/Rio_Branco,-5,FALSE,TRUE,Rio Branco-Plácido de Castro International Airport,Rio Branco,BR,large_airport
+SBME,MEA,-22.343000,-41.765999,America/Sao_Paulo,-3,FALSE,TRUE,Macaé Benedito Lacerda Airport,Macaé,BR,medium_airport
+SBAX,AAX,-19.563200,-46.960400,America/Sao_Paulo,-3,FALSE,TRUE,Romeu Zema Airport,Araxá,BR,medium_airport
+SBPP,PMG,-22.549601,-55.702599,America/Campo_Grande,-4,FALSE,TRUE,Ponta Porã Airport,Ponta Porã,BR,medium_airport
+SBLE,LEC,-12.482300,-41.277000,America/Bahia,-3,FALSE,TRUE,Coronel Horácio de Mattos Airport,Lençóis,BR,small_airport
+SULS,PDP,-34.855099,-55.094299,America/Montevideo,-3,FALSE,TRUE,Capitan Corbeta CA Curbelo International Airport,Punta del Este,UY,medium_airport
+SBPG,PGZ,-25.184476,-50.143822,America/Sao_Paulo,-3,FALSE,TRUE,Ponta Grossa Airport - Comandante Antonio Amilton Beraldo,Ponta Grossa,BR,medium_airport
+SBPB,PHB,-2.893750,-41.731998,America/Fortaleza,-3,FALSE,TRUE,Parnaíba - Prefeito Doutor João Silva Filho International Airport,Parnaíba,BR,medium_airport
+SBIH,ITB,-4.242131,-56.000651,America/Santarem,-3,FALSE,TRUE,Itaituba Airport,Itaituba,BR,medium_airport
+SBUF,PAV,-9.400880,-38.250599,America/Bahia,-3,FALSE,TRUE,Paulo Afonso Airport,Paulo Afonso,BR,medium_airport
+SBLJ,LAJ,-27.782101,-50.281502,America/Sao_Paulo,-3,FALSE,TRUE,Lages Airport,Lages,BR,medium_airport
+LFPO,ORY,48.729499,2.358963,Europe/Paris,1,TRUE,TRUE,Paris-Orly Airport,"Paris (Orly, Val-de-Marne)",FR,large_airport
+SSGG,GPB,-25.388327,-51.523490,America/Sao_Paulo,-3,FALSE,TRUE,Tancredo Thomas de Faria Airport,Guarapuava,BR,small_airport
+SBTC,UNA,-15.354358,-38.998729,America/Bahia,-3,FALSE,TRUE,Una-Comandatuba Airport,Una,BR,small_airport
+SBBW,BPG,-15.861417,-52.389008,America/Cuiaba,-4,FALSE,TRUE,Barra do Garças Airport,Barra do Garças,BR,medium_airport
+SBTB,TMT,-1.489600,-56.396801,America/Santarem,-3,FALSE,TRUE,Trombetas Airport,Oriximiná,BR,medium_airport
+SNCP,EEA,-27.634128,-50.358253,America/Sao_Paulo,-3,FALSE,TRUE,Planalto Serrano Regional Airport,Correia Pinto,BR,medium_airport
+SBTD,TOW,-24.686300,-53.697498,America/Sao_Paulo,-3,FALSE,TRUE,Toledo - Luiz Dalcanale Filho Municipal Airport,Toledo,BR,small_airport
+SBUA,SJL,-0.148350,-66.985500,America/Manaus,-4,FALSE,TRUE,São Gabriel da Cachoeira Airport,São Gabriel da Cachoeira,BR,medium_airport
+SOCA,CAY,4.819964,-52.361326,America/Cayenne,-3,FALSE,FALSE,Cayenne – Félix Eboué Airport,Matoury,GF,large_airport
+SBSJ,SJK,-23.229200,-45.861500,America/Sao_Paulo,-3,FALSE,TRUE,Professor Urbano Ernesto Stumpf Airport,São José Dos Campos,BR,medium_airport
+SNPD,POJ,-18.672673,-46.491292,America/Sao_Paulo,-3,FALSE,TRUE,Patos de Minas Airport,Patos de Minas,BR,small_airport
+SNDV,DIQ,-20.180700,-44.870899,America/Sao_Paulo,-3,FALSE,TRUE,Brigadeiro Cabral Airport,Divinópolis,BR,small_airport
+SBCO,QNS,-29.945928,-51.144413,America/Sao_Paulo,-3,FALSE,TRUE,Canoas Air Force Base,Porto Alegre,BR,medium_airport
+SBVG,VAG,-21.591375,-45.474116,America/Sao_Paulo,-3,FALSE,TRUE,Major Brigadeiro Trompowsky Airport,Varginha,BR,medium_airport
+LPPR,OPO,41.248100,-8.681390,Europe/Lisbon,0,TRUE,TRUE,Francisco de Sá Carneiro Airport,Porto,PT,large_airport
+TNCC,CUR,12.188900,-68.959801,America/Curacao,-4,FALSE,FALSE,Hato International Airport,Willemstad,CW,large_airport
+LEMD,MAD,40.493407,-3.572249,Europe/Madrid,1,TRUE,TRUE,Adolfo Suárez Madrid–Barajas Airport,Madrid,ES,large_airport
+SBOI,OYK,3.854120,-51.797056,America/Belem,-3,FALSE,TRUE,Oiapoque Airport,Oiapoque,BR,medium_airport
+SWEI,ERN,-6.639533,-69.879709,America/Eirunepe,-5,FALSE,TRUE,Eirunepé Airport,Eirunepé,BR,small_airport
+SGAS,ASU,-25.240156,-57.519227,America/Asuncion,-3,FALSE,TRUE,Silvio Pettirossi International Airport,Asunción,PY,large_airport
+SNVB,VAL,-13.296500,-38.992401,America/Bahia,-3,FALSE,TRUE,Valença Airport,Valença,BR,small_airport
+SWKQ,NSR,-9.083392,-42.644656,America/Fortaleza,-3,FALSE,TRUE,Serra da Capivara Airport,São Raimundo Nonato,BR,small_airport
+SACO,COR,-31.312346,-64.208329,America/Argentina/Cordoba,-3,FALSE,TRUE,Ingeniero Aeronáutico Ambrosio L.V. Taravella International Airport,Cordoba,AR,large_airport
+SAZS,BRC,-41.151199,-71.157501,America/Argentina/Salta,-3,FALSE,TRUE,Teniente Luis Candelaria International Airport,San Carlos de Bariloche,AR,large_airport
+SAAR,ROS,-32.903600,-60.785000,America/Argentina/Cordoba,-3,FALSE,TRUE,Rosario Islas Malvinas International Airport,Rosario,AR,large_airport
+EBBR,BRU,50.901402,4.484440,Europe/Brussels,1,TRUE,TRUE,Brussels Airport,Zaventem,BE,large_airport
+SBTU,TUR,-3.786010,-49.720299,America/Belem,-3,FALSE,TRUE,Tucuruí Airport,Tucuruí,BR,medium_airport
+SBAC,ARX,-4.568896,-37.805135,America/Fortaleza,-3,FALSE,TRUE,Aracati Dragão do Mar Regional Airport,Aracati,BR,medium_airport
+SWGN,AUX,-7.227870,-48.240501,America/Araguaina,-3,FALSE,TRUE,Araguaína Airport,Araguaína,BR,medium_airport
+GVAC,SID,16.741400,-22.949400,Atlantic/Cape_Verde,-1,FALSE,FALSE,Amílcar Cabral International Airport,Espargos,CV,large_airport
+SNRU,CAU,-8.282390,-36.013500,America/Recife,-3,FALSE,TRUE,Caruaru Airport,Caruaru,BR,small_airport
+SBAQ,AQA,-21.812000,-48.132999,America/Sao_Paulo,-3,FALSE,TRUE,Araraquara Airport,Araraquara,BR,medium_airport
+SCEL,SCL,-33.393002,-70.785797,America/Santiago,-4,TRUE,TRUE,Comodoro Arturo Merino Benítez International Airport,Santiago,CL,large_airport
+MTPP,PAP,18.580023,-72.292596,America/Port-au-Prince,-5,TRUE,TRUE,Toussaint Louverture International Airport,Port-au-Prince,HT,large_airport
+LFBO,TLS,43.629101,1.363820,Europe/Paris,1,TRUE,TRUE,Toulouse-Blagnac Airport,Toulouse/Blagnac,FR,large_airport
+SWKO,CIZ,-4.134060,-63.132599,America/Manaus,-4,FALSE,TRUE,Danilson Municipal Airport,Coari,BR,small_airport
+SDCO,SOD,-23.478001,-47.490002,America/Sao_Paulo,-3,FALSE,TRUE,Sorocaba Airport,Sorocaba,BR,small_airport
+GCRR,ACE,28.945499,-13.605200,Atlantic/Canary,0,TRUE,TRUE,César Manrique-Lanzarote Airport,San Bartolomé,ES,large_airport
+SAME,MDZ,-32.831699,-68.792900,America/Argentina/Mendoza,-3,FALSE,TRUE,Governor Francisco Gabrielli International Airport,Mendoza,AR,large_airport
+SEGU,GYE,-2.157420,-79.883598,America/Guayaquil,-5,FALSE,TRUE,José Joaquín de Olmedo International Airport,Guayaquil,EC,large_airport
+SPJC,LIM,-12.021900,-77.114305,America/Lima,-5,FALSE,TRUE,Jorge Chávez International Airport,Lima,PE,large_airport
+SBCZ,CZS,-7.599910,-72.769501,America/Rio_Branco,-5,FALSE,TRUE,Cruzeiro do Sul Airport,Cruzeiro Do Sul,BR,medium_airport
+MMMX,MEX,19.435822,-99.070330,America/Mexico_City,-6,FALSE,TRUE,Mexico City Benito Juárez International Airport,Mexico City,MX,large_airport
+KMLB,MLB,28.102009,-80.641088,America/New_York,-5,TRUE,TRUE,Melbourne Orlando International Airport,Melbourne,US,medium_airport
+MSLP,SAL,13.444470,-89.055784,America/El_Salvador,-6,FALSE,TRUE,El Salvador International Airport Saint Óscar Arnulfo Romero y Galdámez,San Salvador (San Luis Talpa),SV,large_airport
+TNCA,AUA,12.501056,-70.014281,America/Aruba,-4,FALSE,FALSE,Queen Beatrix International Airport,Oranjestad,AW,large_airport
+KMCN,MCN,32.692799,-83.649200,America/New_York,-5,TRUE,TRUE,Middle Georgia Regional Airport,Macon,US,medium_airport
+EHAM,AMS,52.308601,4.763890,Europe/Amsterdam,1,TRUE,TRUE,Amsterdam Airport Schiphol,Amsterdam,NL,large_airport
+MGGT,GUA,14.582896,-90.527515,America/Guatemala,-6,FALSE,TRUE,La Aurora International Airport,Guatemala City,GT,large_airport
+SSVL,TEC,-24.317801,-50.651600,America/Sao_Paulo,-3,FALSE,TRUE,Telêmaco Borba Airport,Telêmaco Borba,BR,medium_airport
+EKBI,BLL,55.740335,9.157019,Europe/Copenhagen,1,TRUE,TRUE,Billund Airport,Billund,DK,large_airport
+GCXO,TFN,28.482752,-16.341707,Atlantic/Canary,0,TRUE,TRUE,Tenerife Norte-Ciudad de La Laguna Airport,Tenerife,ES,large_airport
+LPFR,FAO,37.015909,-7.970939,Europe/Lisbon,0,TRUE,TRUE,Faro - Gago Coutinho International Airport,Faro,PT,large_airport
+KCWF,CWF,30.210600,-93.143204,America/Chicago,-6,TRUE,TRUE,Chennault International Airport,Lake Charles,US,small_airport
+GCLP,LPA,27.931900,-15.386600,Atlantic/Canary,0,TRUE,TRUE,Gran Canaria Airport,Gran Canaria Island,ES,large_airport
+TTPP,POS,10.595350,-61.337568,America/Port_of_Spain,-4,FALSE,FALSE,Piarco International Airport,Port of Spain,TT,large_airport
+MDPC,PUJ,18.567093,-68.364558,America/Santo_Domingo,-4,FALSE,TRUE,Punta Cana International Airport,Punta Cana,DO,large_airport
+MMSM,NLU,19.743824,-99.015070,America/Mexico_City,-6,FALSE,TRUE,Felipe Ángeles International Airport,Mexico City,MX,large_airport
+GVNP,RAI,14.941126,-23.484728,Atlantic/Cape_Verde,-1,FALSE,FALSE,Nelson Mandela International Airport,Praia,CV,large_airport
+SMJP,PBM,5.452830,-55.187801,America/Paramaribo,-3,FALSE,FALSE,Johan Adolf Pengel International Airport,Paramaribo,SR,large_airport
+MROC,SJO,9.993860,-84.208801,America/Costa_Rica,-6,FALSE,TRUE,Juan Santamaría International Airport,San José (Alajuela),CR,large_airport
+SANT,TUC,-26.837397,-65.104195,America/Argentina/Tucuman,-3,FALSE,TRUE,Teniente Benjamín Matienzo International Airport,San Miguel de Tucumán,AR,large_airport
+SLVR,VVI,-17.644800,-63.135399,America/La_Paz,-4,FALSE,FALSE,Viru Viru International Airport,Santa Cruz,BO,large_airport
+EDHI,XFW,53.535278,9.835556,Europe/Berlin,1,TRUE,TRUE,Hamburg-Finkenwerder Airport,Hamburg,DE,medium_airport
+KBNA,BNA,36.124500,-86.678200,America/Chicago,-6,TRUE,TRUE,Nashville International Airport,Nashville,US,large_airport
+SKCG,CTG,10.442400,-75.513000,America/Bogota,-5,FALSE,TRUE,Rafael Nuñez International Airport,Cartagena,CO,large_airport
+KMIA,MIA,25.796011,-80.289751,America/New_York,-5,TRUE,TRUE,Miami International Airport,Miami,US,large_airport
+MNMG,MGA,12.141500,-86.168198,America/Managua,-6,FALSE,TRUE,Augusto C. Sandino (Managua) International Airport,Managua,NI,large_airport
+KSBD,SBD,34.096717,-117.236596,America/Los_Angeles,-8,TRUE,TRUE,San Bernardino International Airport,San Bernardino,US,large_airport
+LFBT,LDE,43.178699,-0.006439,Europe/Paris,1,TRUE,TRUE,Tarbes-Lourdes-Pyrénées Airport,Tarbes/Lourdes/Pyrénées,FR,medium_airport
+TJSJ,SJU,18.439400,-66.001801,America/Puerto_Rico,-4,FALSE,FALSE,Luis Munoz Marin International Airport,San Juan,PR,large_airport
+MDSD,SDQ,18.429701,-69.668900,America/Santo_Domingo,-4,FALSE,TRUE,Las Américas International Airport,Santo Domingo,DO,large_airport
+ZSHC,HGH,30.236090,120.428865,Asia/Shanghai,8,FALSE,TRUE,Hangzhou Xiaoshan International Airport,Hangzhou,CN,large_airport
+EDDR,SCN,49.214545,7.109735,Europe/Berlin,1,TRUE,TRUE,Saarbrücken Airport,Saarbrücken,DE,medium_airport
+KGUS,GUS,40.648102,-86.152100,America/Indiana/Indianapolis,-5,TRUE,TRUE,Grissom Air Reserve Base,Peru,US,medium_airport
+EDLN,MGL,51.230278,6.504444,Europe/Berlin,1,TRUE,TRUE,Mönchengladbach Airport,Mönchengladbach,DE,medium_airport
+SKBO,BOG,4.701590,-74.146900,America/Bogota,-5,FALSE,TRUE,El Dorado International Airport,Bogota,CO,large_airport
+TBPB,BGI,13.074667,-59.491034,America/Barbados,-4,FALSE,TRUE,Grantley Adams International Airport,Bridgetown,BB,large_airport
+LEBL,BCN,41.297100,2.078460,Europe/Madrid,1,TRUE,TRUE,Josep Tarradellas Barcelona-El Prat Airport,Barcelona,ES,large_airport
+ZSQD,TAO,36.361953,120.088171,Asia/Shanghai,8,FALSE,TRUE,Qingdao Jiaodong International Airport,Qingdao (Jiaozhou),CN,large_airport
+LFTW,FNI,43.757401,4.416350,Europe/Paris,1,TRUE,TRUE,Nîmes-Arles-Camargue Airport,Nîmes/Garons,FR,medium_airport
+ZSPD,PVG,31.143400,121.805000,Asia/Shanghai,8,FALSE,TRUE,Shanghai Pudong International Airport,Shanghai (Pudong),CN,large_airport
+KMZJ,MZJ,32.510601,-111.328003,America/Phoenix,-7,FALSE,FALSE,Pinal Airpark,Marana,US,small_airport
+KORD,ORD,41.978600,-87.904800,America/Chicago,-6,TRUE,TRUE,Chicago O'Hare International Airport,Chicago,US,large_airport
+KAMA,AMA,35.217857,-101.706444,America/Chicago,-6,TRUE,TRUE,Rick Husband Amarillo International Airport,Amarillo,US,medium_airport
+SYCJ,GEO,6.498550,-58.254101,America/Guyana,-4,FALSE,FALSE,Cheddi Jagan International Airport,Georgetown,GY,large_airport
+SAZN,NQN,-38.949001,-68.155701,America/Argentina/Salta,-3,FALSE,TRUE,Presidente Perón International Airport,Neuquén,AR,large_airport
+KTPA,TPA,27.975500,-82.533203,America/New_York,-5,TRUE,TRUE,Tampa International Airport,Tampa,US,large_airport
+SWNS,APS,-16.363575,-48.928800,America/Sao_Paulo,-3,FALSE,TRUE,Anápolis Airport,Anápolis,BR,small_airport
+KGWO,GWO,33.495025,-90.088204,America/Chicago,-6,TRUE,TRUE,Greenwood–Leflore Airport,Greenwood,US,medium_airport
+LIRF,FCO,41.804532,12.251998,Europe/Rome,1,TRUE,TRUE,Rome–Fiumicino Leonardo da Vinci International Airport,Rome,IT,large_airport
+ZBAA,PEK,40.077349,116.596702,Asia/Shanghai,8,FALSE,TRUE,Beijing Capital International Airport,Beijing,CN,large_airport
+EGTE,EXT,50.734261,-3.413984,Europe/London,0,TRUE,TRUE,Exeter International Airport,"Exeter, Devon",GB,medium_airport
+MPTO,PTY,9.071360,-79.383499,America/Panama,-5,FALSE,FALSE,Tocumen International Airport,Tocumen,PA,large_airport
+KROW,ROW,33.301601,-104.530998,America/Denver,-7,TRUE,TRUE,Roswell Air Center Airport,Roswell,US,medium_airport
+SNHS,SET,-8.061433,-38.328888,America/Recife,-3,FALSE,TRUE,Santa Magalhães Airport,Serra Talhada,BR,small_airport
+KPBI,PBI,26.683201,-80.095596,America/New_York,-5,TRUE,TRUE,President Donald J. Trump International Airport,West Palm Beach,US,large_airport
+KSGF,SGF,37.245047,-93.388596,America/Chicago,-6,TRUE,TRUE,Springfield Branson National Airport,Springfield,US,medium_airport
+KMEI,MEI,32.332600,-88.751900,America/Chicago,-6,TRUE,TRUE,Key Field / Meridian Regional Airport,Meridian,US,medium_airport
+KTUS,TUS,32.115004,-110.938053,America/Phoenix,-7,FALSE,FALSE,Tucson International Airport,Tucson,US,large_airport
+KBKV,BKV,28.469461,-82.457114,America/New_York,-5,TRUE,TRUE,Brooksville–Tampa Bay Regional Airport,Brooksville,US,small_airport
+MKJP,KIN,17.935699,-76.787498,America/Jamaica,-5,FALSE,TRUE,Norman Manley International Airport,Kingston,JM,large_airport
+LIRN,NAP,40.886002,14.290800,Europe/Rome,1,TRUE,TRUE,Naples International Airport,Napoli,IT,large_airport
+KOPF,OPF,25.907000,-80.278397,America/New_York,-5,TRUE,TRUE,Miami-Opa Locka Executive Airport,Miami,US,medium_airport
+FAOR,JNB,-26.140081,28.246801,Africa/Johannesburg,2,FALSE,FALSE,O.R. Tambo International Airport,Johannesburg,ZA,large_airport
+DGAA,ACC,5.605190,-0.166786,Africa/Accra,0,FALSE,FALSE,Kotoka International Airport,Accra,GH,large_airport
+SGES,AGT,-25.457186,-54.839544,America/Asuncion,-3,FALSE,TRUE,Guaraní International Airport,Ciudad del Este,PY,large_airport
+EIDW,DUB,53.428713,-6.262121,Europe/Dublin,1,TRUE,TRUE,Dublin Airport,Dublin,IE,large_airport
+FNLU,LAD,-8.858370,13.231200,Africa/Luanda,1,FALSE,FALSE,Quatro de Fevereiro International Airport,Luanda,AO,large_airport
+KRSW,RSW,26.534685,-81.752816,America/New_York,-5,TRUE,TRUE,Southwest Florida International Airport,Fort Myers,US,large_airport
+SABE,AEP,-34.559419,-58.415536,America/Argentina/Buenos_Aires,-3,FALSE,TRUE,Aeroparque Jorge Newbery,Buenos Aires,AR,large_airport
+SVMI,CCS,10.602214,-66.991174,America/Caracas,-4,FALSE,FALSE,Maiquetía Simón Bolívar International Airport,Maiquetía,VE,large_airport
+MMUN,CUN,21.040817,-86.873470,America/Cancun,-5,FALSE,TRUE,Cancún International Airport,Cancún,MX,large_airport
+SEQM,UIO,-0.125399,-78.354306,America/Guayaquil,-5,FALSE,TRUE,Mariscal Sucre International Airport,Quito,EC,large_airport
+TFFF,FDF,14.591000,-61.003201,America/Martinique,-4,FALSE,TRUE,Martinique Aimé Césaire International Airport,Fort-de-France,MQ,large_airport
+TTCP,TAB,11.149571,-60.831298,America/Port_of_Spain,-4,FALSE,FALSE,A.N.R. Robinson International Airport,Scarborough,TT,large_airport
+KBFI,BFI,47.527042,-122.299950,America/Los_Angeles,-8,TRUE,TRUE,King County International Airport - Boeing Field,Seattle,US,medium_airport
+MDLR,LRM,18.452222,-68.911111,America/Santo_Domingo,-4,FALSE,TRUE,Casa De Campo International Airport,La Romana,DO,large_airport
+SKBQ,BAQ,10.889600,-74.780800,America/Bogota,-5,FALSE,TRUE,Ernesto Cortissoz International Airport,Barranquilla,CO,large_airport
+LBSF,SOF,42.696357,23.417671,Europe/Sofia,2,TRUE,TRUE,Sofia Airport,Sofia,BG,large_airport
+KVCV,VCV,34.597500,-117.383003,America/Los_Angeles,-8,TRUE,TRUE,Southern California Logistics Airport,Victorville,US,small_airport
+SKCL,CLO,3.542717,-76.381898,America/Bogota,-5,FALSE,TRUE,Alfonso Bonilla Aragon International Airport,Cali,CO,large_airport
+OMDW,DWC,24.896171,55.162350,Asia/Dubai,4,FALSE,FALSE,Al Maktoum International Airport,Dubai(Jebel Ali),AE,large_airport
+SCIE,CCP,-36.772350,-73.062828,America/Santiago,-4,TRUE,TRUE,Carriel Sur International Airport,Concepcion,CL,large_airport
+MYNN,NAS,25.039000,-77.466202,America/Nassau,-5,TRUE,TRUE,Lynden Pindling International Airport,Nassau,BS,large_airport
+SPQU,AQP,-16.340786,-71.569485,America/Lima,-5,FALSE,TRUE,Rodríguez Ballón International Airport,Arequipa,PE,large_airport
+KVQQ,VQQ,30.218700,-81.876701,America/New_York,-5,TRUE,TRUE,Cecil Airport,Jacksonville,US,medium_airport
+SEMT,MEC,-0.946078,-80.678802,America/Guayaquil,-5,FALSE,TRUE,Eloy Alfaro International Airport,Manta,EC,medium_airport
+SLLP,LPB,-16.510272,-68.189416,America/La_Paz,-4,FALSE,FALSE,El Alto International Airport,La Paz / El Alto,BO,large_airport
+SCSE,LSC,-29.916201,-71.199501,America/Santiago,-4,TRUE,TRUE,La Florida Airport,La Serena-Coquimbo,CL,medium_airport
+LTAI,AYT,36.898701,30.800501,Europe/Istanbul,3,FALSE,TRUE,Antalya International Airport,Antalya,TR,large_airport
+LATI,TIA,41.414700,19.720600,Europe/Tirane,1,TRUE,TRUE,Tirana International Airport Mother Teresa,Rinas,AL,large_airport
+SVPR,PZO,8.288530,-62.760399,America/Caracas,-4,FALSE,FALSE,General Manuel Carlos Piar International Airport,Guyana City,VE,large_airport
+UAAA,ALA,43.354267,77.042828,Asia/Almaty,5,FALSE,TRUE,Almaty International Airport,Almaty,KZ,large_airport
+WSSL,XSP,1.415550,103.866730,Asia/Singapore,8,FALSE,FALSE,Seletar Airport,Seletar,SG,medium_airport
+KGYR,GYR,33.422501,-112.375999,America/Phoenix,-7,FALSE,FALSE,Phoenix Goodyear Airport,Goodyear,US,small_airport
+SANU,UAQ,-31.571501,-68.418198,America/Argentina/San_Juan,-3,FALSE,TRUE,Domingo Faustino Sarmiento Airport,San Juan,AR,medium_airport
+KATL,ATL,33.636700,-84.428101,America/New_York,-5,TRUE,TRUE,Hartsfield Jackson Atlanta International Airport,Atlanta,US,large_airport
+SCCF,CJC,-22.498199,-68.903603,America/Santiago,-4,TRUE,TRUE,El Loa Airport,Calama,CL,medium_airport
+SLCB,CBB,-17.421105,-66.177102,America/La_Paz,-4,FALSE,FALSE,Jorge Wilsterman International Airport,Cochabamba,BO,large_airport
+RKSI,ICN,37.469101,126.450996,Asia/Seoul,9,FALSE,TRUE,Incheon International Airport,Seoul,KR,large_airport
+SVVG,VIG,8.624139,-71.672668,America/Caracas,-4,FALSE,FALSE,Juan Pablo Pérez Alfonso Airport,El Vigía,VE,medium_airport
+SVBI,BNS,8.615000,-70.214167,America/Caracas,-4,FALSE,FALSE,Barinas Airport,Barinas,VE,medium_airport
+SVVA,VLN,10.149733,-67.928398,America/Caracas,-4,FALSE,FALSE,Arturo Michelena International Airport,Valencia,VE,large_airport
+SKBG,BGA,7.126500,-73.184800,America/Bogota,-5,FALSE,TRUE,Palonegro Airport,Bucaramanga,CO,medium_airport
+EGSH,NWI,52.675800,1.282780,Europe/London,0,TRUE,TRUE,Norwich Airport,"Norwich, Norfolk",GB,medium_airport
+EBLG,LGG,50.638574,5.443897,Europe/Brussels,1,TRUE,TRUE,Liège Airport,Grâce-Hollogne,BE,medium_airport
+KPAE,PAE,47.906300,-122.281998,America/Los_Angeles,-8,TRUE,TRUE,Seattle Paine Field International Airport,Everett,US,medium_airport
+LTFJ,SAW,40.898602,29.309200,Europe/Istanbul,3,FALSE,TRUE,Istanbul Sabiha Gökçen International Airport,"Pendik, Istanbul",TR,large_airport
+KBGR,BGR,44.806364,-68.826668,America/New_York,-5,TRUE,TRUE,Bangor International Airport,Bangor,US,medium_airport
+SCTC,PZS,-38.766800,-72.637100,America/Santiago,-4,TRUE,TRUE,Maquehue Airport,Temuco,CL,medium_airport
+PHNL,HNL,21.318387,-157.925670,Pacific/Honolulu,-10,FALSE,FALSE,Daniel K. Inouye International Airport,"Honolulu, Oahu",US,large_airport
+MMMY,MTY,25.778521,-100.106989,America/Monterrey,-6,FALSE,TRUE,Monterrey International Airport,Monterrey,MX,large_airport
+SKRG,MDE,6.164540,-75.423100,America/Bogota,-5,FALSE,TRUE,Jose Maria Córdova International Airport,Medellín,CO,large_airport
+MMVA,VSA,17.994283,-92.818199,America/Mexico_City,-6,FALSE,TRUE,Carlos Rovirosa Pérez International Airport,Villahermosa,MX,large_airport
+SBYS,...,-21.984692,-47.341207,America/Sao_Paulo,-3,FALSE,TRUE,Campo Fontenelle,Pirassununga,BR,medium_airport
+TLPL,UVF,13.733200,-60.952599,America/St_Lucia,-4,FALSE,FALSE,Hewanorra International Airport,Vieux Fort,LC,large_airport
+UTTT,TAS,41.257900,69.281197,Asia/Tashkent,5,FALSE,TRUE,Tashkent International Airport,Tashkent,UZ,large_airport
+UCFM,FRU,43.061298,74.477600,Asia/Bishkek,6,FALSE,TRUE,Manas International Airport,Bishkek,KG,large_airport
+MHLM,SAP,15.452600,-87.923599,America/Tegucigalpa,-6,FALSE,TRUE,Ramón Villeda Morales International Airport,San Pedro Sula,HN,large_airport
+KDAB,DAB,29.182550,-81.059464,America/New_York,-5,TRUE,TRUE,Daytona Beach International Airport,Daytona Beach,US,medium_airport
+LTBA,IST,40.971913,28.823714,Europe/Istanbul,3,FALSE,TRUE,İstanbul Atatürk Airport,Istanbul(Bakırköy),TR,large_airport
+KAEX,AEX,31.325828,-92.546702,America/Chicago,-6,TRUE,TRUE,Alexandria International Airport,Alexandria,US,medium_airport
+PGUM,GUM,13.485000,144.797282,Pacific/Guam,10,FALSE,TRUE,Antonio B. Won Pat International Airport,Hagåtña,GU,large_airport
+LWSK,SKP,41.958087,21.622581,Europe/Skopje,1,TRUE,TRUE,Skopje International Airport,Ilinden,MK,large_airport
+LGTS,SKG,40.519280,22.970009,Europe/Athens,2,TRUE,TRUE,Thessaloniki Macedonia International Airport,Thessaloniki,GR,large_airport
+LKMT,OSR,49.696301,18.111099,Europe/Prague,1,TRUE,TRUE,Leoš Janáček Airport Ostrava,Mošnov,CZ,large_airport
+LHBP,BUD,47.430180,19.262393,Europe/Budapest,1,TRUE,TRUE,Budapest Liszt Ferenc International Airport,Budapest,HU,large_airport
+KDHN,DHN,31.321301,-85.449600,America/Chicago,-6,TRUE,TRUE,Dothan Regional Airport,Dothan,US,medium_airport
+DBBB,COO,6.357230,2.384350,Africa/Porto-Novo,1,FALSE,FALSE,Cotonou Cadjehoun International Airport,Cotonou,BJ,large_airport
+LGRP,RHO,36.405399,28.086201,Europe/Athens,2,TRUE,TRUE,"Rhodes International Airport ""Diagoras""",Rhodes,GR,large_airport
+LETL,TEV,40.410269,-1.217366,Europe/Madrid,1,TRUE,TRUE,Teruel Airport,Teruel,ES,medium_airport
+KRME,RME,43.233799,-75.406998,America/New_York,-5,TRUE,TRUE,Griffiss International Airport,Rome,US,medium_airport
+ZSJN,TNA,36.857201,117.216003,Asia/Shanghai,8,FALSE,TRUE,Jinan Yaoqiang International Airport,Jinan (Licheng),CN,large_airport
+UCFO,OSS,40.609001,72.793297,Asia/Bishkek,6,FALSE,TRUE,Osh International Airport,Osh,KG,large_airport

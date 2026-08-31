@@ -1,7 +1,7 @@
 ---
 documento: SPEC-008
 titulo: Ingestão SQLite — Básica
-versao: v2
+versao: v3
 status: aprovado
 data: 2026-08-31
 autor: Bruno Alexandre Serminaro
@@ -33,8 +33,8 @@ Reaproveita os papéis abstratos do `SPEC-002 §2` — nenhum papel novo.
 
 ### 3.1 O que este SPEC entrega
 
-Documentação do pipeline já existente: download → carga raw → view
-tipada. Não implementa nada novo.
+Documentação do pipeline: download → carga raw → view silver (112
+colunas, organizada e comentada).
 
 ### 3.2 Fora de escopo
 
@@ -55,10 +55,18 @@ scripts/BASH_001_basica_download.sh
        id_basica é chave primária, INSERT OR IGNORE; range de meses
        estendido de 2024-2026 para 2010-2026 em 2026-08-31)
   → basica_raw (111 colunas TEXT, fiel ao arquivo ANAC)
-  → sql/tratamento/DDL_001_basica_view_typed_sqlite.sql
-  → basica_typed (view, casts corretos — INTEGER/REAL,
-       nr_horas_voadas troca vírgula por ponto antes do CAST)
+  → sql/tratamento/DDL_003_basica_view_silver_sqlite.sql
+  → basica_silver (view, 112 colunas — todas as de basica_raw, tipadas,
+       organizadas nas 8 categorias de SPEC-005, comentário por coluna
+       gerado a partir do mesmo dicionário)
 ```
+
+`basica_typed` (`DDL_001_basica_view_typed_sqlite.sql`) foi **retirada**
+em 2026-08-31 (`DROP VIEW`, arquivo apagado) — cobria só ~27 das 112
+colunas, misturando tipagem com métrica derivada (`bloco_tempo_min`,
+`partida_ts`). `basica_silver` a substitui como a camada silver real:
+completa, sem métrica derivada (isso fica para uma camada seguinte, não
+esta).
 
 ### Achado: mudança de schema real da ANAC em 2020-01 (2026-08-31)
 
@@ -83,23 +91,45 @@ NULL`). `nr_chave` é `NULL` para todo registro de 2010-01 a 2019-12 (ver
 achado acima) — não confundir com dado ausente por erro. Schema completo
 documentado em `SPEC-005`.
 
-## 6. Camada typed (`basica_typed`)
+## 6. Camada silver (`basica_silver`)
 
-View sobre `basica_raw` com `CAST` para tipos reais (`INTEGER`, `REAL`) —
-exemplo notável: `nr_horas_voadas` precisa `REPLACE(nr_horas_voadas, ',',
-'.')` antes do `CAST AS REAL`, porque o arquivo original usa vírgula
-decimal.
+View sobre `basica_raw`, todas as 112 colunas, gerada programaticamente a
+partir de `SPEC-005` (não retipada à mão — evita divergência entre o
+dicionário e o SQL real). Três ajustes por coluna:
+
+- **Formato**: `NUMBER` → `CAST(... AS INTEGER)`; `nr_horas_voadas` troca
+  vírgula por ponto antes do `CAST AS REAL` (único campo confirmado com
+  decimal na fonte); datas/horas via `date()`/`time()`/`datetime()` do
+  SQLite, não `CAST AS DATE`/`TIME` — SQLite trata tipo não reconhecido
+  como afinidade `NUMERIC`, risco de conversão indevida de string ISO.
+  `TEXT` vazio vira `NULL` (`NULLIF`).
+- **Organização**: colunas agrupadas nas mesmas 8 categorias que
+  `SPEC-005` já usa (identificação, referência, característica de
+  linha/etapa, horários reais, aeródromos, frota, despacho, métricas de
+  indústria, metadado ANAC/pipeline) — mesma taxonomia, não uma nova.
+- **Comentário**: uma linha `--` por coluna, texto vindo direto de
+  `SPEC-005`, acima de cada expressão.
+
+Não inclui métrica derivada (bloco de tempo, timestamp combinado) — isso
+é responsabilidade de uma camada seguinte (`trusted_essencial`, `curated_*`
+ou uma futura camada de análise), não da silver.
 
 ## 7. Critérios de sucesso
 
 - **C-01** — Pipeline documentado bate com o código real (§4-§6). **Cumprido.**
-- **C-02** — `basica_raw` e `basica_typed` seguem existindo e sendo
+- **C-02** — `basica_raw` e `basica_silver` seguem existindo e sendo
   usados por `trusted_essencial` (`DEC-007`) sem contradição com esta
   documentação. **Cumprido.**
-- **C-03** *(novo, v2)* — Carga estendida a 2010-2026 executada sem erro,
+- **C-03** — Carga estendida a 2010-2026 executada sem erro,
   com o achado de schema (§4) tratado, não ignorado. **Cumprido**:
   15.607.396 linhas, `basica_raw` em 16 GB, `MIN`/`MAX` de
   `nr_ano_referencia` confirmando 2010-2026.
+- **C-04** *(novo, v3)* — `basica_silver` criada com as 112 colunas de
+  `basica_raw`, tipos e organização batendo com `SPEC-005`. **Cumprido**
+  — validado por amostra (`GLO`, datas/horas formatadas, `nr_horas_voadas`
+  com ponto decimal, `nr_chave` `NULL` pré-2020 confirmado em contagem
+  real: 2019 100% nulo, 2020 ~98,8% nulo — a coluna existe desde 2020,
+  mas nem toda linha de 2020 a preenche, refinamento do achado do §4).
 
 ## 8. Premissas e dependências
 
@@ -122,7 +152,8 @@ decimal.
 | ID | Regra | Onde verificar | Severidade |
 |---|---|---|---|
 | **R-COL-09** | O pipeline descrito em §4 bate com os scripts reais em `scripts/`, `src/ingestao_sqlite/`, `sql/ingestao_sqlite/`, `sql/tratamento/`. | Leitura dos scripts × §4-§6 | Média |
-| **R-COL-16** *(novo, v2)* | `basica_raw` cobre 2010-01 a 2026-06 sem lacuna de mês; `nr_chave` é `NULL` só para `nr_ano_referencia < 2020`. | `MIN`/`MAX(nr_ano_mes_arquivo)` e `SELECT DISTINCT nr_ano_referencia WHERE nr_chave IS NULL` | Alta |
+| **R-COL-16** | `basica_raw` cobre 2010-01 a 2026-06 sem lacuna de mês; `nr_chave` é sempre `NULL` para `nr_ano_referencia < 2020` (pode ser `NULL` também depois, não é erro). | `MIN`/`MAX(nr_ano_mes_arquivo)` e `SELECT DISTINCT nr_ano_referencia WHERE nr_chave IS NULL` | Alta |
+| **R-COL-17** *(novo, v3)* | `basica_silver` contém exatamente as 112 colunas de `SPEC-005`, mesmos nomes (minúsculo), sem coluna a mais ou a menos. | `PRAGMA table_info(basica_silver)` × `SPEC-005 §5` | Alta |
 
 ## 11. Limitações conhecidas
 
@@ -130,7 +161,10 @@ decimal.
   desatualizada até ser revisada — mesmo risco de toda documentação de
   pipeline real.
 - `nr_chave` não tem seu propósito investigado — só se sabe quando existe
-  (§4).
+  (§4), e agora que nem toda linha pós-2020 o preenche (C-04).
+- `basica_silver` não tem métrica derivada (bloco de tempo, timestamp
+  combinado) — quem precisar disso ainda depende de recalcular, ou de uma
+  camada futura que a `SPEC-008` não cobre.
 
 ## 12. Critérios de revisão
 
@@ -149,6 +183,7 @@ Revisitar esta SPEC quando:
 | 2026-08-31 | SPEC-008 v1 produzida em status `proposto`, retroativa. Documenta o pipeline de ingestão SQLite da Básica já implementado. Materializa a `DEC-008`. Aguardando aprovação do autor. |
 | 2026-08-31 | **Aprovada.** Autor revisou o lote e aprovou explicitamente. |
 | 2026-08-31 | **v2 — carga estendida a 2010-2023.** Achado: cabeçalho da Básica muda em 2020-01 (`nr_chave` some antes disso) — resolve `SPEC-002 C-02` em achado confirmado, não mais hipótese. `SRC_001` corrigido para tratar as duas formas de cabeçalho sem falhar. Carga executada: 15.607.396 linhas, 16 GB, 2010-01 a 2026-06 confirmado. C-03 e R-COL-16 adicionados. |
+| 2026-08-31 | **v3 — camada silver.** `basica_typed` retirada (~27 colunas, métrica derivada misturada); `basica_silver` criada (112 colunas, `DDL_003_basica_view_silver_sqlite.sql`, gerado a partir de `SPEC-005`, organizado em 8 categorias, comentário por coluna). Refinamento do achado do `nr_chave`: existe desde 2020, mas nem toda linha pós-2020 o preenche (98,8% nulo em 2020, não 0%). §3.1, §4, §6, §7 (C-04 novo), §10 (R-COL-17 novo), §11 atualizados. |
 
 ---
 

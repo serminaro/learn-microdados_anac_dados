@@ -1,7 +1,7 @@
 ---
 documento: SPEC-010
 titulo: Ingestão SQLite — SIROS
-versao: v3
+versao: v4
 status: aprovado
 data: 2026-08-31
 autor: Bruno Alexandre Serminaro
@@ -45,7 +45,9 @@ Reaproveita os papéis abstratos do `SPEC-002 §2` — nenhum papel novo.
 ### 3.1 O que este SPEC entrega
 
 1. DDL raw proposto (`siros_raw`), 28 colunas, nomes de `SPEC-007 §5`.
-2. DDL typed proposto (`siros_typed`), casts básicos — sem expandir
+2. DDL silver proposto (`siros_silver`, renomeado de `siros_typed` em
+   2026-08-31 por consistência com `basica_silver`/`vra_silver`), casts
+   básicos — sem expandir
    autorização em voo-por-data.
 3. Registro explícito de que a expansão fica fora de escopo (§9).
 
@@ -71,9 +73,9 @@ scripts/BASH_003_siros_download.sh (já existia; disparado de novo em
        expansão, formato de origem detectado por conteúdo, não extensão)
   → src/ingestao_sqlite/SRC_003_siros_load_sqlite.py
        (parse_csv + parse_json, mesma tabela de destino)
-  → sql/tratamento/DDL_NNN_siros_view_typed_sqlite.sql (ainda proposto,
+  → sql/tratamento/DDL_NNN_siros_view_silver_sqlite.sql (ainda proposto,
        não implementado — ver §6)
-  → siros_typed (view, casts básicos)
+  → siros_silver (view, casts básicos)
 ```
 
 ### Achado que mudou a política de carga (2026-08-31)
@@ -165,10 +167,10 @@ Sem chave primária natural única confirmada — `nr_siros` parece candidato
 (`SPEC-007 §5`, ex. `AAL-014694106`), mas unicidade não testada (repete
 entre semanas por natureza, ver §4).
 
-## 6. DDL typed proposto — `siros_typed`
+## 6. DDL silver proposto — `siros_silver`
 
 ```sql
-CREATE VIEW siros_typed AS
+CREATE VIEW siros_silver AS
 SELECT
     cd_empresa, nm_empresa, nr_voo, sg_equipamento_icao,
     fl_opera_segunda, fl_opera_terca, fl_opera_quarta, fl_opera_quinta,
@@ -190,7 +192,7 @@ FROM siros_raw;
 ```
 
 Ainda **não implementada** (proposta) — `siros_raw` já está em carga (§4),
-a view typed fica para um próximo passo.
+a view silver fica para um próximo passo.
 
 `fl_opera_*` ficam como `TEXT`, sem cast para booleano — a `SPEC-007 §6`
 ainda não confirmou se o valor marca presença ou vem sempre preenchido;
@@ -199,7 +201,7 @@ tipar como booleano agora seria decidir algo que não está confirmado.
 ## 7. Critérios de sucesso
 
 - **C-01** — DDL raw implementado, batendo com o schema de `SPEC-007 §5`
-  + `dt_arquivo` de proveniência. **Cumprido.** DDL typed segue proposto,
+  + `dt_arquivo` de proveniência. **Cumprido.** DDL silver segue proposto,
   não implementado.
 - **C-02** — Carga de pelo menos um arquivo real de SIROS executada sem
   erro. **Cumprido** (teste de agosto/2022, depois recarregado sob a
@@ -241,7 +243,7 @@ tipar como booleano agora seria decidir algo que não está confirmado.
   em aeroporto/cidade/país separados — fica como texto bruto.
 - Não é objetivo confirmar unicidade de `nr_siros` como chave primária
   nesta versão.
-- Não é objetivo implementar `siros_typed` (view tipada) nesta versão —
+- Não é objetivo implementar `siros_silver` (view tipada) nesta versão —
   DDL fica proposto (§6), `siros_raw` é a entrega real.
 
 ## 10. Regras checáveis (R-COL)
@@ -296,6 +298,7 @@ Revisitar esta SPEC quando:
 | 2026-08-31 | **v2 — implementação real.** `DDL_003_siros_create_table.sql` e `SRC_003_siros_load_sqlite.py` criados; `dt_arquivo` adicionada como coluna de proveniência (ausente da v1). Teste diário de um mês (ago/2022) mediu volume real do SIROS (~1,54M linhas/mês, ~37 GB/~3h para o histórico diário completo) — resolve hipótese candidata do `REP-001 §5.2`. Decisão do autor: amostragem semanal (segundas-feiras) como política padrão de carga, reduzindo ~7× o volume; `--diario` disponível para forçar fidelidade completa. Banco de teste recriado sob a nova política. C-04 adicionado. §4-§12 atualizados. |
 | 2026-08-31 | Carga completa executada (com uma interrupção externa no meio, retomada sem perda — idempotente). Achado: a ANAC muda o formato do SIROS de CSV para JSON, com transição irregular a partir de 2024-06-17, fixando-se em JSON a partir de 2024-09-16. Loader corrigido para detectar e pular formato não suportado em vez de abortar a carga inteira. Resultado parcial: `siros_raw` com 9.490.568 linhas, 231 semanas, até 2024-09-09. R-COL-15 adicionado. |
 | 2026-08-31 | **v3 — parser JSON implementado.** A pedido do autor, `SRC_003_siros_load_sqlite.py` ganhou `parse_json`/`SIROS_JSON_KEYS`: mapeia os 28 campos do formato novo (chaves em inglês) para as mesmas colunas de `siros_raw`, na mesma tabela, mesma política semanal, mesma idempotência — não é mais "não suportado", é um segundo formato de entrada tratado pelo mesmo loader. Carregadas as 23 semanas JSON já baixadas: +1.186.814 linhas, total 10.677.382. Download disparado de novo para cobrir 2025-02-15 até a data corrente — **resultado: 0 arquivos, todos 404**, confirmado por inspeção direta que a ANAC não publica SIROS além de 2025-02-14 (não é lacuna de download, é o que existe na fonte hoje). Achado extra: a partir de certo ponto a ANAC passa a publicar `.csv` e `.json` lado a lado, não só `.csv` com conteúdo JSON. Cobertura final desta versão: 2019-11-11 a 2025-02-10, 254 semanas, 10.677.382 linhas — máximo disponível. C-04, §8, §9, §10 (R-COL-15 redefinida, R-COL-17 novo), §11, §12 atualizados. |
+| 2026-08-31 | **v4 — renomeação de camada.** `siros_typed` renomeado para `siros_silver` em todo o documento (§3.1, §4, §6, §7, §9), sem mudança de conteúdo — consistência com `basica_silver`/`vra_silver`, já implementados e nomeados assim a pedido do autor. Segue proposto, não implementado. |
 
 ---
 

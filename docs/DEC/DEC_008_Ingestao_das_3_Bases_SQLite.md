@@ -1,7 +1,7 @@
 ---
 documento: DEC-008
 titulo: Ingestão das 3 bases ANAC no caminho SQLite — padrão comum e detalhamento por SPEC
-versao: v1
+versao: v3
 status: aprovado
 data: 2026-08-31
 autor: Bruno Alexandre Serminaro
@@ -23,11 +23,13 @@ escopo: projeto
 ## 1. Contexto
 
 A Básica já tem ingestão SQLite implementada e em produção: `basica_raw`
-(carga bruta) → `basica_typed` (view tipada,
-`sql/tratamento/DDL_001_basica_view_typed_sqlite.sql`). VRA e SIROS têm
-só download bruto (`scripts/BASH_002_vra_download.sh`,
-`BASH_003_siros_download.sh`) — nenhuma ingestão real, per `SPEC-002 §4.1`
-(C-04/C-05, ambos provisórios).
+(carga bruta) → `basica_silver` (view completa, tipada e organizada,
+`sql/tratamento/DDL_003_basica_view_silver_sqlite.sql` — substitui
+`basica_typed`, retirada em 2026-08-31 por cobrir só ~27 das 112 colunas
+com métrica derivada misturada, `SPEC-008 v3`). VRA também já tem
+`vra_raw` → `vra_silver` (`DDL_004_vra_view_silver_sqlite.sql`,
+`SPEC-009 v2`). SIROS tem só `siros_raw` — nenhuma camada silver ainda,
+per `SPEC-002 §4.1` (C-05, provisório).
 
 Dois levantamentos novos, grounded em dado real já baixado
 (`SPEC-006`, `SPEC-007`), mudam o que se sabe: VRA é estruturalmente
@@ -46,11 +48,15 @@ acontece **dentro** de cada banco.
 
 Fixar, para o caminho SQLite:
 
-**(a) Padrão raw → typed** como modelo para as três bases: uma tabela
+**(a) Padrão raw → silver** como modelo para as três bases: uma tabela
 `<dataset>_raw` com carga bruta fiel ao CSV de origem, uma view
-`<dataset>_typed` com casts corretos — mesmo padrão que `basica_raw`/
-`basica_typed` já seguem, mesma convenção de nome (`vra_raw`/`vra_typed`,
-`siros_raw`/`siros_typed`).
+`<dataset>_silver` com casts corretos, colunas organizadas por categoria
+e comentário por coluna (fonte: `SPEC-005`/`SPEC-006`/`SPEC-007`) — nome
+atualizado de "typed" para "silver" em 2026-08-31 (pedido do autor,
+reconcilia com o vocabulário que `plano_objetos_snowflake.md` já usa no
+caminho Snowflake, raw→prata→ouro). Já implementado para Básica
+(`basica_silver`) e VRA (`vra_silver`); SIROS segue como `siros_silver`
+proposto (renomeado de `siros_typed`, `SPEC-010`), ainda não construído.
 
 **(b) Detalhamento de cada base vira SPEC própria**, autorizada por esta
 DEC:
@@ -66,7 +72,7 @@ mesma lógica) fica para uma DEC futura, por pedido explícito do autor —
 não decidido, não descartado, só adiado.
 
 **(d) SIROS é caso especial de grão, registrado, não resolvido.** O
-padrão raw → typed vale para `siros_raw`/`siros_typed` como carga fiel
+padrão raw → silver vale para `siros_raw`/`siros_silver` como carga fiel
 1:1 do CSV (uma linha do arquivo = uma linha na tabela). A eventual
 expansão "autorização → voo por data" (`SPEC-007 §6`) é uma camada
 **seguinte**, fora do escopo desta DEC e da `SPEC-010` — só entra em
@@ -74,7 +80,7 @@ pauta quando alguma pergunta de análise precisar dela.
 
 ## 3. Origem ou rastro
 
-- `basica_raw`/`basica_typed`: padrão já implementado e em produção,
+- `basica_raw`/`basica_silver`: padrão já implementado e em produção,
   modelo desta decisão.
 - `DEC-004 §2/§4.4`: organização física (banco por dataset) — herdada,
   não reaberta.
@@ -149,7 +155,7 @@ pediu.
   DEC — custo de manutenção maior que uma peça única, aceito pelo pedido
   explícito do autor.
 - **SIROS fica com ingestão "raw fiel" que não resolve o problema real**
-  (analisar por voo-por-data) — quem ler só `siros_raw`/`siros_typed` sem
+  (analisar por voo-por-data) — quem ler só `siros_raw`/`siros_silver` sem
   ler `SPEC-007 §6` pode não perceber que falta uma camada de
   transformação para usar o dado como voo individual.
 - **Snowflake adiado** significa que, por um tempo, o caminho SQLite fica
@@ -187,6 +193,8 @@ Esta decisão deve ser revisitada se:
 |---|---|
 | 2026-08-31 | DEC-008 v1 produzida em status `proposto`. Fixa padrão raw→typed para as 3 bases no caminho SQLite, autoriza `SPEC-008`/`009`/`010` como detalhamento por dataset, registra SIROS como caso especial de grão sem resolver a transformação. Cinco alternativas avaliadas. Aguardando aprovação do autor. |
 | 2026-08-31 | **Aprovada.** Autor revisou o lote e aprovou explicitamente. |
+| 2026-08-31 | **v2 — correção pós-aprovação, decisão inalterada.** Camada renomeada de "typed" para "silver" (pedido do autor): `basica_typed` retirada e substituída por `basica_silver` (112 colunas, achado de que a antiga cobria só ~27); `vra_silver` implementado do zero (`vra_typed` nunca chegou a existir). Validação de `vra_silver` revelou dois achados novos: formato de data do VRA muda de novo entre 2018-12 e 2019-01 (`DD/MM/AAAA` → ISO), e os arquivos de 2020-02/2020-03 têm 5 colunas corrompidas na fonte (`Microsoft.SqlServer.Dts.Pipeline.BlobColumn`) — tratados na view (`NULL` nas colunas afetadas, linha preservada), não na `basica_raw`/`vra_raw`. §1, §2.a, §3 atualizados. Pendência ainda aberta: mecanismo de correção pós-aprovação (versão vs. supersede) segue sem decisão do autor. |
+| 2026-08-31 | **v3 — correção pós-aprovação, decisão inalterada (`R-TAX-11`).** Terminologia stale em §2.d e §5.2 corrigida: `siros_typed` → `siros_silver`, alinhando com a renomeação já registrada em §2.a (v2) e em `SPEC-010 v4`. Achado do `gov-check` (2026-08-31): mesma rodada em que `R-TAX-11` foi formalizada no `SPEC-001`, resolvendo a pendência que a entrada v2 acima registrava. |
 
 ---
 

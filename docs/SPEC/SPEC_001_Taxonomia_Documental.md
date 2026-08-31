@@ -1,9 +1,9 @@
 ---
 documento: SPEC-001
 titulo: Taxonomia Documental do Projeto learn-microdados_anac_dados
-versao: v1
+versao: v2
 status: aprovado
-data: 2026-08-24
+data: 2026-08-31
 autor: Bruno Alexandre Serminaro
 referencia: DEC-001
 escopo: projeto
@@ -151,6 +151,7 @@ para o caso de vir a existir (ex.: exportar uma SPEC para leitura offline).
 | **R-TAX-08** | As sete peças de fundação (DEC-001, SPEC-001, REP-001, DEC-002, SPEC-002, DEC-003, SPEC-003) existem e se referenciam mutuamente conforme a ordem generativa da §11A.1 (SPEC-META-001). | Listagem de `docs/DEC/` + `docs/SPEC/` + `docs/REP/` × `referencia:` | Crítica |
 | **R-TAX-09** | Documento `superseded` é referenciado por `supersede:` de um sucessor existente, e vice-versa. | Inspeção de `supersede:` | Alta |
 | **R-TAX-10** | `docs/plano_objetos_snowflake.md` e `docs/plano_expansao_multidataset.md` são exceção documentada (§5): não exigem frontmatter SERMI nem numeração de tipo. Ausência de frontmatter nesses dois arquivos especificamente **não** é divergência. | Lista fixa de exceções desta SPEC | Baixa |
+| **R-TAX-11** *(novo, v2)* | **Correção pós-aprovação, decisão inalterada.** Um documento `aprovado` (DEC ou SPEC) pode ser editado sem virar `superseded` quando a mudança não reverte nem substitui a decisão/descrição já aprovada — cobre: implementação que passa a existir onde antes era proposta; achado de dado real que **refina** (não contradiz) o que já estava registrado; renomeação de artefato cuja escolha de fundo já estava decidida (ex.: `typed`→`silver`, mesmo padrão de camada). Mecanismo: sobe `versao:` (v*N* → v*N+1*), mantém `status: aprovado`, registra o evento no Histórico com o que mudou e por quê. `supersede:` continua reservado para quando a **decisão em si** muda (outro critério, outra alternativa escolhida, outro escopo) — não contradiz o princípio de imutabilidade do `DEC-005` §5, só desenha a fronteira que faltava entre "fato mudou, decisão intacta" e "decisão mudou". | Comparação do Histórico × diff do documento; toda mudança de conteúdo de decisão real deve corresponder a `supersede`, não a bump de versão | Alta |
 
 Regra que a `SPEC-META-001 §11A.2` pede e este projeto não precisa
 declarar à parte: o AUDIT nasce de gatilho de controle, não de DEC prévia
@@ -214,6 +215,7 @@ Revisitar esta SPEC quando:
 |---|---|
 | 2026-08-24 | SPEC-001 v1 produzida em status `proposto`. Instancia a SPEC-META-001 para este projeto, conforme fixado pelo DEC-001 (aprovado). Dez regras `R-TAX-NN` declaradas. Produzida junto com REP-001, no mesmo bloco de trabalho, com SPEC-001 finalizada primeiro (DEC-META-014 §2.1). Aguarda aprovação do autor. |
 | 2026-08-24 | **Aprovada.** Revisão contra o blueprint (`SPEC_001.json`) sem divergência: todas as dez seções obrigatórias presentes, cada regra `R-TAX-NN` com id/enunciado/onde-verificar/severidade, rastro `referencia: DEC-001` coerente com a regra R-TAX-06 que a própria SPEC declara. Segue para DEC-002. |
+| 2026-08-31 | **v2 — R-TAX-11 formalizada.** Uma rodada de `gov-check` (2026-08-31) sinalizou, pela terceira vez, que o padrão "sobe versão, mantém `aprovado`" usado em `DEC-007`/`DEC-008`/`SPEC-004`/`SPEC-008`/`SPEC-009`/`SPEC-010` não tinha regra que o sancionasse neste projeto. Autor decidiu formalizar em vez de desfazer: `R-TAX-11` fixa o mecanismo (bump de versão + Histórico, `status` inalterado) para correção que não muda a decisão de fundo, e reserva `supersede:` para quando a decisão em si muda — coexiste com o princípio de imutabilidade do `DEC-005 §5`, só desenha a fronteira que faltava. Aplica-se retroativamente aos seis documentos citados: nenhum deles reverteu uma decisão, todos documentaram implementação real, achado de dado ou renomeação já decidida. |
 
 ---
 

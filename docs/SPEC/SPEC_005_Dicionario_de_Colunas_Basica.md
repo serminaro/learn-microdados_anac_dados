@@ -1,7 +1,7 @@
 ---
 documento: SPEC-005
 titulo: Dicionário de Colunas — Básica
-versao: v2
+versao: v3
 status: aprovado
 data: 2026-08-31
 autor: Bruno Alexandre Serminaro
@@ -11,7 +11,7 @@ escopo: projeto
 
 # SPEC-005 · Dicionário de Colunas — Básica
 
-> Documenta, de forma exaustiva, as colunas de `BASICA_RAW`/`basica_typed`
+> Documenta, de forma exaustiva, as colunas de `BASICA_RAW`/`basica_silver`
 > — todas, não só as usadas em alguma análise — e marca quais são
 > **essenciais** para as perguntas de análise da `DEC-007`. Consolida três
 > fontes que hoje fazem esse trabalho em paralelo: `QUERY-011-Dados_das_
@@ -335,6 +335,7 @@ Revisitar esta SPEC quando:
 | 2026-08-31 | SPEC-005 v1 produzida em status `proposto`, consolidando `QUERY-011-Dados_das_colunas_de_Trusted.csv`, `rascunho/colunas.txt` e `docs/dicionario_colunas_basica.md` num dicionário único, 112 colunas, 29 marcadas essenciais (cross-validado contra `colunas.txt`, mesmo recorte). Fecha lacuna latente do `SPEC-001 §5` (dicionário pré-SERMI não listado como exceção). Aguardando aprovação do autor. |
 | 2026-08-31 | **Aprovada.** Autor revisou o lote (junto com os outros seis documentos desta rodada) e aprovou explicitamente. |
 | 2026-08-31 | **v2 — correção pós-aprovação.** `NR_CHAVE` (§5) atualizada com achado real: disponível só a partir de `NR_ANO_REFERENCIA >= 2020`, confirmado na carga completa da Básica (`SPEC-008 §4`). Fecha `SPEC-002 C-02` em achado confirmado. §7 atualizada. |
+| 2026-08-31 | **v3 — correção pós-aprovação, decisão inalterada (`R-TAX-11`).** Header stale corrigido: `basica_typed` (view retirada) → `basica_silver`, a view real hoje. Achado do `gov-check`, mesma rodada em que `R-TAX-11` foi formalizada no `SPEC-001`. |
 
 ---
 

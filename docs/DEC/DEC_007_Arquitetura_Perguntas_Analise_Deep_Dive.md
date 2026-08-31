@@ -1,7 +1,7 @@
 ---
 documento: DEC-007
 titulo: Arquitetura de camadas para as Perguntas de Análise (Deep Dive GOL/Azul) — genérica, dois caminhos
-versao: v2
+versao: v3
 status: aprovado
 data: 2026-08-31
 autor: Bruno Alexandre Serminaro
@@ -81,11 +81,12 @@ quando há mais de uma definição válida.
 6. Block time (sobra e estratégia)
 
 **(c) Camada `trusted_essencial`**: view/tabela de nome genérico (sem
-prefixo de engine), derivada da camada já existente `basica_typed`
-(mesmo nome literal nos dois caminhos hoje —
-`sql/tratamento/DDL_001_basica_view_typed_sqlite.sql` e
-`DDL_002_basica_view_typed_snowflake.sql`), restrita às 29 colunas
-essenciais marcadas em `SPEC-005` (Dicionário de Colunas — Básica).
+prefixo de engine), derivada da camada silver do dataset (`basica_silver`
+no caminho SQLite, `sql/tratamento/DDL_003_basica_view_silver_sqlite.sql`
+— substitui `basica_typed`, retirada em 2026-08-31 por cobrir só ~27 das
+112 colunas com métrica derivada misturada, ver `SPEC-008 v3`), restrita
+às 29 colunas essenciais marcadas em `SPEC-005` (Dicionário de Colunas —
+Básica).
 
 **(d) Duas camadas fixas `curated_deep_dive_gol` e
 `curated_deep_dive_azul`**, sobre `trusted_essencial`, filtro
@@ -97,8 +98,8 @@ que só cobria Snowflake): a arquitetura de camadas e o método de cada
 pergunta são definidos **uma única vez**, de forma genérica; a
 implementação concreta (sintaxe SQL, funções disponíveis em cada motor)
 é descrita por caminho na `SPEC-004`, sem duplicar a decisão de
-arquitetura — mesma lógica que `basica_typed` já segue hoje (uma decisão
-de camada, dois scripts).
+arquitetura — mesma lógica que a camada silver já segue (uma decisão de
+camada, um script por caminho).
 
 **(f) "Block time" permanece bloqueada** até o VRA existir neste projeto;
 o autor está avaliando ativamente essa base agora (mudança frente à v1:
@@ -163,10 +164,10 @@ caminho SQLite+Python.
 **Por que descartada.** Contradiz `SPEC-002` (dois caminhos igualmente
 investidos, §1/§3.1) sem necessidade técnica real — a arquitetura de
 camada (`trusted_essencial`, `curated_*`) é a mesma nos dois caminhos, só
-muda a sintaxe SQL de cada view/tabela, exatamente como `basica_typed` já
+muda a sintaxe SQL de cada view/tabela, exatamente como a camada silver já
 faz hoje.
 
-### 4.2 Responder as perguntas direto sobre `basica_typed` (111 colunas), sem `trusted_essencial`
+### 4.2 Responder as perguntas direto sobre a camada silver (112 colunas), sem `trusted_essencial`
 
 Cada `curated` filtraria e selecionaria as 29 colunas por conta própria.
 
@@ -325,6 +326,7 @@ Esta decisão deve ser revisitada se:
 | 2026-08-31 | Debate sobre engenharia de dado com três bancos separados (Básica, VRA, SIROS): registrado o padrão de junção cross-dataset para "block time" (§2.g) — objeto dedicado (`curated_block_time_gol`/`azul`), materialização única por caminho (`ATTACH`+`CREATE TABLE` no SQLite; cross-schema nativo no Snowflake), chave de junção hipotética (empresa+voo+data+origem). Descartadas duas alternativas: mesclar bancos (reabriria DEC-004) e deixar o padrão indefinido até o VRA existir. Isolamento por dataset da DEC-004 preservado. |
 | 2026-08-31 | **Aprovada.** Revisão estrutural sem divergência: sete seções obrigatórias presentes, oito alternativas avaliadas com veredito, consequências negativas não vazias (inclui as assimetrias de custo entre caminhos), `referencia:` cita SPEC-002 e as duas origens informais (SPEC-010, docx). Autor revisou o resumo (quadro "Aprovações ANAC") e aprovou explicitamente. Chave de junção Básica×VRA e implementação da pergunta 6 seguem como premissa/bloqueio registrados, não pendências que impedem esta aprovação. |
 | 2026-08-31 | **v2 — correção pós-aprovação, decisão inalterada.** A pedido do autor, `rascunho/SPEC-010-ANAC-Perguntas_Analise-Deep_Dive-Gol.md` e `rascunho/Deep_Dive_Gol_ANAC_1a_.docx` foram excluídos do repositório; toda citação a eles no corpo desta DEC foi removida ou reescrita em prosa (o conteúdo que sustentavam — metodologia, achados de IQR/Pareto — já estava descrito por completo no texto, não dependia da citação). Citações a `rascunho/colunas.txt` substituídas por `SPEC-005` (Dicionário de Colunas — Básica), peça que o formaliza. `referencia:` do frontmatter atualizado para `SPEC-002` apenas. Nenhuma decisão de arquitetura muda; edição puramente de rastro/citação. |
+| 2026-08-31 | **v3 — correção pós-aprovação, decisão inalterada.** `basica_typed` foi retirada (cobria só ~27 das 112 colunas, com métrica derivada misturada — achado registrado em `SPEC-008 v3`); `trusted_essencial` passa a derivar de `basica_silver` (view nova, 112 colunas, organizada e comentada a partir de `SPEC-005`). §2.c, §2.e, §4.1, §4.2 atualizados — a decisão em si (`trusted_essencial` deriva da camada silver/typed do dataset) não muda, só o nome e o alcance do objeto concreto que a implementa. Pendência ainda aberta: se este tipo de mudança deveria ir por `supersede` em vez de versão (achado do `gov-check`, não resolvido pelo autor até esta edição). |
 
 ---
 
