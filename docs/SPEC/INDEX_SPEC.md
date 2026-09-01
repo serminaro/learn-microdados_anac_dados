@@ -31,7 +31,7 @@ projeto). Criado ao cruzar o limiar de ~10 documentos que a própria
 
 | Nº | Título | Data | Descrição curta |
 |---|---|---|---|
-| [SPEC-012](SPEC_012_Curated_Deep_Gol_Azul.md) | Curated Deep — Recorte GOL/Azul para Deep Dive | 2026-08-31 | Retroativa: documenta `basica_curated_deep` e `vra_curated_deep`, recorte GOL/Azul de 2021-01-01 em diante; achado de valor literal `"null"` em `vra_raw.dt_hr_partida_real` não documentado antes. |
+| [SPEC-012](SPEC_012_Curated_Deep_Gol_Azul.md) | Curated Deep — Recorte GOL/Azul para Deep Dive | 2026-08-31 | Retroativa (v2): `basica_curated_deep`, `vra_curated_deep` e `fato_rotacao_aeronave_gol_azul` (rotação por matrícula, validação temporal e geodésica via `dim_airport`); refuta premissa de fuso local e isola erro real de `km_distancia` (par `KMCN`/`KGUS`). |
 
 ## SPECs superseded
 

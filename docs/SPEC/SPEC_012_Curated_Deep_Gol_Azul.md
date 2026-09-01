@@ -1,7 +1,7 @@
 ---
 documento: SPEC-012
 titulo: Curated Deep — Recorte GOL/Azul para Deep Dive
-versao: v1
+versao: v2
 status: proposto
 data: 2026-08-31
 autor: Bruno Alexandre Serminaro
@@ -17,6 +17,13 @@ escopo: projeto
 > 2021-01-01 até a última data disponível em cada fonte. Retroativa —
 > construída a pedido direto do autor, sem SPEC prévia, mesmo padrão de
 > regularização do `DEC-004`/`SPEC-011`.
+>
+> **v2** acrescenta `fato_rotacao_aeronave_gol_azul` (mesmo banco de
+> `basica_curated_deep`): fato de grão etapa, enriquecida com rotação por
+> matrícula, validação temporal contra `nr_horas_voadas` e validação
+> geodésica de `km_distancia` via `dim_airport` — nasceu de uma premissa
+> do autor (usar `dim_airport` para normalizar fuso horário local) que a
+> medição **refutou** antes de desenhar o DDL (§6.4).
 
 ---
 
@@ -42,6 +49,10 @@ Reaproveita os papéis abstratos do `SPEC-002 §2` — nenhum papel novo.
 3. Achado de qualidade de dado no VRA bruto, descoberto durante a
    medição da janela, não documentado em `SPEC-009`/`SPEC-006` até agora
    (§6.2).
+4. *(v2)* Documentação de `fato_rotacao_aeronave_gol_azul`: desenho,
+   achado que refutou a premissa original de normalização de fuso (§6.4),
+   e os três blocos de validação medidos antes e depois de materializar
+   (temporal, continuidade espacial, geodésica) (§4.2, §5.3, §6.4).
 
 ### 3.2 Fora de escopo
 
@@ -56,6 +67,12 @@ Reaproveita os papéis abstratos do `SPEC-002 §2` — nenhum papel novo.
 - Corrigir o achado do §6.2 na `vra_silver`/`vra_raw` — registrado aqui
   como achado, tratamento (se necessário) é decisão futura de quem for
   revisar `SPEC-009`.
+- *(v2)* Investigar a fundo as 3.759 linhas de continuidade quebrada
+  (§6.4) ou o par `KMCN`/`KGUS` de `km_distancia` incorreto (§6.4) — os
+  dois ficam registrados como achado, não resolvidos.
+- *(v2)* Corrigir `km_distancia` na fonte (`basica_raw`/`basica_silver`)
+  para o par `KMCN`/`KGUS` — a validação geodésica só sinaliza, não
+  corrige o dado de origem.
 
 ## 4. Fonte e proveniência
 
@@ -81,6 +98,25 @@ próprio (`sg_empresa_icao`, data) é o trade-off correto — mesmo raciocínio
 de performance do `voo_trusted` cancelado, sem a complexidade de `ATTACH`
 cross-banco porque cada tabela vem de uma fonte só.
 
+### 4.2 `fato_rotacao_aeronave_gol_azul` *(v2)*
+
+```
+basica_curated_deep (esta SPEC, §4.1)
+  ⨯ dim_airport_location_time_zone (SPEC-011, LEFT JOIN por ICAO origem
+    e por ICAO destino — dois joins independentes, um por ponta da rota)
+  → window functions (ROW_NUMBER/LAG) particionadas por ds_matricula,
+    ordenadas por partida real
+  → sql/curated_deep/DDL_003_fato_rotacao_aeronave_gol_azul_create_table_sqlite.sql
+  → fato_rotacao_aeronave_gol_azul (tabela, db/anac_basica.sqlite)
+```
+
+Mesmo banco de `basica_curated_deep` e `dim_airport_location_time_zone`
+— não precisa de `ATTACH`, os três objetos já vivem em
+`anac_basica.sqlite`. Tabela materializada (não view): medido, o build
+completo (window function + 2 joins geodésicos sobre 2.743.964 linhas)
+levou 35,7s — uma view recalcularia isso a cada consulta, viável mas
+mais lento que reutilizar a tabela já pronta para análise iterativa.
+
 ## 5. Colunas
 
 ### 5.1 `basica_curated_deep` — 29 essenciais (`SPEC-005 §5`)
@@ -103,6 +139,29 @@ de `basica_silver`, nenhuma coluna a mais ou a menos.
 `dt_hr_partida_real`, `dt_hr_chegada_prevista`, `dt_hr_chegada_real`,
 `ds_situacao_voo`, `cd_justificativa`. Confirmado: 12, sem corte — o VRA
 já era compacto o bastante (`SPEC-006 §5`).
+
+### 5.3 `fato_rotacao_aeronave_gol_azul` *(v2)* — herdadas + 9 derivadas
+
+Herda de `basica_curated_deep`: `id_basica`, `sg_empresa_icao`, `nr_voo`,
+`ds_matricula`, `sg_equipamento_icao`, `ds_modelo`, `sg_icao_origem`,
+`sg_icao_destino`, `dt_partida_real`, `hr_partida_real`,
+`dt_chegada_real`, `hr_chegada_real`, `km_distancia`, `nr_horas_voadas`
+(14 colunas, subconjunto das 29 — as de referência de boletim/calendário
+não entram, não fazem parte de nenhum cálculo desta fato).
+
+Derivadas, três blocos:
+
+| Bloco | Coluna | Cálculo |
+|---|---|---|
+| Rotação | `nr_sequencia_matricula` | `ROW_NUMBER() OVER (PARTITION BY ds_matricula ORDER BY partida)` |
+| Rotação | `sg_icao_destino_anterior` | `LAG(sg_icao_destino)` na mesma partição/ordem |
+| Rotação | `dt_chegada_anterior` | `LAG(datetime chegada)` idem |
+| Rotação | `fl_continuidade_ok` | `1` se `sg_icao_origem = sg_icao_destino_anterior`, `0` se diverge, `NULL` na primeira etapa da matrícula na janela |
+| Rotação | `tempo_solo_horas` | partida desta etapa − chegada da etapa anterior; `NULL` na primeira etapa |
+| Validação temporal | `tempo_etapa_horas` | chegada − partida desta etapa |
+| Validação temporal | `delta_horas_voadas` | `tempo_etapa_horas − nr_horas_voadas` |
+| Validação geodésica | `km_distancia_geodesica` | Haversine (lei dos cossenos esféricos) via `latitude`/`longitude` do `dim_airport`, origem e destino |
+| Validação geodésica | `delta_km_distancia` | `km_distancia − km_distancia_geodesica` |
 
 ## 6. Medição da janela e achados antes de materializar
 
@@ -149,6 +208,67 @@ porque são dado real na fonte ("última data que temos" era o pedido
 literal), mas registradas aqui como mês incompleto — qualquer agregação
 mensal precisa excluir ou tratar `2026-08` separadamente.
 
+### 6.4 *(v2)* `fato_rotacao_aeronave_gol_azul`: premissa refutada e três
+validações medidas
+
+**Achado que muda o desenho original.** A ideia inicial do autor era usar
+`dim_airport` para normalizar fuso horário local antes de calcular a
+duração de cada etapa (`hr_chegada_real − hr_partida_real`), partindo da
+premissa de que esses horários são hora local de cada aeroporto — o
+Brasil tem 3 fusos (`UTC-2` a `UTC-5`) e há destino internacional na base.
+Testado **antes** de desenhar qualquer DDL: comparei a subtração ingênua
+(sem nenhuma normalização) contra `nr_horas_voadas` em rotas de fuso
+diferente e conhecido —
+
+| Rota | Fusos (`dim_airport`) | Partida | Chegada | Diferença bruta | `nr_horas_voadas` |
+|---|---|---|---|---|---|
+| SBKP→KFLL (Miami) | UTC-3 → UTC-5 | 01:11 | 09:36 | 8,4167h | 8,41667 |
+| SBKP→SBRB (Rio Branco) | UTC-3 → UTC-5 | 10:18 | 14:07 | 3,8167h | 3,81667 |
+
+Bate exato mesmo cruzando 2h reais de diferença de fuso. **Conclusão: os
+horários da Básica já estão num referencial único (provavelmente horário
+de Brasília fixo), não hora local por aeroporto** — `dim_airport` não
+serve para essa normalização porque ela não é necessária. Medido depois,
+sobre as 2.743.964 linhas inteiras (não só a amostra): confirma-se por
+completo (ver validação temporal abaixo).
+
+**Papel revisado de `dim_airport`**: não normaliza fuso, mas (a)
+enriquece a rotação com contexto geográfico e (b) valida `km_distancia`
+por distância geodésica — uso novo, não coberto por nenhuma SPEC
+anterior.
+
+**Validação temporal** (`delta_horas_voadas`, toda a tabela): máximo
+absoluto `0,0000333h` (~0,1 segundo) em 2.743.964 linhas — o achado da
+amostra generaliza por completo, zero linha com delta relevante. Duas
+linhas têm `tempo_etapa_horas = 0` (partida e chegada idênticas,
+`nr_horas_voadas = 0.0` também — os dois concordam entre si, mas não
+fazem sentido operacional; anomalia isolada, não tratada,
+`id_basica` 30170801 e 30513522).
+
+**Validação de continuidade** (`fl_continuidade_ok`, rotação por
+`ds_matricula`): 433 matrículas distintas na janela; 2.743.531 linhas têm
+etapa anterior (as demais são primeira etapa de sua matrícula dentro da
+janela, efeito de borda, não falta de dado). Dessas, **99,86%**
+(2.739.772) têm continuidade espacial (destino da etapa anterior =
+origem desta); **0,14%** (3.759 linhas) quebrada — não investigado a
+fundo, fica como achado (§11). 100% das linhas têm `ds_matricula`
+preenchida neste recorte — melhor que os ~12% de nulo que `SPEC-005`
+registra para o histórico completo da Básica (o gap parece concentrado
+fora de GOL/Azul 2021+, não confirmado além disso).
+
+**Validação geodésica** (`delta_km_distancia`): cobertura de
+`dim_airport` é 100% (zero ICAO de origem/destino sem match, confirmado
+antes de construir). Média de diferença: 0,03 km (30 metros) — ruído
+normal entre rota real e linha geodésica. Distribuição: 2.743.962 linhas
+(99,9999%) com diferença ≤10 km; só **2 linhas** com diferença >50 km —
+ambas o mesmo par de aeroportos, `KMCN`↔`KGUS` (EUA, matrícula `AUC`),
+`km_distancia = 6547` reportado contra `912,2` km geodésico real (delta
+de 5.634,8 km). `tempo_etapa_horas` dessas duas linhas bate exato com
+`nr_horas_voadas` (2,28h/1,67h) — consistente com voo real de
+posicionamento/manutenção fora do Brasil, curto (≈900km reais), onde o
+`km_distancia` da fonte ANAC está incorreto. Achado real de qualidade de
+dado, isolado pela validação geodésica; não corrigido nesta SPEC (§3.2).
+
 ## 7. Critérios de sucesso
 
 - **C-01** — `basica_curated_deep` contém exatamente as 29 colunas
@@ -165,6 +285,19 @@ mensal precisa excluir ou tratar `2026-08` separadamente.
   `vra_raw.dt_hr_partida_real`) fica registrado para uma futura revisão
   de `SPEC-009`. **Cumprido nesta SPEC** (registro feito); tratamento na
   `vra_silver` em si é não-objetivo (§3.2).
+- **C-04** *(novo, v2)* — `fato_rotacao_aeronave_gol_azul` calcula
+  `tempo_etapa_horas` sem depender de `dim_airport` para fuso, e o
+  resultado bate com `nr_horas_voadas`. **Cumprido**: delta máximo
+  absoluto de 0,0000333h em 2.743.964 linhas (§6.4).
+- **C-05** *(novo, v2)* — Rotação por `ds_matricula` reconstruída com
+  taxa de continuidade espacial medida, não assumida. **Cumprido**:
+  99,86% (2.739.772/2.743.531 com etapa anterior), 433 matrículas
+  distintas, cobertura de `dim_airport` 100% (§6.4).
+- **C-06** *(novo, v2)* — Validação geodésica de `km_distancia` via
+  `dim_airport` (haversine) implementada e capaz de isolar achado real de
+  qualidade de dado. **Cumprido**: par `KMCN`/`KGUS` isolado (delta
+  5.634,8 km), 99,9999% das linhas dentro de 10 km de ruído normal
+  (§6.4).
 
 ## 8. Premissas e dependências
 
@@ -176,6 +309,14 @@ mensal precisa excluir ou tratar `2026-08` separadamente.
 - `ACN` fora do escopo é premissa de leitura do pedido do autor ("GOL e
   Azul"), não confirmação formal de que Azul Conecta deveria ficar de
   fora de toda análise futura — reabre se o autor pedir o contrário.
+- *(v2)* `fato_rotacao_aeronave_gol_azul` assume que a hipótese "horário
+  único, não local por aeroporto" (§6.4) generaliza para todo o histórico
+  da Básica, não só para a janela GOL/Azul 2021+ testada — não confirmado
+  para outras empresas nem para anos anteriores a 2021.
+- *(v2)* Depende de `dim_airport_location_time_zone` (`SPEC-011`)
+  continuar cobrindo 100% dos ICAO usados por GOL/Azul — se a frota ou as
+  rotas mudarem para aeroportos fora dos 858 já carregados, a validação
+  geodésica passa a ter `NULL`s silenciosos para essas linhas.
 
 ## 9. Não-objetivos
 
@@ -187,6 +328,15 @@ mensal precisa excluir ou tratar `2026-08` separadamente.
 - Não é objetivo garantir que `2021-01-01` é o início "certo" da janela
   para toda pergunta de análise futura — foi o corte pedido pelo autor
   para este recorte, não uma validação de que é o período ideal.
+- *(v2)* Não é objetivo investigar as 3.759 linhas de continuidade
+  quebrada (§6.4) uma a uma — ficam como população identificada, não
+  como casos individualmente explicados.
+- *(v2)* Não é objetivo corrigir `km_distancia` na fonte para o par
+  `KMCN`/`KGUS` (§6.4) — a validação geodésica sinaliza, correção é
+  decisão futura de quem revisar `basica_raw`/`basica_silver`.
+- *(v2)* Não é objetivo generalizar a hipótese do §6.4 (horário único,
+  não local) para outras empresas ou para o histórico anterior a 2021 —
+  testado só para GOL/Azul dentro desta janela.
 
 ## 10. Regras checáveis (R-COL)
 
@@ -196,6 +346,8 @@ mensal precisa excluir ou tratar `2026-08` separadamente.
 | **R-COL-27** *(novo)* | `basica_curated_deep` tem exatamente as 29 colunas essenciais de `SPEC-005 §5`, mesmos nomes. | `PRAGMA table_info(basica_curated_deep)` × `SPEC-005 §5` | Alta |
 | **R-COL-28** *(novo)* | `vra_curated_deep` contém só `sg_empresa_icao IN ('GLO','AZU')`, mesma janela de `basica_curated_deep` (`>= 2021-01-01`). | `SELECT COUNT(*) FROM vra_curated_deep WHERE sg_empresa_icao NOT IN ('GLO','AZU')` deve ser `0` | Alta |
 | **R-COL-29** *(novo)* | `vra_curated_deep` tem as 12 colunas de `SPEC-006 §5`, sem corte. | `PRAGMA table_info(vra_curated_deep)` × `SPEC-006 §5` | Média |
+| **R-COL-30** *(novo, v2)* | `delta_horas_voadas` em `fato_rotacao_aeronave_gol_azul` nunca excede 0,01h (36s) em valor absoluto — se exceder, a hipótese do §6.4 (horário único) parou de valer para alguma linha nova (ex.: recarga futura, dado de outra empresa). | `SELECT MAX(ABS(delta_horas_voadas)) FROM fato_rotacao_aeronave_gol_azul` deve ser `< 0.01` | Alta |
+| **R-COL-31** *(novo, v2)* | Nenhuma linha de `fato_rotacao_aeronave_gol_azul` tem `km_distancia_geodesica IS NULL` enquanto `dim_airport` cobrir 100% dos ICAO usados (§6.4) — `NULL` sinaliza aeroporto novo sem match na dimensão. | `SELECT COUNT(*) FROM fato_rotacao_aeronave_gol_azul WHERE km_distancia_geodesica IS NULL` deve ser `0` | Média |
 
 ## 11. Limitações conhecidas
 
@@ -217,6 +369,17 @@ mensal precisa excluir ou tratar `2026-08` separadamente.
   execução nem o DDL sobreviveram — build cancelado em andamento, arquivo
   excluído a pedido do autor. Quem retomar precisa redesenhar do zero ou
   recuperar do histórico de conversa, não há artefato em `sql/`.
+- *(v2)* `fato_rotacao_aeronave_gol_azul` tem 3.759 linhas de
+  continuidade quebrada não investigadas (§6.4) — podem ser reposição de
+  aeronave não capturada como etapa, troca de matrícula, ou erro de dado;
+  causa não confirmada.
+- *(v2)* `km_distancia` está confirmadamente errado para o par
+  `KMCN`/`KGUS` (matrícula `AUC`, 2 linhas) — quem usar `km_distancia`
+  direto de `basica_curated_deep` (não desta fato) herda o mesmo erro sem
+  aviso, porque a validação geodésica só existe aqui.
+- *(v2)* `fl_continuidade_ok`/`tempo_solo_horas` são `NULL` na primeira
+  etapa de cada matrícula dentro da janela — efeito de borda (a aeronave
+  pode ter voado antes de 2021, fora do recorte), não falta de dado real.
 
 ## 12. Critérios de revisão
 
@@ -233,12 +396,19 @@ Revisitar esta SPEC quando:
 - O achado do §6.2 for investigado a fundo e `SPEC-009`/`vra_silver`
   forem atualizadas para tratá-lo — esta SPEC deve then referenciar o
   tratamento, não só o achado.
+- *(v2)* Alguém investigar as 3.759 linhas de continuidade quebrada e
+  encontrar causa sistemática (não caso a caso) — atualizar §6.4/§11 com
+  o achado.
+- *(v2)* `km_distancia` for corrigido na fonte para `KMCN`/`KGUS` —
+  `delta_km_distancia` dessas duas linhas deixa de ser outlier,
+  atualizar §6.4.
 
 ## 13. Histórico
 
 | Data | Evento |
 |---|---|
 | 2026-08-31 | SPEC-012 v1 produzida em status `proposto`, retroativa. Documenta `basica_curated_deep` (2.743.964 linhas, 29 colunas) e `vra_curated_deep` (2.697.490 linhas, 12 colunas), ambas já carregadas a pedido direto do autor. Achado novo registrado (§6.2): valor literal `"null"` em `vra_raw.dt_hr_partida_real` e risco de comparação de texto direta em data de formato duplo — não documentado em `SPEC-009`/`SPEC-006` até agora. Aguardando aprovação do autor. |
+| 2026-08-31 | **v2 — `fato_rotacao_aeronave_gol_azul` acrescentada.** Autor propôs usar `dim_airport` para normalizar fuso horário local antes de calcular duração de etapa; testado antes de desenhar o DDL e **refutado**: horários da Básica já estão num referencial único, não local por aeroporto (§6.4, evidência: subtração ingênua bate exato com `nr_horas_voadas` cruzando fusos reais de 2h). Papel de `dim_airport` redesenhado para rotação por matrícula (continuidade espacial, 99,86% medido) e validação geodésica de `km_distancia` (haversine) — isolou achado real: par `KMCN`/`KGUS` com `km_distancia` incorreto na fonte (delta 5.634,8 km, 2 linhas). `voo_trusted` (cancelada) citada em §3.2/§11 corrigida para refletir que o arquivo foi excluído, não só "cancelado". C-04/C-05/C-06, R-COL-30/31 novos. §3.1, §3.2, §4.2, §5.3, §6.4, §8, §9, §11, §12 atualizados. |
 
 ---
 
