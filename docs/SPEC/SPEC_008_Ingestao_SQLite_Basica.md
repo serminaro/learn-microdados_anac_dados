@@ -1,7 +1,7 @@
 ---
 documento: SPEC-008
 titulo: Ingestão SQLite — Básica
-versao: v3
+versao: v4
 status: aprovado
 data: 2026-08-31
 autor: Bruno Alexandre Serminaro
@@ -122,8 +122,8 @@ ou uma futura camada de análise), não da silver.
   documentação. **Cumprido.**
 - **C-03** — Carga estendida a 2010-2026 executada sem erro,
   com o achado de schema (§4) tratado, não ignorado. **Cumprido**:
-  15.607.396 linhas, `basica_raw` em 16 GB, `MIN`/`MAX` de
-  `nr_ano_referencia` confirmando 2010-2026.
+  15.694.136 linhas (atualizado em 2026-08-31, inclui 2026-07), `basica_raw`
+  em 16 GB, `MIN`/`MAX` de `nr_ano_referencia` confirmando 2010-2026.
 - **C-04** *(novo, v3)* — `basica_silver` criada com as 112 colunas de
   `basica_raw`, tipos e organização batendo com `SPEC-005`. **Cumprido**
   — validado por amostra (`GLO`, datas/horas formatadas, `nr_horas_voadas`
@@ -135,7 +135,7 @@ ou uma futura camada de análise), não da silver.
 
 - Ambiente `pesquisa-azul` (conda) disponível para rodar os scripts
   Python — mesma premissa do `SPEC-002 §6`.
-- Cobertura de carga: **2010-01 a 2026-06, confirmada** — resolve, não
+- Cobertura de carga: **2010-01 a 2026-07, confirmada** — resolve, não
   mais premissa, a divergência que a v1 desta SPEC deixava em aberto.
 
 ## 9. Não-objetivos
@@ -152,7 +152,7 @@ ou uma futura camada de análise), não da silver.
 | ID | Regra | Onde verificar | Severidade |
 |---|---|---|---|
 | **R-COL-09** | O pipeline descrito em §4 bate com os scripts reais em `scripts/`, `src/ingestao_sqlite/`, `sql/ingestao_sqlite/`, `sql/tratamento/`. | Leitura dos scripts × §4-§6 | Média |
-| **R-COL-16** | `basica_raw` cobre 2010-01 a 2026-06 sem lacuna de mês; `nr_chave` é sempre `NULL` para `nr_ano_referencia < 2020` (pode ser `NULL` também depois, não é erro). | `MIN`/`MAX(nr_ano_mes_arquivo)` e `SELECT DISTINCT nr_ano_referencia WHERE nr_chave IS NULL` | Alta |
+| **R-COL-16** | `basica_raw` cobre 2010-01 a 2026-07 sem lacuna de mês; `nr_chave` é sempre `NULL` para `nr_ano_referencia < 2020` (pode ser `NULL` também depois, não é erro). | `MIN`/`MAX(nr_ano_mes_arquivo)` e `SELECT DISTINCT nr_ano_referencia WHERE nr_chave IS NULL` | Alta |
 | **R-COL-17** *(novo, v3)* | `basica_silver` contém exatamente as 112 colunas de `SPEC-005`, mesmos nomes (minúsculo), sem coluna a mais ou a menos. | `PRAGMA table_info(basica_silver)` × `SPEC-005 §5` | Alta |
 
 ## 11. Limitações conhecidas
@@ -184,6 +184,7 @@ Revisitar esta SPEC quando:
 | 2026-08-31 | **Aprovada.** Autor revisou o lote e aprovou explicitamente. |
 | 2026-08-31 | **v2 — carga estendida a 2010-2023.** Achado: cabeçalho da Básica muda em 2020-01 (`nr_chave` some antes disso) — resolve `SPEC-002 C-02` em achado confirmado, não mais hipótese. `SRC_001` corrigido para tratar as duas formas de cabeçalho sem falhar. Carga executada: 15.607.396 linhas, 16 GB, 2010-01 a 2026-06 confirmado. C-03 e R-COL-16 adicionados. |
 | 2026-08-31 | **v3 — camada silver.** `basica_typed` retirada (~27 colunas, métrica derivada misturada); `basica_silver` criada (112 colunas, `DDL_003_basica_view_silver_sqlite.sql`, gerado a partir de `SPEC-005`, organizado em 8 categorias, comentário por coluna). Refinamento do achado do `nr_chave`: existe desde 2020, mas nem toda linha pós-2020 o preenche (98,8% nulo em 2020, não 0%). §3.1, §4, §6, §7 (C-04 novo), §10 (R-COL-17 novo), §11 atualizados. |
+| 2026-08-31 | **v4 — correção pós-aprovação, decisão inalterada (`R-TAX-11`).** Achado: `SRC_001_basica_load_sqlite.py` tinha corte hardcoded (`if ano == 2026 and mes > 6: continue`) escrito quando junho/2026 era o mês mais recente disponível — `2026-07`, já baixado em disco (`.zip`), nunca era tentado pela carga, apesar de `§4` já documentar o download correto. Não é achado de dado, é dívida de código deixada por trás do download. Corrigido: `month_files()` agora descobre por existência de arquivo, não por mês fixo — não fica obsoleto no próximo mês baixado. Recarregado: `basica_raw` de 15.607.396 para **15.694.136** linhas (+86.740, `2026-07`), `basica_silver` (view) reflete automaticamente. §4, §7 (C-03), §8, §10 (R-COL-16) atualizados. |
 
 ---
 

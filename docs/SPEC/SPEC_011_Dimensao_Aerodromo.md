@@ -1,7 +1,7 @@
 ---
 documento: SPEC-011
 titulo: Dimensão de Aeródromo — Localização e Fuso Horário
-versao: v1
+versao: v2
 status: aprovado
 data: 2026-08-31
 autor: Bruno Alexandre Serminaro
@@ -57,7 +57,7 @@ data/aerodromos_enriquecido.csv (913 linhas na granularidade ICAO+IATA
   → dedup por BASE_ICAO, fica a linha de maior QT_OCORRENCIAS
        (858 ICAO únicos)
   → src/ingestao_sqlite/SRC_004_dim_airport_load_sqlite.py
-  → sql/ingestao_sqlite/DDL_005_dim_airport_create_table.sql
+  → sql/ingestao_sqlite/DDL_004_dim_airport_create_table.sql
   → dim_airport_location_time_zone (tabela, db/anac_basica.sqlite)
 ```
 
@@ -198,6 +198,7 @@ Revisitar esta SPEC quando:
 | 2026-08-31 | SPEC-011 v1 produzida em status `proposto`, retroativa. Documenta `dim_airport_location_time_zone`, carregada em `anac_basica.sqlite` a partir do recorte de 283 linhas fornecido pelo autor. Materializa a `DEC-009`. Aguardando aprovação do autor. |
 | 2026-08-31 | Completada a pedido do autor: fonte trocada para `data/aerodromos_enriquecido.csv` (858 aeródromos, 5 `SEM_MATCH` excluídos, dedup por maior `QT_OCORRENCIAS`). Achados novos: fuso de meia hora (`utc_offset` de `INTEGER` para `REAL`), 8 aeródromos `MANUAL_KEYWORD` sem município/país, e `SBQV` com ICAO reatribuído entre dois aeroportos físicos. §3.2, §4-§9, §10 (R-COL-22/23 novos), §11, §12 atualizados. |
 | 2026-08-31 | **Aprovada.** Autor revisou o lote (DEC-009 + SPEC-011) e aprovou explicitamente. |
+| 2026-08-31 | **v2 — correção pós-aprovação, decisão inalterada (`R-TAX-11`).** Renomeado `sql/ingestao_sqlite/DDL_005_dim_airport_create_table.sql` → `DDL_004_...` (numeração local da pasta pulava o 004; corrigido antes de criar `siros_silver`, que teria colidido no 005 se a numeração fosse global entre pastas — ver achado registrado em `DEC-001 §6.6`, não resolvido, só a colisão evitada). §4 atualizado. |
 
 ---
 

@@ -1,7 +1,7 @@
 ---
 documento: DEC-008
 titulo: Ingestão das 3 bases ANAC no caminho SQLite — padrão comum e detalhamento por SPEC
-versao: v3
+versao: v4
 status: aprovado
 data: 2026-08-31
 autor: Bruno Alexandre Serminaro
@@ -55,8 +55,9 @@ e comentário por coluna (fonte: `SPEC-005`/`SPEC-006`/`SPEC-007`) — nome
 atualizado de "typed" para "silver" em 2026-08-31 (pedido do autor,
 reconcilia com o vocabulário que `plano_objetos_snowflake.md` já usa no
 caminho Snowflake, raw→prata→ouro). Já implementado para Básica
-(`basica_silver`) e VRA (`vra_silver`); SIROS segue como `siros_silver`
-proposto (renomeado de `siros_typed`, `SPEC-010`), ainda não construído.
+(`basica_silver`), VRA (`vra_silver`) e SIROS (`siros_silver`, implementado
+em 2026-08-31, `SPEC-010 v5` — mesmo achado de formato duplo de data já
+visto no VRA, direção oposta, tratado por `GLOB`).
 
 **(b) Detalhamento de cada base vira SPEC própria**, autorizada por esta
 DEC:
@@ -195,6 +196,7 @@ Esta decisão deve ser revisitada se:
 | 2026-08-31 | **Aprovada.** Autor revisou o lote e aprovou explicitamente. |
 | 2026-08-31 | **v2 — correção pós-aprovação, decisão inalterada.** Camada renomeada de "typed" para "silver" (pedido do autor): `basica_typed` retirada e substituída por `basica_silver` (112 colunas, achado de que a antiga cobria só ~27); `vra_silver` implementado do zero (`vra_typed` nunca chegou a existir). Validação de `vra_silver` revelou dois achados novos: formato de data do VRA muda de novo entre 2018-12 e 2019-01 (`DD/MM/AAAA` → ISO), e os arquivos de 2020-02/2020-03 têm 5 colunas corrompidas na fonte (`Microsoft.SqlServer.Dts.Pipeline.BlobColumn`) — tratados na view (`NULL` nas colunas afetadas, linha preservada), não na `basica_raw`/`vra_raw`. §1, §2.a, §3 atualizados. Pendência ainda aberta: mecanismo de correção pós-aprovação (versão vs. supersede) segue sem decisão do autor. |
 | 2026-08-31 | **v3 — correção pós-aprovação, decisão inalterada (`R-TAX-11`).** Terminologia stale em §2.d e §5.2 corrigida: `siros_typed` → `siros_silver`, alinhando com a renomeação já registrada em §2.a (v2) e em `SPEC-010 v4`. Achado do `gov-check` (2026-08-31): mesma rodada em que `R-TAX-11` foi formalizada no `SPEC-001`, resolvendo a pendência que a entrada v2 acima registrava. |
+| 2026-08-31 | **v4 — `siros_silver` implementado.** As três bases agora têm silver real. Achado (`SPEC-010 v5`): `dt_registro` do SIROS tem quebra de formato análoga à do VRA, direção oposta — tratado antes de materializar, não depois. §1 atualizado. |
 
 ---
 

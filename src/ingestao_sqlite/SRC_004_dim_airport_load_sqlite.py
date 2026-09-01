@@ -31,7 +31,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parents[2]
 CSV_PATH = RAIZ / "data" / "aerodromos_enriquecido.csv"
 DB_PATH = RAIZ / "db" / "anac_basica.sqlite"
-DDL_PATH = RAIZ / "sql" / "ingestao_sqlite" / "DDL_005_dim_airport_create_table.sql"
+DDL_PATH = RAIZ / "sql" / "ingestao_sqlite" / "DDL_004_dim_airport_create_table.sql"
 
 
 def limpar(v):

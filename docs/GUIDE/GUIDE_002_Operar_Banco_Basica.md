@@ -43,11 +43,15 @@ bash scripts/BASH_001_basica_download.sh
 ```
 
 O passo 2 recria `basica_raw` se não existir (via
-`sql/ingestao_sqlite/DDL_001_basica_create_table.sql`) e cobre 2010-01 a
-2026-06 por padrão (`month_files()` no script — editar o `range(2010,
-2027)` ali para mudar o intervalo). Roda em ~40-45 min na carga
-completa (2026-08-31, medido); reexecuções incrementais são rápidas
-porque pulam mês já carregado.
+`sql/ingestao_sqlite/DDL_001_basica_create_table.sql`) e cobre todo mês de
+`data/anac/basica/*.zip` já baixado, a partir de 2010-01
+(`month_files()` descobre por existência de arquivo, não por mês
+hardcoded — corrigido em 2026-08-31, `SPEC-008 v4`, um corte fixo antigo
+deixava mês novo baixado sem carregar). Roda ~12-13 min por execução
+completa (2026-08-31, medido em duas rodadas): **reexecução não é mais
+rápida que a primeira** — o script relê todos os arquivos toda vez,
+`INSERT OR IGNORE` só evita duplicar linha já carregada, não pula mês
+inteiro. Idempotente, mas não incremental em tempo de execução.
 
 Para (re)gerar a view silver (idempotente — o script começa com `DROP
 VIEW IF EXISTS basica_silver`):
@@ -113,6 +117,7 @@ de 16 GB sem índice nas colunas mais comuns de filtro livre
 |---|---|
 | 2026-08-31 | GUIDE-002 v1 produzido em status `proposto`. Primeiro de três GUIDEs de banco de dados. Aguardando aprovação do autor. |
 | 2026-08-31 | Atualizado (ainda v1/`proposto`, sem mudança de status): `basica_typed` retirada, substituída por `basica_silver` (`SPEC-008 v3`). §1, §3, §4, §5 revisados. |
+| 2026-08-31 | Atualizado de novo: corte de mês fixo no loader corrigido (`SPEC-008 v4`), cobertura real passa a ser 2010-01 a 2026-07. Corrigida também a afirmação de que reexecução incremental é rápida — não é, o script relê tudo toda vez. §3 revisado. |
 
 ---
 

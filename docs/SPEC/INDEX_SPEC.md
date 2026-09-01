@@ -24,12 +24,14 @@ projeto). Criado ao cruzar o limiar de ~10 documentos que a própria
 | [SPEC-007](SPEC_007_Colunas_Essenciais_SIROS.md) | Colunas Essenciais — SIROS | 2026-08-31 | Levantamento das 28 colunas do SIROS, grounded em arquivo real; achado de que é registro de autorização de slot, não voo-por-data. |
 | [SPEC-008](SPEC_008_Ingestao_SQLite_Basica.md) | Ingestão SQLite — Básica | 2026-08-31 | Retroativa: documenta o pipeline de ingestão da Básica já implementado (raw → silver, 112 colunas). |
 | [SPEC-009](SPEC_009_Ingestao_SQLite_VRA.md) | Ingestão SQLite — VRA | 2026-08-31 | Implementada: `vra_raw`/`vra_silver` carregados (17.459.155 linhas, 2010-2026); dois achados de qualidade de dado (formato de data, corrupção BlobColumn) documentados e tratados. |
-| [SPEC-010](SPEC_010_Ingestao_SQLite_SIROS.md) | Ingestão SQLite — SIROS | 2026-08-31 | `siros_raw` implementado (carga semanal, 10.677.382 linhas); DDL `siros_silver` (renomeado de `siros_typed`) segue proposto, não implementado. Expansão autorização→voo-por-data fora de escopo. |
+| [SPEC-010](SPEC_010_Ingestao_SQLite_SIROS.md) | Ingestão SQLite — SIROS | 2026-08-31 | `siros_raw`/`siros_silver` implementados (10.677.382 linhas); achado de formato duplo de data (`dt_registro`, análogo ao VRA, direção oposta) tratado antes de materializar. Expansão autorização→voo-por-data fora de escopo. |
 | [SPEC-011](SPEC_011_Dimensao_Aerodromo.md) | Dimensão de Aeródromo — Localização e Fuso Horário | 2026-08-31 | Retroativa: documenta `dim_airport_location_time_zone` (858 aeródromos, sem colunas de horário de verão), carregada em `anac_basica.sqlite`. Materializa `DEC-009`. |
 
 ## SPECs de conteúdo (status `proposto`)
 
-_(nenhuma no momento)_
+| Nº | Título | Data | Descrição curta |
+|---|---|---|---|
+| [SPEC-012](SPEC_012_Curated_Deep_Gol_Azul.md) | Curated Deep — Recorte GOL/Azul para Deep Dive | 2026-08-31 | Retroativa: documenta `basica_curated_deep` e `vra_curated_deep`, recorte GOL/Azul de 2021-01-01 em diante; achado de valor literal `"null"` em `vra_raw.dt_hr_partida_real` não documentado antes. |
 
 ## SPECs superseded
 

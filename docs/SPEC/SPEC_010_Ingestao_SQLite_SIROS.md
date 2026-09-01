@@ -1,7 +1,7 @@
 ---
 documento: SPEC-010
 titulo: Ingestão SQLite — SIROS
-versao: v4
+versao: v5
 status: aprovado
 data: 2026-08-31
 autor: Bruno Alexandre Serminaro
@@ -167,32 +167,64 @@ Sem chave primária natural única confirmada — `nr_siros` parece candidato
 (`SPEC-007 §5`, ex. `AAL-014694106`), mas unicidade não testada (repete
 entre semanas por natureza, ver §4).
 
-## 6. DDL silver proposto — `siros_silver`
+## 6. DDL silver implementado — `siros_silver`
+
+Implementada em 2026-08-31 (`sql/tratamento/DDL_005_siros_view_silver_
+sqlite.sql`). Antes de materializar, medido contra `siros_raw` inteiro:
+
+### Achado: `dt_registro` tem a mesma quebra de formato do VRA, direção oposta
+
+O DDL originalmente proposto (v4 desta SPEC) usava `datetime(dt_registro)`
+incondicional — teria devolvido `NULL` silencioso para mais da metade da
+tabela. Medido: **4.851.007 linhas em ISO** (`AAAA-MM-DD HH:MM:SS`, era
+CSV, até meados de 2024) e **5.826.375 em `DD/MM/AAAA HH:MM:SS`** (era
+JSON, a partir de meados de 2024) — zero linhas em terceiro formato.
+Mesmo padrão do `SPEC-009` achado 1 (VRA), mas invertido: lá a mudança foi
+`DD/MM`→ISO ao longo do tempo; aqui é ISO→`DD/MM`. Detectado e convertido
+por `GLOB`, mesma técnica.
+
+`dt_inicio_operacao`/`dt_fim_operacao` **não** têm esse problema — sempre
+ISO, só mudam de granularidade (datetime completo na era CSV, ex.
+`"2020-03-08 00:00:00"`; só data na era JSON, ex. `"2024-04-01"`) —
+`date()` trata os dois sem `CASE` extra (medido, zero divergência real
+depois de descontar a diferença de granularidade).
 
 ```sql
 CREATE VIEW siros_silver AS
 SELECT
-    cd_empresa, nm_empresa, nr_voo, sg_equipamento_icao,
+    NULLIF(cd_empresa, '') AS cd_empresa, NULLIF(nm_empresa, '') AS nm_empresa,
+    NULLIF(nr_voo, '') AS nr_voo, NULLIF(sg_equipamento_icao, '') AS sg_equipamento_icao,
     fl_opera_segunda, fl_opera_terca, fl_opera_quarta, fl_opera_quinta,
     fl_opera_sexta, fl_opera_sabado, fl_opera_domingo,
-    CAST(nr_assentos_ofertados AS INTEGER) AS nr_assentos_ofertados,
-    nr_siros,
-    ds_situacao_siros,
-    datetime(dt_registro)       AS dt_registro,
-    date(dt_inicio_operacao)    AS dt_inicio_operacao,
-    date(dt_fim_operacao)       AS dt_fim_operacao,
-    ds_natureza_operacao,
-    CAST(nr_etapa AS INTEGER)   AS nr_etapa,
-    cd_origem, nm_aerodromo_origem, cd_destino, nm_aerodromo_destino,
-    time(hr_partida)            AS hr_partida,
-    time(hr_chegada)            AS hr_chegada,
-    ds_tipo_servico, ds_objeto_transporte, ds_codeshare,
-    date(dt_arquivo)            AS dt_arquivo
+    CAST(NULLIF(nr_assentos_ofertados, '') AS INTEGER) AS nr_assentos_ofertados,
+    NULLIF(nr_siros, '') AS nr_siros, NULLIF(ds_situacao_siros, '') AS ds_situacao_siros,
+    CASE
+        WHEN dt_registro GLOB '[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]*'
+            THEN datetime(dt_registro)
+        WHEN dt_registro GLOB '[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]*'
+            THEN datetime(substr(dt_registro,7,4) || '-' || substr(dt_registro,4,2)
+                 || '-' || substr(dt_registro,1,2) || ' ' || substr(dt_registro,12,8))
+        ELSE NULL
+    END AS dt_registro,
+    date(dt_inicio_operacao) AS dt_inicio_operacao, date(dt_fim_operacao) AS dt_fim_operacao,
+    NULLIF(ds_natureza_operacao, '') AS ds_natureza_operacao,
+    CAST(NULLIF(nr_etapa, '') AS INTEGER) AS nr_etapa,
+    NULLIF(cd_origem, '') AS cd_origem, NULLIF(nm_aerodromo_origem, '') AS nm_aerodromo_origem,
+    NULLIF(cd_destino, '') AS cd_destino, NULLIF(nm_aerodromo_destino, '') AS nm_aerodromo_destino,
+    time(hr_partida) AS hr_partida, time(hr_chegada) AS hr_chegada,
+    NULLIF(ds_tipo_servico, '') AS ds_tipo_servico,
+    NULLIF(ds_objeto_transporte, '') AS ds_objeto_transporte,
+    NULLIF(ds_codeshare, '') AS ds_codeshare, date(dt_arquivo) AS dt_arquivo
 FROM siros_raw;
 ```
 
-Ainda **não implementada** (proposta) — `siros_raw` já está em carga (§4),
-a view silver fica para um próximo passo.
+`fl_opera_*` continuam `TEXT` sem `NULLIF` — não confirmado se vazio é
+significativo (§ premissa abaixo) — e sem cast para booleano, mesmo
+motivo que a v4 já registrava.
+
+Validado: 10.677.382 linhas (igual a `siros_raw`), 29 colunas
+(`PRAGMA table_info`), **zero `NULL` em `dt_registro`** — os dois formatos
+convertem, nenhum terceiro formato passou despercebido.
 
 `fl_opera_*` ficam como `TEXT`, sem cast para booleano — a `SPEC-007 §6`
 ainda não confirmou se o valor marca presença ou vem sempre preenchido;
@@ -201,8 +233,7 @@ tipar como booleano agora seria decidir algo que não está confirmado.
 ## 7. Critérios de sucesso
 
 - **C-01** — DDL raw implementado, batendo com o schema de `SPEC-007 §5`
-  + `dt_arquivo` de proveniência. **Cumprido.** DDL silver segue proposto,
-  não implementado.
+  + `dt_arquivo` de proveniência. **Cumprido.**
 - **C-02** — Carga de pelo menos um arquivo real de SIROS executada sem
   erro. **Cumprido** (teste de agosto/2022, depois recarregado sob a
   política semanal).
@@ -213,6 +244,10 @@ tipar como booleano agora seria decidir algo que não está confirmado.
   fonte**: 2019-11-11 a 2025-02-10 (254 semanas, 10.677.382 linhas) — a
   ANAC não publica SIROS além de 2025-02-14 (confirmado, §4); não é
   lacuna de download, é o que existe.
+- **C-05** *(novo, v5)* — `siros_silver` criada com as 29 colunas
+  (`SPEC-007` + `dt_arquivo`), formato de data duplo tratado sem `NULL`
+  silencioso. **Cumprido**: 10.677.382 linhas, zero `NULL` em
+  `dt_registro` (§6).
 
 ## 8. Premissas e dependências
 
@@ -243,8 +278,8 @@ tipar como booleano agora seria decidir algo que não está confirmado.
   em aeroporto/cidade/país separados — fica como texto bruto.
 - Não é objetivo confirmar unicidade de `nr_siros` como chave primária
   nesta versão.
-- Não é objetivo implementar `siros_silver` (view tipada) nesta versão —
-  DDL fica proposto (§6), `siros_raw` é a entrega real.
+- Não é objetivo tipar `fl_opera_*` como booleano (§6) — a `SPEC-007 §6`
+  ainda não confirmou se vazio é significativo.
 
 ## 10. Regras checáveis (R-COL)
 
@@ -255,6 +290,8 @@ tipar como booleano agora seria decidir algo que não está confirmado.
 | **R-COL-14** *(novo, v2)* | Carga padrão (`SRC_003` sem `--diario`) só processa arquivos de segunda-feira — `SELECT dt_arquivo` distintos em `siros_raw` caem todos num só dia da semana, a menos que `--diario` tenha sido usado explicitamente. | `strftime('%w', dt_arquivo)` em `siros_raw` — deve ser sempre `'1'` | Média |
 | **R-COL-15** *(v3, redefinida)* | `MAX(dt_arquivo)` em `siros_raw` nunca ultrapassa a data mais recente já baixada em `data/anac/siros/` — carga não pode estar "à frente" do download. | `SELECT MAX(dt_arquivo) FROM siros_raw` × arquivos mais recentes em disco | Alta |
 | **R-COL-17** *(novo, v3)* | Uma mesma semana (`dt_arquivo`) nunca tem linhas de origem CSV e JSON misturadas — cada `dt_arquivo` veio de um único arquivo, logo de um único formato. | Não verificável direto por coluna (formato de origem não é persistido); inferir por auditoria pontual do script de carga | Baixa |
+| **R-COL-24** *(novo, v5)* | `siros_silver` contém exatamente as 29 colunas (`SPEC-007` + `dt_arquivo`). | `PRAGMA table_info(siros_silver)` | Alta |
+| **R-COL-25** *(novo, v5)* | Nenhum valor não-nulo de `dt_registro` em `siros_raw` produz `NULL` em `siros_silver` — os dois formatos conhecidos (ISO, `DD/MM/AAAA`) precisam sempre converter; um terceiro formato futuro cairia em `NULL` sem aviso (mesma limitação do VRA, `SPEC-009 §12`). | `SELECT COUNT(*) FROM siros_silver WHERE dt_registro IS NULL` deve ser `0` | Alta |
 
 ## 11. Limitações conhecidas
 
@@ -270,7 +307,11 @@ tipar como booleano agora seria decidir algo que não está confirmado.
   quiser saber de qual formato uma semana veio precisa inferir pela data
   (`< 2024-06-17` é CSV, `>= 2024-09-16` é JSON, entre as duas é
   ambíguo sem checar o arquivo).
-- DDL typed (§6) segue proposto, não implementado.
+- O `GLOB` de `dt_registro` (§6) só cobre os dois formatos conhecidos — um
+  terceiro formato futuro cairia em `NULL` sem aviso, mesma limitação já
+  registrada para o VRA (`SPEC-009 §12`).
+- `fl_opera_*` seguem `TEXT`, sem `NULLIF` nem cast para booleano (§6, §9)
+  — vazio pode ou não ser significativo, não confirmado.
 
 ## 12. Critérios de revisão
 
@@ -299,6 +340,7 @@ Revisitar esta SPEC quando:
 | 2026-08-31 | Carga completa executada (com uma interrupção externa no meio, retomada sem perda — idempotente). Achado: a ANAC muda o formato do SIROS de CSV para JSON, com transição irregular a partir de 2024-06-17, fixando-se em JSON a partir de 2024-09-16. Loader corrigido para detectar e pular formato não suportado em vez de abortar a carga inteira. Resultado parcial: `siros_raw` com 9.490.568 linhas, 231 semanas, até 2024-09-09. R-COL-15 adicionado. |
 | 2026-08-31 | **v3 — parser JSON implementado.** A pedido do autor, `SRC_003_siros_load_sqlite.py` ganhou `parse_json`/`SIROS_JSON_KEYS`: mapeia os 28 campos do formato novo (chaves em inglês) para as mesmas colunas de `siros_raw`, na mesma tabela, mesma política semanal, mesma idempotência — não é mais "não suportado", é um segundo formato de entrada tratado pelo mesmo loader. Carregadas as 23 semanas JSON já baixadas: +1.186.814 linhas, total 10.677.382. Download disparado de novo para cobrir 2025-02-15 até a data corrente — **resultado: 0 arquivos, todos 404**, confirmado por inspeção direta que a ANAC não publica SIROS além de 2025-02-14 (não é lacuna de download, é o que existe na fonte hoje). Achado extra: a partir de certo ponto a ANAC passa a publicar `.csv` e `.json` lado a lado, não só `.csv` com conteúdo JSON. Cobertura final desta versão: 2019-11-11 a 2025-02-10, 254 semanas, 10.677.382 linhas — máximo disponível. C-04, §8, §9, §10 (R-COL-15 redefinida, R-COL-17 novo), §11, §12 atualizados. |
 | 2026-08-31 | **v4 — renomeação de camada.** `siros_typed` renomeado para `siros_silver` em todo o documento (§3.1, §4, §6, §7, §9), sem mudança de conteúdo — consistência com `basica_silver`/`vra_silver`, já implementados e nomeados assim a pedido do autor. Segue proposto, não implementado. |
+| 2026-08-31 | **v5 — `siros_silver` implementado.** Antes de materializar, achado: `dt_registro` tem a mesma quebra de formato do VRA (`SPEC-009` achado 1), direção oposta (ISO→`DD/MM/AAAA`, não `DD/MM`→ISO) — o DDL da v4 teria produzido `NULL` silencioso em 5.826.375 das 10.677.382 linhas. Corrigido por `GLOB`, mesma técnica do VRA. `dt_inicio_operacao`/`dt_fim_operacao` confirmados sem esse problema, só mudam de granularidade entre eras. Validado: 10.677.382 linhas, 29 colunas, zero `NULL` em `dt_registro`. `sql/tratamento/DDL_005_siros_view_silver_sqlite.sql`. C-05, R-COL-24/25 adicionados. §6, §7, §9, §10, §11 atualizados. |
 
 ---
 
