@@ -1,7 +1,7 @@
 ---
 documento: SPEC-013
 titulo: Análise Exploratória — Etapa Média GOL/Azul
-versao: v11
+versao: v12
 status: proposto
 data: 2026-09-04
 autor: Bruno Alexandre Serminaro
@@ -179,19 +179,19 @@ internacional GOL — hipótese candidata (não confirmada: pode ser
 realocação de frota, não decisão de rede), fica para investigar se
 relevante à pergunta.
 
-### 6.3 Bases HUB de origem (80% acumulado) — SBSP/SBGR concentram volume, nordeste puxa duração
+### 6.3 Bases HUB de origem (80% acumulado) — CGH/GRU concentram volume, nordeste puxa duração
 
 *(v5)* Critério trocado de corte fixo (top-15) para 80% acumulado
 (`selecionar_hub`, mesma regra de §6.5/`gerar_pareto_bases_gol.py`) —
 pedido do autor, 2026-09-01. Deixa de ser um número fixo de bases: 16 na
-janela completa (`SBMO` entra, mesma composição do pareto §6.5), 17 em
-2026 isolado (`SBSG` entra, não aparecia no corte fixo de 15 antes).
+janela completa (`MCZ` entra, mesma composição do pareto §6.5), 17 em
+2026 isolado (`NAT` entra, não aparecia no corte fixo de 15 antes).
 
-`top_bases_origem_full_2021_2026.png`, cor = duração média. `SBSP`
-(Congonhas) e `SBGR` (Guarulhos) dominam em volume de etapas (~175 mil e
-~173 mil no período), muito à frente da 3ª colocada (`SBBR`, Brasília,
+`top_bases_origem_full_2021_2026.png`, cor = duração média. `CGH`
+(Congonhas) e `GRU` (Guarulhos) dominam em volume de etapas (~175 mil e
+~173 mil no período), muito à frente da 3ª colocada (`BSB`, Brasília,
 ~107 mil). Cor revela outro eixo: as bases mais escuras (maior duração
-média) não são as de maior volume — `SBFZ` (Fortaleza) e `SBRF` (Recife)
+média) não são as de maior volume — `FOR` (Fortaleza) e `REC` (Recife)
 saltam com duração média >2,75h apesar de volume bem menor (~28-30 mil
 etapas), plausivelmente por concentrar rotas mais longas
 (internacional/interregional) proporcionalmente à sua operação.
@@ -223,9 +223,9 @@ resultado atual; a ordem das posições 3-12 é idêntica nos dois.
 
 | Ponto | `pareto_bases_gol.csv` (autor) | `pareto_bases_gol_atualizado.csv` (esta rodada) |
 |---|---|---|
-| #1/#2 | `SBGR` > `SBSP` | `SBSP` > `SBGR` |
-| `SBVT` | OFF-HUB (rank 16, 80,85% acum.) | **HUB** (rank 14, 77,98% acum.) |
-| `SBMO` | HUB, rank 13 | HUB, rank 16 (81,00% acum., quase fora) |
+| #1/#2 | `GRU` > `CGH` | `CGH` > `GRU` |
+| `VIX` | OFF-HUB (rank 16, 80,85% acum.) | **HUB** (rank 14, 77,98% acum.) |
+| `MCZ` | HUB, rank 13 | HUB, rank 16 (81,00% acum., quase fora) |
 | Total de chegadas (denominador) | ≈ 959 mil (implícito) | 1.156.956 |
 | Nº de bases HUB | 15 | **16** |
 
@@ -275,12 +275,12 @@ também dentro da doméstica.
 volume, rótulo direto no fim de cada linha — ver nota de legibilidade
 abaixo): dois achados de nível, não visíveis nos agregados de §6.3/§6.4:
 
-- **`SBGL` (Galeão) tem um platô isolado em 2022-meados de 2023**
+- **`GIG` (Galeão) tem um platô isolado em 2022-meados de 2023**
   (~2,6-2,7h, bem acima do seu próprio nível antes/depois, ~2,1-2,3h) —
   não presente em nenhuma outra base do top 6. Hipótese candidata, não
   investigada: mudança temporária de malha internacional operada a
   partir do Galeão nesse período.
-- **`SBRJ` (Santos Dumont) tem uma quebra de nível abrupta no fim de
+- **`SDU` (Santos Dumont) tem uma quebra de nível abrupta no fim de
   2023** (de ~1,4-1,5h para ~1,2-1,3h, queda de ~15-20%, permanente até
   o fim da série) — não gradual, muda de patamar num só mês. Hipótese
   candidata: mudança de mix de rotas na ponte aérea/shuttle que opera
@@ -289,7 +289,7 @@ abaixo): dois achados de nível, não visíveis nos agregados de §6.3/§6.4:
 **Nota de legibilidade (achado de processo, não de dado)**: a primeira
 versão do gráfico por base usava só legenda — com 6 séries na mesma
 família de laranja (paleta GOL, §4), as linhas de nível médio
-(`SBGR`/`SBBR`/`SBRJ`/`SBSV`, todas entre 2,0-2,2h) ficavam praticamente
+(`GRU`/`BSB`/`SDU`/`SSA`, todas entre 2,0-2,2h) ficavam praticamente
 indistinguíveis só pela cor. Duas correções: (1) rótulo direto no fim de
 cada linha; (2) pedido do autor (2026-09-01) — regra nova fixada em
 `analise_etapa_media_gol.py`: gráfico de linha com **mais de 3 séries**
@@ -332,7 +332,7 @@ espelho exato dos scripts GOL (mesmas janelas, mesmo filtro PASSAGEIRO):
 > atribuível só ao indicador, porque o corte também mudou. Qualquer cálculo
 > por base (rodada 2 de `SPEC-017`) deve declarar o corte e usar o mesmo em
 > todas as unidades comparadas.
-| Top bases (80% acumulado) | `SBSP, SBGR, SBBR...` (§6.3) | `SBKP, SBCF, SBRF, SBRJ, SBSP...` |
+| Top bases (80% acumulado) | `CGH, GRU, BSB...` (§6.3) | `VCP, CNF, REC, SDU, CGH...` |
 
 Ranking de bases da Azul difere do de GOL — esperado, reflete a malha
 própria de cada companhia (Campinas/Viracopos como base dominante da
@@ -453,6 +453,7 @@ quando:
 | 2026-09-03 | **v9 — correção retroativa (achado de auditoria documental): rodada Azul + comparação GOL x Azul + notebook didático, todas já concluídas, não estavam registradas.** Título do documento passa a "Etapa Média GOL/Azul" (deixa de ser GOL-only). Azul replicada (mesmo método, §6.8): 1.541.677 etapas, cerca de Tukey 3,49h (3,70% fora), autocorrelação diária r=0,731 — maior que a da GOL (r=0,429, também preenchido retroativamente nesta v9). `versus_gol_azul.py` documentado (§6.9): 12 gráficos da primeira seleção + 9 gráficos `novo_NN` de uma auditoria de completude pedida pelo autor (2026-09-02), que achou lacunas reais na seleção original. Notebook `analise_etapa_media_gol.ipynb` registrado como entrega didática (§3.4), sem achado de negócio próprio. §3.2, §3.3, §3.4 (novo), §6.8/§6.9 (novos), §9, §12 atualizados. |
 | 2026-09-04 | **v11 — nota de procedência, achado inalterado.** Coeficientes de §6.8 inalterados; declarado que a série diária de etapa média é construída **sem corte de outlier**, e que a cerca de Tukey listada na mesma tabela não se aplica a esse cálculo. Registrado que isso difere de `SPEC-016 §6.2` (tempo de solo, série já truncada pela cerca de cada companhia), de modo que os coeficientes das duas linhas vêm de regimes de limpeza diferentes: a ordenação entre companhias se mantém, a diferença de magnitude entre indicadores não é atribuível só ao indicador. Origem: revisão do relatório IMRaD do deep dive, que começou pela divergência de corte em tempo de solo e alcançou esta linha. Ver `SPEC-017 §6.3` requisito 4. |
 | 2026-09-03 | **v10 — nota de leitura, achado inalterado.** Coeficientes de §6.8 inalterados; acrescentada nota remetendo à `SPEC-017` para não ler autocorrelação como medida de estabilidade. Origem: discussão durante a redação do relatório IMRaD do deep dive. |
+| 2026-09-04 | **v12 — codificação de aeroportos trocada de ICAO para IATA, achados inalterados.** Pedido do autor: as figuras rotulavam bases pelo ICAO de 4 letras (`SBGR`, `SBSP`), que é o que a Básica carrega, enquanto a audiência da análise lê IATA de 3 letras (`GRU`, `CGH`). Módulo novo `analise/iata_bases.py` traduz no ponto de carga contra `dim_airport_location_time_zone` e **preserva a coluna ICAO ao lado** (rastro de auditoria); os scripts passaram a plotar `sg_iata_origem`/`sg_iata_destino`, o SQL continua lendo as colunas ICAO da fonte. 82 figuras de `a4_etapa_media` regeradas, mais as 40 de `a3`/`a4` cujo nome de arquivo carregava o ICAO (`dist_10_hexbin_horario_partida_SBGR.png` → `..._GRU.png`, as antigas removidas após conferir o par). Nenhum número, corte, agrupamento ou conclusão mudou — troca de rótulo apenas. Corpo deste documento convertido; **linhas anteriores do Histórico preservadas em ICAO** (registram o que se escreveu na data). Dois achados de qualidade no de-para, ambos com fallback para o próprio ICAO: `base_iata` traz a sentinela `'N/I'` para `SBFE`/`SDIY`/`SNJD` (sem tratamento, os três colapsariam num balde único, e `SDIY` tem 317 etapas), e 3 aeródromos não têm IATA (`SBUY` 676 etapas, `LPAR` 2, `SBYS` 1). |
 
 ---
 

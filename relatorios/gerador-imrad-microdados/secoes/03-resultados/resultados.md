@@ -38,17 +38,17 @@ A uniformização das barras de variância em 2025 e 2026 é visível a olho e c
 
 ![Figura 4: bases que alternam de forma recorrente entre atendidas e não atendidas.](figuras/res_04_bases_ciclicas_destinos.png)
 
-| ICAO | IATA | Aeroporto | Município | Ocorrências |
+| IATA | ICAO | Aeroporto | Município | Ocorrências |
 |---|---|---|---|---|
-| SBCJ | CKS | Carajás | Parauapebas | 12 |
-| SBDN | PPB | Presidente Prudente | Presidente Prudente | 12 |
-| SBKG | CPV | Presidente João Suassuna | Campina Grande | 12 |
-| SBLO | LDB | Governador José Richa | Londrina | 12 |
-| SBUL | UDI | Ten. Cel. Av. César Bombonato | Uberlândia | 12 |
-| SBSJ | SJK | Prof. Urbano Ernesto Stumpf | São José dos Campos | 11 |
-| SBBV | BVB | Atlas Brasil Cantanhede | Boa Vista | 11 |
-| SLVR | VVI | Viru Viru | Santa Cruz | 11 |
-| SBMK | MOC | Mário Ribeiro | Montes Claros | 10 |
+| CKS | SBCJ | Carajás | Parauapebas | 12 |
+| PPB | SBDN | Presidente Prudente | Presidente Prudente | 12 |
+| CPV | SBKG | Presidente João Suassuna | Campina Grande | 12 |
+| LDB | SBLO | Governador José Richa | Londrina | 12 |
+| UDI | SBUL | Ten. Cel. Av. César Bombonato | Uberlândia | 12 |
+| SJK | SBSJ | Prof. Urbano Ernesto Stumpf | São José dos Campos | 11 |
+| BVB | SBBV | Atlas Brasil Cantanhede | Boa Vista | 11 |
+| VVI | SLVR | Viru Viru | Santa Cruz | 11 |
+| MOC | SBMK | Mário Ribeiro | Montes Claros | 10 |
 
 Tabela 2: bases preteridas de forma cíclica na oferta de destinos.
 
@@ -86,18 +86,18 @@ A variabilidade aparece quando se troca o eixo de segmentação de modelo para b
 
 Nos dez maiores hubs da GOL não há tendência consistente de alta ou de queda ao longo dos três últimos anos. Há, porém, uma quebra específica: **os sete principais hubs registraram aumento do tempo médio de solo entre 2025 e 2026.**
 
-| ICAO | IATA | Rank 2026 | Mediana 2024 | Mediana 2025 | Mediana 2026 | Média 2024 | Média 2025 | Média 2026 |
+| IATA | ICAO | Rank 2026 | Mediana 2024 | Mediana 2025 | Mediana 2026 | Média 2024 | Média 2025 | Média 2026 |
 |---|---|---|---|---|---|---|---|---|
-| SBSP | CGH | 1 | 71 | 71 | 72 | 79 | 79 | 80 |
-| SBGR | GRU | 2 | 80 | 80 | 86 | 88 | 89 | 94 |
-| SBGL | GIG | 3 | 62 | 65 | 70 | 73 | 75 | 82 |
-| SBBR | BSB | 4 | 71 | 72 | 79 | 81 | 82 | 88 |
-| SBSV | SSA | 5 | 54 | 57 | 60 | 64 | 67 | 69 |
-| SBRJ | SDU | 6 | 50 | 52 | 56 | 54 | 56 | 62 |
-| SBCF | CNF | 7 | 51 | 54 | 58 | 62 | 63 | 70 |
-| SBRF | REC | 8 | 51 | 54 | 54 | 66 | 72 | 70 |
-| SBFL | FLN | 9 | 48 | 49 | 49 | 55 | 55 | 56 |
-| SBPA | POA | 10 | 49 | 49 | 52 | 56 | 55 | 61 |
+| CGH | SBSP | 1 | 71 | 71 | 72 | 79 | 79 | 80 |
+| GRU | SBGR | 2 | 80 | 80 | 86 | 88 | 89 | 94 |
+| GIG | SBGL | 3 | 62 | 65 | 70 | 73 | 75 | 82 |
+| BSB | SBBR | 4 | 71 | 72 | 79 | 81 | 82 | 88 |
+| SSA | SBSV | 5 | 54 | 57 | 60 | 64 | 67 | 69 |
+| SDU | SBRJ | 6 | 50 | 52 | 56 | 54 | 56 | 62 |
+| CNF | SBCF | 7 | 51 | 54 | 58 | 62 | 63 | 70 |
+| REC | SBRF | 8 | 51 | 54 | 54 | 66 | 72 | 70 |
+| FLN | SBFL | 9 | 48 | 49 | 49 | 55 | 55 | 56 |
+| POA | SBPA | 10 | 49 | 49 | 52 | 56 | 55 | 61 |
 
 Tabela 3: tempo de solo em minutos nos dez hubs com mais chegadas, GOL. Valores de 2026 cobrem ano parcial.
 

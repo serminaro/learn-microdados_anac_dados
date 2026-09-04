@@ -33,6 +33,16 @@ AIRPORTS_CSV = REPO / "data" / "_airports_ourairports_cache.csv"
 OUT_CSV = REPO / "data" / "aerodromos_enriquecido.csv"
 OUT_UNMATCHED = REPO / "data" / "aerodromos_sem_match.csv"
 
+# Valores que a fonte ANAC grava no campo BASE_IATA mas que nao sao codigo:
+# "..." e "N/I" sao as duas formas de "nao informado" observadas em
+# Bases_dos_microdados_2015_2026.txt (36 e 4 linhas, 2026-09-04). Aqui a
+# lista so evita match falso por IATA -- hoje nenhuma das duas existe como
+# iata_code no OurAirports, entao o efeito e' nulo, mas a premissa e'
+# fragil e a lista fica explicita. Quem transforma
+# a sentinela em NULL e' SRC_004 (limpar/SENTINELAS): este script preserva
+# a fonte como ela e'.
+SENTINELAS_IATA = {"", "...", "N/I"}
+
 # codigo ANAC (BASE_ICAO): (lat, lon, nome, fonte da coordenada)
 MANUAL_OVERRIDES = {
     "SBQV": (-14.862567, -40.863186, "Pedro Otacilio Figueiredo Airport (Vitoria da Conquista, BA, fechado)", "OurAirports id 5963, keyword-match"),
@@ -77,7 +87,7 @@ def match(row, by_icao, by_iata):
     iata = (row.get("BASE_IATA") or "").strip().upper()
     if icao in by_icao:
         return by_icao[icao], "ICAO"
-    if iata in by_iata and iata not in ("", "..."):
+    if iata in by_iata and iata not in SENTINELAS_IATA:
         return by_iata[iata], "IATA"
     if icao in MANUAL_OVERRIDES:
         lat, lon, nome, fonte = MANUAL_OVERRIDES[icao]

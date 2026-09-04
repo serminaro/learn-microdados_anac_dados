@@ -1,7 +1,7 @@
 ---
 documento: SPEC-016
 titulo: Análise Exploratória — Tempo de Solo GOL/Azul (Turnaround)
-versao: v3
+versao: v4
 status: proposto
 data: 2026-09-04
 autor: Bruno Alexandre Serminaro
@@ -152,8 +152,8 @@ generalizável entre as duas linhas de análise sem checar caso a caso.
 ### 6.3 Top bases por volume — bases diferentes das de etapa média
 
 `selecionar_hub` (80% acumulado) sobre `tempo_solo_horas`: GOL top 10
-lideradas por `SBGR, SBSP, SBBR, SBGL, SBRJ...`; Azul por
-`SBKP, SBCF, SBRF, SBRJ, SBSP...` — ranking de bases não é idêntico ao de
+lideradas por `GRU, CGH, BSB, GIG, SDU...`; Azul por
+`VCP, CNF, REC, SDU, CGH...` — ranking de bases não é idêntico ao de
 `SPEC-013 §6.3` (etapa média), esperado: volume de *rotação* (pousos +
 decolagens de uma base) não é a mesma coisa que volume de *etapas*
 originadas ali.
@@ -250,6 +250,7 @@ Revisitar esta SPEC (nova entrada no Histórico) quando:
 | 2026-09-04 | **v3 — nota de procedência, achado inalterado.** Coeficientes de §6.2 inalterados; declarada a série de que vêm (truncada pela cerca de Tukey por companhia, `dist_14`) e registrado que o comparativo `v12` dá 0,674/0,861 sobre corte fixo de 3,0h. Não há erro de cálculo em nenhum dos dois: são cortes diferentes, e a v2 não dizia qual originava seus números. Origem: revisão do relatório IMRaD do deep dive, onde o texto citava um par e a figura inserida logo abaixo estampava o outro. Ver `SPEC-017 §6.3` requisito 4 e §11. |
 | 2026-09-03 | SPEC-016 v1 produzida em status `proposto`, documento vivo, retroativa (achado de auditoria documental: a linha de análise de tempo de solo já estava concluída — GOL, Azul, comparação, 5 scripts, dezenas de figuras — sem nenhum SPEC registrando método ou achados). Cobre: forma da distribuição com cauda até o teto de validade de 72h (pernoite legítimo lido como outlier pela cerca de Tukey, não erro); autocorrelação diária maior na Azul (r=0,805) que na GOL (r=0,613); decisão de corte único `CORTE_HORAS=3h` aplicada aos 12 gráficos do `versus_gol_azul.py`, generalizada a partir de um corte pontual que só cobria 3 gráficos; duas correções de legibilidade (referência de média/mediana em violin plot, legenda de base movida para dentro da área do gráfico). Aguardando aprovação do autor. |
 | 2026-09-03 | **v2 — correção de leitura, achado inalterado.** O coeficiente de §6.2 não muda; muda a interpretação registrada. A redação original ("Azul mais previsível dia-a-dia") confundia memória com estabilidade e ignorava que `r` é normalizado pela variância. Nota de correção adicionada a §6.2, remetendo à `SPEC-017`, que separa amplitude/periodicidade/memória, converte `r` em meia-vida de distúrbio e tamanho de amostra efetivo, e nomeia três fatores de confusão mecânicos ainda não descartados. Origem: discussão durante a redação do relatório IMRaD do deep dive. |
+| 2026-09-04 | **v4 — codificação de aeroportos trocada de ICAO para IATA, achados inalterados.** Pedido do autor: as figuras rotulavam bases pelo ICAO de 4 letras (`SBGR`, `SBSP`), que é o que a Básica carrega, enquanto a audiência da análise lê IATA de 3 letras (`GRU`, `CGH`). Módulo novo `analise/iata_bases.py` traduz no ponto de carga contra `dim_airport_location_time_zone` e **preserva a coluna ICAO ao lado** (rastro de auditoria); os scripts passaram a plotar `sg_iata_origem`/`sg_iata_destino`, o SQL continua lendo as colunas ICAO da fonte. 94 figuras de `a3_tempo_de_solo` regeradas. Nenhum número, corte, agrupamento ou conclusão mudou — troca de rótulo apenas. Corpo deste documento convertido; **linhas anteriores do Histórico preservadas em ICAO** (registram o que se escreveu na data). Dois achados de qualidade no de-para, ambos com fallback para o próprio ICAO: `base_iata` traz a sentinela `'N/I'` para `SBFE`/`SDIY`/`SNJD` (sem tratamento, os três colapsariam num balde único, e `SDIY` tem 317 etapas), e 3 aeródromos não têm IATA (`SBUY` 676 etapas, `LPAR` 2, `SBYS` 1). |
 
 ---
 
