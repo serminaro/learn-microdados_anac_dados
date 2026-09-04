@@ -12,6 +12,10 @@ data/*
 # Banco local -- 2,5GB+, excede o limite de arquivo do GitHub (100MB) de qualquer forma
 db/
 
+# Extrato de dado bruto para organizacao local (54MB, 1,15M linhas) --
+# reproduzivel a partir de basica_curated_deep, mesmo raciocinio do db/
+analise/a4_etapa_media/dados_etapa_media_gol_2021_2026.csv
+
 # Config local do Claude Code (permissões pessoais, não é parte do projeto)
 .claude/
 
@@ -22,3 +26,20 @@ __pycache__/
 
 # SO
 .DS_Store
+
+# Extrato de dado bruto de block time (1,2GB) -- mesmo raciocinio do CSV de
+# etapa media acima: reproduzivel a partir de fato_block_time_gol_azul
+analise/a5_block_time/dados_block_time_gol_azul.csv
+
+# Empacotamentos locais para transporte de arquivo (247MB e 204MB em partes).
+# Acima do limite de 100MB por arquivo do GitHub, e conteudo ja versionado
+# em analise/ e docs/
+analise_anac.zip
+rascunho/
+
+# Bytecode do Python
+__pycache__/
+
+# Material de estudo de terceiros (site espelhado do r4ds, 787 arquivos):
+# nao e produto deste projeto e nao entra no rastro documental
+bibliografia/
