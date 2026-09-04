@@ -98,7 +98,7 @@ As figuras vivem em `figuras/` dentro da pasta da seção, com prefixo indicando
 | `p2b_etapa_media_por_modelo.png` | `res_21_etapa_media_mensal_por_frota_gol.png` | Nenhuma quebra e nenhum cruzamento, por modelo |
 | `p3_tempo_solo_lag_plot.png` | `res_17_tempo_solo_lag_plot_gol_azul.png` | O que o teste enxerga: nuvem colada à diagonal é memória |
 
-Para conferir que não divergiram: `md5sum` dos pares acima. A procedência das figuras dos dois geradores, contra as originais de `analise/` deste repositório, está em `../PROCEDENCIA_FIGURAS.md`, com o comando de verificação. Duas das cinco figuras desta peça são idênticas às de `analise/`, duas divergem e estão listadas lá para reconciliação, e uma vem do documento manual do autor.
+Para conferir que não divergiram: `md5sum` dos pares acima. A procedência das figuras dos dois geradores, contra as originais de `analise/` deste repositório, está em `../PROCEDENCIA_FIGURAS.md`, com o comando de verificação. Quatro das cinco figuras desta peça são idênticas às de `analise/`; a quinta vem do documento manual do autor.
 
 Três figuras saíram na revisão de 04/09/2026, e o motivo de cada uma vale como critério: o boxplot de tempo de solo por modelo e o de folga por hub por serem boxplot (o segundo, além disso, mostrava oito caixas quase idênticas, contradizendo a legenda que o acompanhava); o painel de destinos por ano (`res_02`) por ter seis subpainéis em duas escalas verticais diferentes, o que impede justamente a comparação que ele existia para fazer. A malha e a frota continuam no elo 1, em número, sem figura.
 

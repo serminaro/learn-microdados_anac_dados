@@ -26,7 +26,7 @@ As figuras já estão nas pastas `figuras/` de cada seção, com nome descritivo
 - Etapa média: `analise/a4_etapa_media/a4_figuras_gol` e `a4_figuras_versus`.
 - Block time: `analise/a5_block_time/a5_figuras_gol` e `a5_figuras_versus`.
 
-A correspondência figura a figura, verificada por `md5sum`, está em `../PROCEDENCIA_FIGURAS.md`, junto com o comando para refazer a verificação. Na conferência de 2026-09-04, 17 das 41 figuras dos dois geradores são idênticas às de `analise/`, 16 vêm do documento manual do autor e não têm original neste repositório, e 8 divergem e precisam ser reconciliadas.
+A correspondência figura a figura, verificada por `md5sum`, está em `../PROCEDENCIA_FIGURAS.md`, junto com o comando para refazer a verificação. Depois da reconciliação de 2026-09-04, 25 das 41 figuras dos dois geradores são idênticas às de `analise/` e 16 vêm do documento manual do autor, sem original neste repositório. Nenhuma divergente.
 
 As duas tabelas que no docx eram imagens EMF (destinos por ano, bases cíclicas) foram transcritas como tabelas de verdade no markdown de Resultados. A tabela de tempo de solo por hub também.
 

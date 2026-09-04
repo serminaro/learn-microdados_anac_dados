@@ -18,7 +18,8 @@ for p in sorted(pathlib.Path('relatorios').rglob('*.png')):
 EOF
 ```
 
-Resultado em 2026-09-04: **17 idênticas byte a byte**, **16 sem original neste repositório** (vêm do documento manual do autor) e **8 divergentes** (o gráfico existe em `analise/` sob outro nome, mas em versão diferente).
+Resultado em 2026-09-04, depois da reconciliação: **25 idênticas byte a byte**
+e **16 sem original neste repositório**. Nenhuma divergente.
 
 ## Classe A — idênticas ao original (verificado por md5)
 
@@ -26,19 +27,27 @@ Resultado em 2026-09-04: **17 idênticas byte a byte**, **16 sem original neste 
 |---|---|
 | `imrad-microdados · 03-resultados · res_12_tempo_solo_forma_distribuicao_gol.png` | `a3_tempo_de_solo/a3_figuras_gol/dist_01_frequencia_densidade_boxplot_tempo_solo.png` |
 | `imrad-microdados · 03-resultados · res_13_tempo_solo_violin_por_modelo_gol.png` | `a3_tempo_de_solo/a3_figuras_gol/dist_02_violin_tempo_solo_por_modelo.png` |
+| `imrad-microdados · 03-resultados · res_14_tempo_solo_mensal_por_base_gol.png` | `a3_tempo_de_solo/a3_figuras_gol/ana_06_tempo_solo_medio_mensal_por_base_full_2021_2026.png` |
+| `imrad-microdados · 03-resultados · res_15_tempo_solo_por_hub_gol_azul.png` | `a3_tempo_de_solo/a3_figuras_versus/v06_distribuicao_por_hub.png` |
 | `imrad-microdados · 03-resultados · res_16_tempo_solo_violin_por_modelo_gol_azul.png` | `a3_tempo_de_solo/a3_figuras_versus/v05_violin_por_modelo.png` |
 | `imrad-microdados · 03-resultados · res_17_tempo_solo_lag_plot_gol_azul.png` | `a3_tempo_de_solo/a3_figuras_versus/v12_lag_plot.png` |
 | `imrad-microdados · 03-resultados · res_18_etapa_media_forma_distribuicao_gol.png` | `a4_etapa_media/a4_figuras_gol/dist_01_frequencia_densidade_boxplot_etapa_media.png` |
 | `imrad-microdados · 03-resultados · res_19_etapa_media_violin_por_modelo_gol.png` | `a4_etapa_media/a4_figuras_gol/dist_02_violin_etapa_media_por_modelo.png` |
 | `imrad-microdados · 03-resultados · res_20_etapa_media_mensal_gol.png` | `a4_etapa_media/a4_figuras_gol/duracao_media_mensal_full_2021_2026.png` |
 | `imrad-microdados · 03-resultados · res_21_etapa_media_mensal_por_frota_gol.png` | `a4_etapa_media/a4_figuras_gol/duracao_media_mensal_por_frota_full_2021_2026.png` |
+| `imrad-microdados · 03-resultados · res_22_etapa_media_mensal_por_base_gol.png` | `a4_etapa_media/a4_figuras_gol/duracao_media_mensal_por_base_full_2021_2026.png` |
+| `imrad-microdados · 03-resultados · res_23_etapa_media_top_bases_origem_gol.png` | `a4_etapa_media/a4_figuras_gol/top_bases_origem_full_2021_2026.png` |
 | `imrad-microdados · 03-resultados · res_24_etapa_media_violin_por_modelo_gol_azul.png` | `a4_etapa_media/a4_figuras_versus/v05_violin_por_modelo.png` |
 | `imrad-microdados · 03-resultados · res_25_etapa_media_mensal_gol_azul.png` | `a4_etapa_media/a4_figuras_versus/v01_duracao_media_mensal.png` |
 | `imrad-microdados · 03-resultados · res_26_folga_forma_distribuicao_gol.png` | `a5_block_time/a5_figuras_gol/cerca_dist_01_frequencia_densidade_boxplot_folga.png` |
 | `imrad-microdados · 03-resultados · res_27_folga_por_modelo_gol.png` | `a5_block_time/a5_figuras_gol/cerca_dist_08_folga_por_modelo.png` |
+| `imrad-microdados · 03-resultados · res_28_folga_por_hub_gol.png` | `a5_block_time/a5_figuras_gol/cerca_dist_09_folga_por_hub.png` |
 | `imrad-microdados · 03-resultados · res_29_atraso_recuperado_em_voo_gol.png` | `a5_block_time/a5_figuras_gol/cerca_dist_14_atraso_recuperado_em_voo.png` |
 | `imrad-microdados · 03-resultados · res_30_folga_forma_gol_azul.png` | `a5_block_time/a5_figuras_versus/v02_folga_distribuicao_forma.png` |
+| `imrad-microdados · 03-resultados · res_31_folga_por_hub_gol_azul.png` | `a5_block_time/a5_figuras_versus/v08_folga_por_hub.png` |
 | `imrad-microdados · 03-resultados · res_32_atraso_recuperado_em_voo_gol_azul.png` | `a5_block_time/a5_figuras_versus/v10_atraso_recuperado_em_voo.png` |
+| `minto-microdados · 02-porques · p1_tempo_solo_mensal_por_base.png` | `a3_tempo_de_solo/a3_figuras_gol/ana_06_tempo_solo_medio_mensal_por_base_full_2021_2026.png` |
+| `minto-microdados · 02-porques · p2a_etapa_media_por_base.png` | `a4_etapa_media/a4_figuras_gol/duracao_media_mensal_por_base_full_2021_2026.png` |
 | `minto-microdados · 02-porques · p2b_etapa_media_por_modelo.png` | `a4_etapa_media/a4_figuras_gol/duracao_media_mensal_por_frota_full_2021_2026.png` |
 | `minto-microdados · 02-porques · p3_tempo_solo_lag_plot.png` | `a3_tempo_de_solo/a3_figuras_versus/v12_lag_plot.png` |
 
@@ -66,24 +75,21 @@ destinos, malha e frota, além das três figuras de tempo de solo com sufixo
 - `imrad-microdados · 03-resultados · res_11_tempo_solo_medio_top_hubs_docx.png`
 - `minto-microdados · 01-recomendacao · rec_tempo_solo_medio_top_hubs.png`
 
-## Classe C — divergentes, a reconciliar
+## Histórico
 
-O mesmo gráfico existe em `analise/`, com outro nome, mas os bytes não batem.
-A explicação provável é que as figuras de `analise/` foram regeradas depois de
-copiadas para o relatório: `SPEC-016` registra duas correções de legibilidade
-em 2026-09-02 (referência de média e mediana em violin plot, legenda de base
-movida para dentro da área do gráfico). **Enquanto não reconciliadas, estas
-figuras podem mostrar uma versão anterior do gráfico.** A reconciliação exige
-olhar cada uma, porque algumas legendas do texto descrevem o que se vê.
-
-- `imrad-microdados · 03-resultados · res_14_tempo_solo_mensal_por_base_gol.png`
-- `imrad-microdados · 03-resultados · res_15_tempo_solo_por_hub_gol_azul.png`
-- `imrad-microdados · 03-resultados · res_22_etapa_media_mensal_por_base_gol.png`
-- `imrad-microdados · 03-resultados · res_23_etapa_media_top_bases_origem_gol.png`
-- `imrad-microdados · 03-resultados · res_28_folga_por_hub_gol.png`
-- `imrad-microdados · 03-resultados · res_31_folga_por_hub_gol_azul.png`
-- `minto-microdados · 02-porques · p1_tempo_solo_mensal_por_base.png`
-- `minto-microdados · 02-porques · p2a_etapa_media_por_base.png`
+**2026-09-04, reconciliação de oito cópias defasadas.** A primeira conferência
+encontrou 8 figuras que divergiam do original: todas as que trazem rótulo de
+base no eixo ou na legenda. A causa era `analise/iata_bases.py`, criado em
+2026-09-04 para rotular as bases pelo código IATA de 3 letras (`GRU`, `CGH`)
+em vez do ICAO de 4 (`SBGR`, `SBSP`) que a Básica e o VRA carregam. As figuras
+de `analise/` foram regeradas com o rótulo novo; as cópias nos relatórios
+tinham sido feitas antes e ficaram com o antigo. Os dados eram os mesmos, e
+foi por isso que a divergência passou despercebida: só o rótulo mudava.
+O efeito no documento era pior que cosmético, porque as figuras sem rótulo de
+base já estavam atualizadas: o leitor via `SBGR` numa página e `GRU` na
+seguinte, para o mesmo aeroporto. As oito foram substituídas pelas versões
+atuais, conferidas uma a uma (mesmo gráfico, mesmas dimensões, mesmos dados)
+antes da troca, e os dois `.docx` foram regerados.
 
 ---
 
