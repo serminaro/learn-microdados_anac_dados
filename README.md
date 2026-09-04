@@ -67,9 +67,21 @@ sql/
     DDL_001_basica_view_typed_sqlite.sql   view tipada da Básica (SQLite)
     DDL_002_basica_view_typed_snowflake.sql view tipada da Básica (Snowflake)
   analise/                                reservada, preparação analítica (vazia por enquanto)
+analise/                                  linhas de análise do deep dive GOL/Azul
+  a3_tempo_de_solo/                       scripts e figuras de turnaround (SPEC-016)
+  a4_etapa_media/                         scripts e figuras de duração de etapa (SPEC-013)
+  a5_block_time/                          scripts e figuras de folga e atraso (SPEC-015)
+relatorios/                               geradores dos documentos derivados (DEC-010)
+  gerador-imrad-microdados/               relatório IMRaD, a peça que carrega o rastro
+  gerador-minto-microdados/               comunicado Minto, a peça que carrega a decisão
 data/    (gitignored) zips/csv brutos e extraídos, CSV consolidado — por dataset
 db/      (gitignored) banco(s) SQLite finais (hoje: db/anac_basica.sqlite, ~2,5GB)
 ```
+
+`relatorios/` não é peça SERMI: não tem frontmatter nem numeração `TIPO_NNN`,
+e é regida pela convenção de código do `DEC-001 §6.6`, como `scripts/` e
+`src/`. O guia de escrita das duas peças, esse sim, é peça formal:
+`docs/GUIDE/GUIDE_005`. O porquê da pasta está no `DEC-010`.
 
 `data/` e `db/` não são versionados: são grandes e 100% reprodutíveis a
 partir dos scripts. O `db/anac_basica.sqlite` sozinho já passa do limite de
