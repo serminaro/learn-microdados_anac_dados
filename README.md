@@ -10,6 +10,11 @@ Snowflake (medalhão) e SQLite+Python. Download já cobre os três; a carga
 em SQLite/Snowflake (extração, validação, schema, load) segue implementada
 só para a Básica até o momento.
 
+Sobre esse pipeline o repositório também carrega uma camada analítica: as
+três linhas de análise do deep dive GOL/Azul em `analise/`, e os dois
+documentos derivados delas em `relatorios/`. Ver **Análise e relatórios**
+abaixo.
+
 ## Contexto
 
 A URL de origem, apesar de estar sob o caminho de "Demonstrações Contábeis"
@@ -81,7 +86,7 @@ db/      (gitignored) banco(s) SQLite finais (hoje: db/anac_basica.sqlite, ~2,5G
 `relatorios/` não é peça SERMI: não tem frontmatter nem numeração `TIPO_NNN`,
 e é regida pela convenção de código do `DEC-001 §6.6`, como `scripts/` e
 `src/`. O guia de escrita das duas peças, esse sim, é peça formal:
-`docs/GUIDE/GUIDE_005`. O porquê da pasta está no `DEC-010`.
+`docs/GUIDE/GUIDE_005_Metodologia_IMRaD_e_Piramide_de_Minto.md`. O porquê da pasta está no `DEC-010`.
 
 `data/` e `db/` não são versionados: são grandes e 100% reprodutíveis a
 partir dos scripts. O `db/anac_basica.sqlite` sozinho já passa do limite de
@@ -134,6 +139,60 @@ momento):
 - **`basica_typed`** (view): casts corretos (`nr_horas_voadas` usa vírgula
   decimal; demais métricas numéricas são inteiros puros), `partida_ts`/
   `chegada_ts` combinando data+hora, e `bloco_tempo_min` já calculado.
+
+## Análise e relatórios
+
+Sobre a camada `curated_deep` roda um deep dive comparando a operação da GOL
+com a da Azul entre 2021 e 2026, em cinco indicadores independentes.
+
+### As linhas de análise
+
+| Pasta | Indicador | Registro |
+|---|---|---|
+| `analise/a4_etapa_media/` | Duração média de etapa | `SPEC-013` |
+| `analise/a5_block_time/` | Folga entre previsto e voado, atrasos | `SPEC-014`, `SPEC-015` |
+| `analise/a3_tempo_de_solo/` | Turnaround por base e por modelo | `SPEC-016` |
+
+`SPEC-017` não mede nada: relê o achado de autocorrelação das três linhas,
+separa memória de amplitude e de periodicidade, e especifica o cálculo por
+base que transforma a pergunta sobre os hubs em algo testável. As perguntas
+que as três respondem estão em `SPEC-004`, sob o `DEC-007`.
+
+**Convenção de rótulo:** a fonte carrega o código ICAO de quatro letras
+(`SBGR`, `SBSP`); as figuras e o texto usam o IATA de três (`GRU`, `CGH`),
+traduzido no ponto de carga por `analise/iata_bases.py` contra
+`dim_airport_location_time_zone`, com a coluna ICAO preservada ao lado como
+rastro. Sem IATA utilizável, o rótulo volta a ser o ICAO.
+
+### Os dois documentos
+
+`relatorios/` guarda os geradores das duas peças, cada um autocontido
+(markdown por seção, figuras, `config.yml`, e o script que monta o `.docx`):
+
+| Gerador | Peça | Para quem |
+|---|---|---|
+| `relatorios/gerador-imrad-microdados/` | Relatório IMRaD | Quem audita o método: fontes, premissas, limites, achados separados de hipóteses |
+| `relatorios/gerador-minto-microdados/` | Comunicado em Pirâmide de Minto | Quem decide: resposta primeiro, três razões em cadeia, pedido de ação |
+
+O comunicado deriva do relatório por poda, nunca por resumo, e não contém
+achado que não esteja nele. A metodologia dos dois está em `GUIDE-005`, e o
+`DEC-010` registra por que `relatorios/` existe fora da estrutura da
+`SPEC-001 §5` e como deve ser lida numa auditoria (é código, não peça SERMI).
+
+As figuras das duas peças são cópias das de `analise/`, para manter cada
+gerador autocontido. `relatorios/PROCEDENCIA_FIGURAS.md` guarda a
+correspondência conferida por `md5sum`, com o comando para refazer a
+verificação, e é o que impede que as cópias divirjam em silêncio.
+
+Para regerar qualquer uma:
+
+```bash
+cd relatorios/gerador-imrad-microdados    # ou gerador-minto-microdados
+python gerar_docx.py
+```
+
+Os moldes genéricos dos dois formatos, para outras análises, vivem em outro
+repositório: `learn-imrad-mintos` (`template-imrad/` e `template-minto/`).
 
 ## Notas de consistência (achados empíricos)
 

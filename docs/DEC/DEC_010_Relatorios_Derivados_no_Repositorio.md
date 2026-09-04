@@ -2,7 +2,7 @@
 documento: DEC-010
 titulo: Relatórios derivados (IMRaD e Minto) versionados em relatorios/, fora da estrutura da SPEC-001 §5
 versao: v1
-status: aprovado
+status: proposto
 data: 2026-09-04
 autor: Bruno Alexandre Serminaro
 referencia: DEC-001, SPEC-001, SPEC-004, SPEC-017, GUIDE-005
@@ -122,7 +122,7 @@ Revisitar esta DEC quando:
 
 | Data | Evento |
 |---|---|
-| 2026-09-04 | DEC-010 v1, `aprovado`. Cria `relatorios/` e traz as duas peças do deep dive GOL/Azul, mais o guia metodológico como `GUIDE-005`. Motivo imediato: os documentos viviam num repositório sem git. |
+| 2026-09-04 | DEC-010 v1 redigida em status `proposto`, aguardando aprovação do autor. Cria `relatorios/` e traz as duas peças do deep dive GOL/Azul, mais o guia metodológico como `GUIDE-005`. Motivo imediato: os documentos viviam num repositório sem git. |
 
 ---
 
