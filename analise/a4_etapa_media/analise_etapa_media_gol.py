@@ -14,6 +14,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.colors import LinearSegmentedColormap
 
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from iata_bases import aplicar_iata  # noqa: E402
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DB_PATH = REPO_ROOT / "db" / "anac_basica.sqlite"
 FIG_DIR = REPO_ROOT / "analise" / "a4_etapa_media" / "a4_figuras_gol"
@@ -92,7 +97,7 @@ def load_data(dt_ini: str, dt_fim: str) -> pd.DataFrame:
     """
     df = pd.read_sql_query(query, con, params=(dt_ini, dt_fim), parse_dates=["dt_partida_real"])
     con.close()
-    return df
+    return aplicar_iata(df)
 
 
 def fig_duracao_media_mensal(df: pd.DataFrame, suffix: str) -> None:
@@ -146,13 +151,13 @@ def fig_duracao_media_mensal_por_base(df: pd.DataFrame, suffix: str, max_bases: 
     """Cruzamento tempo x base: uma linha por base HUB (80% acumulado,
     SPEC-013 Sec.6.5), limitado as max_bases de maior volume -- alem
     disso a legenda de uma linha fica ilegivel."""
-    hub = selecionar_hub(df["sg_icao_origem"].value_counts())
+    hub = selecionar_hub(df["sg_iata_origem"].value_counts())
     bases = hub.index.tolist()[:max_bases]
     cores_base = {b: c for b, c in zip(bases, PALETA_CATEGORICA)}
 
     fig, ax = plt.subplots(figsize=(12, 5.5))
     for base in bases:
-        sub = df[df["sg_icao_origem"] == base]
+        sub = df[df["sg_iata_origem"] == base]
         mensal = sub.set_index("dt_partida_real")["nr_horas_voadas"].resample("MS").mean()
         ax.plot(mensal.index, mensal.values, linewidth=2, marker="o", markersize=3,
                 label=base, color=cores_base[base])
@@ -221,7 +226,7 @@ def selecionar_hub(contagens: pd.Series) -> pd.Series:
 
 def fig_top_bases_origem(df: pd.DataFrame, suffix: str) -> None:
     agg_full = (
-        df.groupby("sg_icao_origem")["nr_horas_voadas"]
+        df.groupby("sg_iata_origem")["nr_horas_voadas"]
         .agg(n_etapas="count", duracao_media="mean")
     )
     hub = selecionar_hub(agg_full["n_etapas"])
@@ -246,7 +251,7 @@ def fig_top_bases_origem(df: pd.DataFrame, suffix: str) -> None:
 
 
 def fig_top_bases_chegadas(df: pd.DataFrame, suffix: str) -> None:
-    contagem_full = df["sg_icao_destino"].value_counts()
+    contagem_full = df["sg_iata_destino"].value_counts()
     contagem = selecionar_hub(contagem_full).sort_values()
     fig, ax = plt.subplots(figsize=(9, 6))
     barras = ax.barh(contagem.index, contagem.values, color=GOL_ORANGE, edgecolor="#333333", linewidth=0.5)

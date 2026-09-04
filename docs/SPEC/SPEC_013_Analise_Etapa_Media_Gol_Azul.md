@@ -1,33 +1,37 @@
 ---
 documento: SPEC-013
-titulo: Análise Exploratória — Etapa Média GOL
-versao: v8
+titulo: Análise Exploratória — Etapa Média GOL/Azul
+versao: v11
 status: proposto
-data: 2026-09-01
+data: 2026-09-04
 autor: Bruno Alexandre Serminaro
-referencia: DEC-007
+referencia: DEC-007, SPEC-017
 escopo: projeto
 ---
 
-# SPEC-013 · Análise Exploratória — Etapa Média GOL
+# SPEC-013 · Análise Exploratória — Etapa Média GOL/Azul
 
 > Documento **vivo**: registra método, código e achados da análise
-> exploratória de etapa média (duração) da GOL, detalhando a pergunta 5
-> do `SPEC-004 §5.5` só para GOL. Cresce por rodada — cada rodada nova
-> vira entrada no Histórico (§13) e atualização das seções de achados,
-> não documento novo. Diferente das SPECs anteriores deste projeto
-> (retroativas, escritas depois do trabalho validado), esta acompanha o
-> trabalho enquanto ele acontece.
+> exploratória de etapa média (duração), detalhando a pergunta 5 do
+> `SPEC-004 §5.5` — GOL primeiro (rodadas 1-8, só GOL por pedido
+> explícito do autor), Azul e comparação GOL x Azul depois (v9). Cresce
+> por rodada — cada rodada nova vira entrada no Histórico (§13) e
+> atualização das seções de achados, não documento novo. Diferente das
+> SPECs anteriores deste projeto (retroativas, escritas depois do
+> trabalho validado), esta acompanha o trabalho enquanto ele acontece —
+> exceto a v9, produzida retroativamente (achado de auditoria
+> documental, 2026-09-03, ver Histórico).
 
 ---
 
 ## 1. Propósito
 
-Explorar a duração média de etapa da GOL (`NR_HORAS_VOADAS`) e suas
-relações com frota, bases (origem/destino) e tempo, partindo da janela
-temporal mais larga disponível e fechando progressivamente até 2026 —
-método de trabalho pedido pelo autor (2026-09-01), não um recorte fixo
-definido de antemão.
+Explorar a duração média de etapa (`NR_HORAS_VOADAS`) da GOL e da Azul e
+suas relações com frota, bases (origem/destino) e tempo, partindo da
+janela temporal mais larga disponível e fechando progressivamente até
+2026 — método de trabalho pedido pelo autor (2026-09-01), não um recorte
+fixo definido de antemão. GOL explorada primeiro (rodadas 1-8), Azul e
+comparação GOL x Azul depois (v9, §6.8-§6.9).
 
 ## 2. Audiência
 
@@ -57,11 +61,18 @@ via `WHERE ds_servico_tipo_linha = 'PASSAGEIRO'`.
 5. *(v6)* Janelas fechando (2022→2026, 2023→2026, 2024→2026, 2025→2026,
    além das duas pontas já existentes) e dois cruzamentos novos
    (duração mensal por frota, duração mensal por base HUB) — §6.6, §6.7.
+6. *(v9)* Replicação completa para a Azul (mesmos scripts, espelho
+   exato) — `analise_etapa_media_azul.py`,
+   `distribuicao_etapa_media_azul.py` → `a4_figuras_azul/` (§6.8).
+7. *(v9)* Comparação GOL x Azul — `versus_gol_azul.py` → 21 gráficos
+   (`v01`-`v12` + `novo_01`-`novo_09`) → `a4_figuras_versus/` (§6.9).
+8. *(v9)* Notebook didático `analise_etapa_media_gol.ipynb` — refaz a
+   análise GOL passo a passo para ensinar pandas/numpy/matplotlib/
+   seaborn; não produz achado novo de negócio, registrado aqui só como
+   entrega (§3.4).
 
 ### 3.3 Fora de escopo (nesta rodada)
 
-- Azul — só GOL por pedido explícito do autor (2026-09-01); Azul fica
-  para quando o autor pedir, mesmo método.
 - Mediana/quartis — `SPEC-004 §5.5` prevê como complemento "se a
   distribuição for assimétrica"; não avaliado ainda nesta rodada, fica
   para próxima se a média mostrar sinal de cauda longa.
@@ -70,6 +81,15 @@ via `WHERE ds_servico_tipo_linha = 'PASSAGEIRO'`.
   natureza; não replicado aqui em nível de figura nesta rodada.
 - Relação frota×base (que frota opera de qual base) — mencionada como
   direção de exploração pelo autor, não construída ainda.
+
+### 3.4 *(v9)* Notebook didático — objetivo diferente do script de produção
+
+`analise_etapa_media_gol.ipynb` refaz `analise_etapa_media_gol.py` passo
+a passo, mas com propósito distinto: **ensinar** pandas/numpy/matplotlib/
+seaborn através desta análise real, não produzir achado novo (o
+notebook herda e explica o que o script de produção já mediu) —
+registrado aqui só como inventário de entrega, sem critério de sucesso
+próprio nem achado em §6.
 
 ## 4. Fonte e método
 
@@ -278,6 +298,81 @@ categórica validada da skill `dataviz` (`PALETA_CATEGORICA`, 8 cores em
 ordem fixa) — laranja GOL segue valendo para série única e para
 comparações de até 3 séries (frota, §6.7), onde já era legível.
 
+### 6.8 *(v9)* Replicação Azul — mesmo método, achados equivalentes
+
+`analise_etapa_media_azul.py`/`distribuicao_etapa_media_azul.py`,
+espelho exato dos scripts GOL (mesmas janelas, mesmo filtro PASSAGEIRO):
+
+| | GOL | Azul |
+|---|---|---|
+| Etapas (full 2021-2026, passageiro) | 1.156.949 | 1.541.677 |
+| Cerca de Tukey (superior) | 4,43h | 3,49h |
+| % de etapas fora da cerca | 1,45% | 3,70% |
+| Autocorrelação diária (lag-1), série **sem corte** | r = 0,429 | r = 0,731 |
+
+> **Nota de leitura (v10, ver `SPEC-017`).** `r` mede **memória** (fração da
+> variação diária que persiste), não estabilidade, e é normalizado pela
+> variância — `σ` da série diária não foi medido nesta rodada. Em meia-vida
+> de distúrbio: 0,8 dia na GOL contra 2,2 dias na Azul. Três fatores de
+> confusão mecânicos (tamanho de amostra diário, mix de frota, sazonalidade
+> semanal) precisam ser descartados antes de leitura operacional; `SPEC-017`
+> especifica o teste de cada um.
+
+> **Nota de procedência (v11, ver `SPEC-017 §6.3` requisito 4).** A cerca de
+> Tukey da linha acima **não** é aplicada a este cálculo. A série diária de
+> `nr_horas_voadas` é construída direto do `load_data()` (`dist_13`/`dist_14`
+> de `distribuicao_etapa_media_gol.py`/`_azul.py`, e `v09`/`v12` de
+> `versus_gol_azul.py`), sem truncagem: aqui o corte de Tukey só entra nos
+> gráficos que o declaram no título. Isso difere de tempo de solo, onde a
+> série diária de `SPEC-016 §6.2` já chega truncada pela cerca de cada
+> companhia. Consequência: `r = 0,429` daqui e `r = 0,613` de `SPEC-016` são
+> de regimes de limpeza diferentes. A ordenação entre companhias é a mesma
+> nas duas linhas, e é isso que sustenta a leitura de propriedade consistente
+> das séries; a diferença de magnitude entre as duas linhas, porém, não é
+> atribuível só ao indicador, porque o corte também mudou. Qualquer cálculo
+> por base (rodada 2 de `SPEC-017`) deve declarar o corte e usar o mesmo em
+> todas as unidades comparadas.
+| Top bases (80% acumulado) | `SBSP, SBGR, SBBR...` (§6.3) | `SBKP, SBCF, SBRF, SBRJ, SBSP...` |
+
+Ranking de bases da Azul difere do de GOL — esperado, reflete a malha
+própria de cada companhia (Campinas/Viracopos como base dominante da
+Azul, não Congonhas/Guarulhos). Nenhuma inversão de achado qualitativo
+frente ao padrão já visto na GOL (sazonalidade, ordenação de frota) foi
+registrada nesta rodada — replicação confirmatória, não contraditória.
+
+### 6.9 *(v9)* GOL x Azul — 21 gráficos de comparação (`versus_gol_azul.py`)
+
+`versus_gol_azul.py` importa os 4 scripts (GOL+Azul) como módulos, sem
+reimplementar a query — mesmo eixo/escala compartilhados quando a
+pergunta é "quem é maior" ou "onde a densidade é mais forte", densidade
+em vez de contagem bruta (Azul tem ~1,54M etapas contra ~1,16M da GOL).
+
+Primeira rodada selecionou 12 gráficos (`v01`-`v12`) dos mais de 25 já
+gerados nos scripts fonte. Auditoria posterior (pedido do autor,
+2026-09-02) encontrou **9 tipos que faltavam** — alguns avisados na hora
+da primeira seleção, outros omissão real, não percebida até a auditoria.
+Adicionados com prefixo `novo_` (não renumerados dentro de `v01`-`v12`,
+para não confundir referência já em uso):
+
+| Prefixo | Conteúdo | Nota |
+|---|---|---|
+| `novo_01` | Dispersão etapa média × tempo de solo, por matrícula | — |
+| `novo_02` | Dispersão etapa média × distância, por modelo | — |
+| `novo_03` | Hexbin por hub individual | Escopo reduzido de 10 para 5 hubs por empresa — decisão explícita, não omissão |
+| `novo_04` | Grade hexbin top 6, GOL empilhado sobre Azul | Um layout só (não os dois possíveis) — decisão explícita |
+| `novo_05` | Decomposição real × contrafactual, mix de frota | — |
+| `novo_06` | Duração média mensal por modelo, valor absoluto | Não é o mesmo que `v10` (esse é % de participação) |
+| `novo_07` | Duração média mensal por base HUB | Legenda em caixa, não rótulo direto na ponta da linha — lição já aprendida em `a3_tempo_de_solo` (`SPEC-016 §6.5`) |
+| `novo_08` | Top bases HUB por nº de chegadas | — |
+| `novo_09` | Violin único com média/mediana/Q1/Q3 | — |
+
+**Achado de processo**: a auditoria "quais gráficos faltaram" (pedido
+explícito do autor, não espontânea) revelou que a primeira seleção de 12
+gráficos tinha lacunas reais, não só cortes deliberados — checagem de
+completude contra o inventário de gráficos já gerados nos scripts fonte
+é prática a repetir nas próximas linhas de análise antes de declarar um
+`versus_gol_azul.py` "completo".
+
 ## 7. Critérios de sucesso (desta rodada)
 
 - **C-01** — Script roda sem erro, gera as 8 figuras esperadas (4 tipos ×
@@ -303,8 +398,9 @@ comparações de até 3 séries (frota, §6.7), onde já era legível.
 - Não é objetivo confirmar as hipóteses candidatas do §6.1/§6.2 (efeito
   pós-pandemia, saída do B737 do internacional) — ficam registradas como
   direção de investigação, não resolvidas aqui.
-- Não é objetivo cobrir Azul, mediana/quartis, velocidade inferida em
-  figura, ou relação frota×base nesta rodada (§3.3).
+- Não é objetivo cobrir mediana/quartis, velocidade inferida em figura,
+  ou relação frota×base nesta rodada (§3.3) — Azul **entrou** no escopo
+  na v9 (§6.8, §6.9), não é mais não-objetivo.
 
 ## 10. Próximos passos (direção pedida pelo autor)
 
@@ -340,7 +436,6 @@ Revisitar esta SPEC (nova entrada no Histórico, não novo documento)
 quando:
 
 - Uma nova rodada de janela/recorte for pedida pelo autor.
-- Azul entrar no escopo desta linha de análise.
 - Alguma hipótese candidata do §6 for testada e confirmada ou refutada.
 
 ## 13. Histórico
@@ -355,6 +450,9 @@ quando:
 | 2026-09-01 | **v6 — janelas fechando e cruzamentos tempo×frota/tempo×base, pedido do autor.** 4 janelas novas (2022→2026, 2023→2026, 2024→2026, 2025→2026, mesmo teto 2026-07-31, piso subindo), mais as duas pontas já existentes (2021→2026, 2026 isolado) — sazonalidade se confirma em qualquer corte (§6.6). Dois cruzamentos novos: duração mensal por frota (3 linhas, nunca se cruzam, `B737` com viés de queda visível) e por base HUB (top 6, achados de nível novos — platô isolado de `SBGL` em 2022-23, quebra de patamar de `SBRJ` no fim de 2023) (§6.7). Achado de processo: paleta monocromática de 6 séries ficou pouco legível só com legenda, corrigido com rótulo direto no fim de cada linha. 14 figuras no total. §3.2, §5, §6.6, §6.7 novos/atualizados. |
 | 2026-09-01 | **v7 — regra de paleta por nº de séries, pedido do autor.** Gráfico de linha com mais de 3 séries troca do laranja monocromático para paleta categórica "normal", colorida (`PALETA_CATEGORICA`, 8 cores validadas da skill `dataviz`, ordem fixa) — laranja GOL segue valendo para série única e até 3 séries (frota). Aplicado em `duracao_media_mensal_por_base` (6 séries); rótulo direto no fim da linha mantido como reforço, não mais como única correção. 14 figuras regeradas. §6.7 atualizado. |
 | 2026-09-01 | **v8 — gráfico por base (colorido) estendido a 2025_2026 e 2026 isolado, pedido do autor.** `duracao_media_mensal_por_base` rodado também para as duas janelas mais fechadas (antes só `full_2021_2026`). Nas janelas mais curtas o platô de `SBGL` (§6.7, específico de 2022-23) não aparece, esperado — fica fora do recorte. 16 figuras no total. §6.7 atualizado. |
+| 2026-09-03 | **v9 — correção retroativa (achado de auditoria documental): rodada Azul + comparação GOL x Azul + notebook didático, todas já concluídas, não estavam registradas.** Título do documento passa a "Etapa Média GOL/Azul" (deixa de ser GOL-only). Azul replicada (mesmo método, §6.8): 1.541.677 etapas, cerca de Tukey 3,49h (3,70% fora), autocorrelação diária r=0,731 — maior que a da GOL (r=0,429, também preenchido retroativamente nesta v9). `versus_gol_azul.py` documentado (§6.9): 12 gráficos da primeira seleção + 9 gráficos `novo_NN` de uma auditoria de completude pedida pelo autor (2026-09-02), que achou lacunas reais na seleção original. Notebook `analise_etapa_media_gol.ipynb` registrado como entrega didática (§3.4), sem achado de negócio próprio. §3.2, §3.3, §3.4 (novo), §6.8/§6.9 (novos), §9, §12 atualizados. |
+| 2026-09-04 | **v11 — nota de procedência, achado inalterado.** Coeficientes de §6.8 inalterados; declarado que a série diária de etapa média é construída **sem corte de outlier**, e que a cerca de Tukey listada na mesma tabela não se aplica a esse cálculo. Registrado que isso difere de `SPEC-016 §6.2` (tempo de solo, série já truncada pela cerca de cada companhia), de modo que os coeficientes das duas linhas vêm de regimes de limpeza diferentes: a ordenação entre companhias se mantém, a diferença de magnitude entre indicadores não é atribuível só ao indicador. Origem: revisão do relatório IMRaD do deep dive, que começou pela divergência de corte em tempo de solo e alcançou esta linha. Ver `SPEC-017 §6.3` requisito 4. |
+| 2026-09-03 | **v10 — nota de leitura, achado inalterado.** Coeficientes de §6.8 inalterados; acrescentada nota remetendo à `SPEC-017` para não ler autocorrelação como medida de estabilidade. Origem: discussão durante a redação do relatório IMRaD do deep dive. |
 
 ---
 
