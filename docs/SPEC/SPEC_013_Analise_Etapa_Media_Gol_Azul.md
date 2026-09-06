@@ -54,10 +54,11 @@ via `WHERE ds_servico_tipo_linha = 'PASSAGEIRO'`.
    fora da árvore de camadas de dado porque são artefato de análise, não
    de ingestão/tratamento).
 3. Achados de cada rodada, registrados em §6 conforme a janela investigada.
-4. *(v4)* Script `analise/a4_etapa_media/gerar_pareto_bases_gol.py` e
-   saída `pareto_bases_gol_atualizado.csv` — pareto de bases HUB/OFF-HUB
-   (80% acumulado), confrontado contra `rascunho/pareto_bases_gol.csv`
-   fornecido pelo autor (§6.5).
+4. *(v4, revisto em v13)* Pareto de bases HUB/OFF-HUB (80% acumulado),
+   confrontado contra `analise/a4_etapa_media/pareto_bases_gol_autor_2026-08-31.csv`
+   fornecido pelo autor (§6.5). O cálculo hoje mora na view
+   `pareto_bases_gol_azul` (`sql/curated_deep/DDL_006`), não mais no
+   script `gerar_pareto_bases_gol.py`, removido em v13.
 5. *(v6)* Janelas fechando (2022→2026, 2023→2026, 2024→2026, 2025→2026,
    além das duas pontas já existentes) e dois cruzamentos novos
    (duração mensal por frota, duração mensal por base HUB) — §6.6, §6.7.
@@ -182,7 +183,7 @@ relevante à pergunta.
 ### 6.3 Bases HUB de origem (80% acumulado) — CGH/GRU concentram volume, nordeste puxa duração
 
 *(v5)* Critério trocado de corte fixo (top-15) para 80% acumulado
-(`selecionar_hub`, mesma regra de §6.5/`gerar_pareto_bases_gol.py`) —
+(`selecionar_hub`, mesma regra de §6.5 e da view `pareto_bases_gol_azul`) —
 pedido do autor, 2026-09-01. Deixa de ser um número fixo de bases: 16 na
 janela completa (`MCZ` entra, mesma composição do pareto §6.5), 17 em
 2026 isolado (`NAT` entra, não aparecia no corte fixo de 15 antes).
@@ -205,23 +206,23 @@ consistência interna do dado (uma aeronave que chega numa base tende a
 também partir dela, condizente com a taxa de continuidade de 99,86% já
 medida em `SPEC-012 §6.4`).
 
-### 6.5 Pareto de bases (HUB/OFF-HUB) — confronto contra `rascunho/pareto_bases_gol.csv`, achado de staleness
+### 6.5 Pareto de bases (HUB/OFF-HUB) — confronto contra o CSV do autor, achado de staleness
 
-O autor forneceu `rascunho/pareto_bases_gol.csv` (classificação HUB/OFF-HUB
+O autor forneceu `pareto_bases_gol_autor_2026-08-31.csv` (classificação HUB/OFF-HUB
 por acúmulo de 80% das chegadas, mesma família de método de
 `SPEC-004 §6`) para conferência contra as bases escolhidas nesta SPEC.
 Repliquei a metodologia exata (ranking por chegadas, % acumulado, HUB
 enquanto o acumulado **antes** da base é `< 80%`) contra
-`basica_curated_deep` atual — script
-`analise/a4_etapa_media/gerar_pareto_bases_gol.py`, saída
-`analise/a4_etapa_media/pareto_bases_gol_atualizado.csv`.
+`basica_curated_deep` atual. O cálculo desta rodada saiu de um script
+descartável (`gerar_pareto_bases_gol.py`, removido em v7); os números
+abaixo são os que ele produziu, sobre o histórico inteiro.
 
 **O que bate**: 14 das 15 bases HUB do CSV do autor aparecem no
 resultado atual; a ordem das posições 3-12 é idêntica nos dois.
 
 **O que diverge**:
 
-| Ponto | `pareto_bases_gol.csv` (autor) | `pareto_bases_gol_atualizado.csv` (esta rodada) |
+| Ponto | CSV do autor (2026-08-31) | Esta rodada (v4, histórico inteiro) |
 |---|---|---|
 | #1/#2 | `GRU` > `CGH` | `CGH` > `GRU` |
 | `VIX` | OFF-HUB (rank 16, 80,85% acum.) | **HUB** (rank 14, 77,98% acum.) |
@@ -240,7 +241,7 @@ exatamente 238.438 etapas (bate com o número que o próprio docx cita),
 mas as magnitudes do CSV do autor são ~4× maiores. Descartado.
 
 **Hipótese mais provável (não confirmada por rastro documental direto,
-só por coincidência temporal forte)**: `rascunho/pareto_bases_gol.csv`
+só por coincidência temporal forte)**: o CSV do autor
 tem data de modificação `2026-08-31 08:38` — **anterior** à correção do
 `SPEC-008 v4` (bug de corte hardcoded que travava `basica_raw` em
 2026-06, antes de `2026-07` ser incluído) e anterior à `basica_curated_deep`
@@ -250,7 +251,7 @@ escolha metodológica divergente.
 **Resolvido em v5**: `top_bases_origem`/`top_bases_chegadas` (§6.3, §6.4)
 trocaram do corte fixo top-15 para o critério de 80% acumulado, pedido
 do autor — mesma função `selecionar_hub` usada em ambas as figuras,
-consistente com `gerar_pareto_bases_gol.py`.
+consistente com a regra da view `pareto_bases_gol_azul`.
 
 ### 6.6 Janelas fechando (2021→2026, 2022→2026, ..., 2025→2026) — sazonalidade se confirma em qualquer corte
 
@@ -454,6 +455,7 @@ quando:
 | 2026-09-03 | **v10 — nota de leitura, achado inalterado.** Coeficientes de §6.8 inalterados; acrescentada nota remetendo à `SPEC-017` para não ler autocorrelação como medida de estabilidade. Origem: discussão durante a redação do relatório IMRaD do deep dive. |
 | 2026-09-04 | **v11 — nota de procedência, achado inalterado.** Coeficientes de §6.8 inalterados; declarado que a série diária de etapa média é construída **sem corte de outlier**, e que a cerca de Tukey listada na mesma tabela não se aplica a esse cálculo. Registrado que isso difere de `SPEC-016 §6.2` (tempo de solo, série já truncada pela cerca de cada companhia), de modo que os coeficientes das duas linhas vêm de regimes de limpeza diferentes: a ordenação entre companhias se mantém, a diferença de magnitude entre indicadores não é atribuível só ao indicador. Origem: revisão do relatório IMRaD do deep dive, que começou pela divergência de corte em tempo de solo e alcançou esta linha. Ver `SPEC-017 §6.3` requisito 4. |
 | 2026-09-04 | **v12 — codificação de aeroportos trocada de ICAO para IATA, achados inalterados.** Pedido do autor: as figuras rotulavam bases pelo ICAO de 4 letras (`SBGR`, `SBSP`), que é o que a Básica carrega, enquanto a audiência da análise lê IATA de 3 letras (`GRU`, `CGH`). Módulo novo `analise/iata_bases.py` traduz no ponto de carga contra `dim_airport_location_time_zone` e **preserva a coluna ICAO ao lado** (rastro de auditoria); os scripts passaram a plotar `sg_iata_origem`/`sg_iata_destino`, o SQL continua lendo as colunas ICAO da fonte. 82 figuras de `a4_etapa_media` regeradas, mais as 40 de `a3`/`a4` cujo nome de arquivo carregava o ICAO (`dist_10_hexbin_horario_partida_SBGR.png` → `..._GRU.png`, as antigas removidas após conferir o par). Nenhum número, corte, agrupamento ou conclusão mudou — troca de rótulo apenas. Corpo deste documento convertido; **linhas anteriores do Histórico preservadas em ICAO** (registram o que se escreveu na data). Dois achados de qualidade no de-para, ambos com fallback para o próprio ICAO: `base_iata` traz a sentinela `'N/I'` para `SBFE`/`SDIY`/`SNJD` (sem tratamento, os três colapsariam num balde único, e `SDIY` tem 317 etapas), e 3 aeródromos não têm IATA (`SBUY` 676 etapas, `LPAR` 2, `SBYS` 1). |
+| 2026-09-05 | **v13, pareto migrado de CSV estático para view SQLite.** `rascunho/pareto_bases_gol.csv` (evidência do autor, não reproduzível) movido para `analise/a4_etapa_media/pareto_bases_gol_autor_2026-08-31.csv`; `pareto_bases_gol_atualizado.csv` e `gerar_pareto_bases_gol.py` removidos, substituídos pela view `pareto_bases_gol_azul` (`sql/curated_deep/DDL_006_pareto_bases_gol_azul_create_view_sqlite.sql`), que cobre as duas empresas e os dois sentidos (chegada e partida) numa janela móvel de cinco anos fechados. Motivo: o CSV ficou stale porque era estático, e a view não pode ficar. §3.2, §5.2, §6.5 atualizados; entradas de Histórico anteriores preservadas como registro do que se sabia à época. **Achado novo, refina §6.5 sem contradizê-lo:** na janela 2021-2025 a ordem `GRU` > `CGH` volta a ser a do CSV do autor, e o denominador cai de 1.156.956 para 1.012.015 chegadas (autor: ≈959 mil). A janela explica a inversão #1/#2 e parte da diferença de magnitude, mas não explica `VIX` nem a contagem de HUB (16 na janela, 16 no histórico inteiro, 15 no autor). O §6.5 já dizia que janela curta uniforme não era a *única* causa; segue valendo, com uma causa a menos em aberto. **Achado de qualidade de dado:** as colunas `sg_iata_*` de `basica_curated_deep` são inconsistentes dentro do mesmo ICAO (`SDIY` como `FEC` em 77 linhas e `N/I` em 240; `SPJC` como `LIM` em 66 e `...` em 1). A view resolve o rótulo por ICAO contra a dimensão, mesma regra de `analise/iata_bases.py`; resolver linha a linha partiria o mesmo aeroporto em duas bases. |
 
 ---
 
