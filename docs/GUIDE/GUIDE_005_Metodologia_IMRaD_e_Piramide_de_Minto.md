@@ -93,12 +93,12 @@ Regra de rastreabilidade: cada "porquê" do e-mail precisa apontar para uma seç
 | `SPEC-004` | Fixa as perguntas de análise. A pergunta central da Introdução do IMRaD deriva daí. |
 | `SPEC-013`, `SPEC-015`, `SPEC-016` | Registram o que foi medido em cada linha. Alimentam Resultados. |
 | `SPEC-017` | Releitura da autocorrelação. Alimenta Discussão e a Recomendação 1. |
-| `relatorios/gerador-imrad-microdados` | Produz o relatório. |
-| `relatorios/gerador-minto-microdados` | Produz o comunicado, por poda do relatório. |
+| `relatorios/<versao>/gerador-imrad-microdados` | Produz o relatório. |
+| `relatorios/<versao>/gerador-minto-microdados` | Produz o comunicado, por poda do relatório. |
 | `DEC-010` | Registra por que `relatorios/` existe fora da estrutura da `SPEC-001 §5`. |
 
 **Divergência declarada.** O comunicado gerado em
-`relatorios/gerador-minto-microdados` é **autoconsistente**: contra a regra de
+`relatorios/<versao>/gerador-minto-microdados` é **autoconsistente**: contra a regra de
 rastreabilidade da §3 deste guia, ele não aponta para seções do relatório.
 Cada porquê carrega o número dentro do próprio parágrafo, porque a peça
 precisa funcionar para quem nunca vai abrir o IMRaD. O custo é real e está

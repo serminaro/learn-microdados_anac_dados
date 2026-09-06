@@ -171,8 +171,12 @@ rastro. Sem IATA utilizável, o rótulo volta a ser o ICAO.
 
 | Gerador | Peça | Para quem |
 |---|---|---|
-| `relatorios/gerador-imrad-microdados/` | Relatório IMRaD | Quem audita o método: fontes, premissas, limites, achados separados de hipóteses |
-| `relatorios/gerador-minto-microdados/` | Comunicado em Pirâmide de Minto | Quem decide: resposta primeiro, três razões em cadeia, pedido de ação |
+| `gerador-imrad-microdados/` | Relatório IMRaD | Quem audita o método: fontes, premissas, limites, achados separados de hipóteses |
+| `gerador-minto-microdados/` | Comunicado em Pirâmide de Minto | Quem decide: resposta primeiro, três razões em cadeia, pedido de ação |
+
+Os dois vivem dentro de uma pasta por versão do relatório
+(`relatorios/report_microdados_v1/`, `_v2/` e assim por diante). Cada versão
+carrega os seus dois geradores e a sua própria procedência de figuras.
 
 O comunicado deriva do relatório por poda, nunca por resumo, e não contém
 achado que não esteja nele. A metodologia dos dois está em `GUIDE-005`, e o
@@ -180,14 +184,14 @@ achado que não esteja nele. A metodologia dos dois está em `GUIDE-005`, e o
 `SPEC-001 §5` e como deve ser lida numa auditoria (é código, não peça SERMI).
 
 As figuras das duas peças são cópias das de `analise/`, para manter cada
-gerador autocontido. `relatorios/PROCEDENCIA_FIGURAS.md` guarda a
+gerador autocontido. O `PROCEDENCIA_FIGURAS.md` de cada versão guarda a
 correspondência conferida por `md5sum`, com o comando para refazer a
 verificação, e é o que impede que as cópias divirjam em silêncio.
 
 Para regerar qualquer uma:
 
 ```bash
-cd relatorios/gerador-imrad-microdados    # ou gerador-minto-microdados
+cd relatorios/report_microdados_v2/gerador-imrad-microdados    # ou -minto-, ou outra versao
 python gerar_docx.py
 ```
 

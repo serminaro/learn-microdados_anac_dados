@@ -44,9 +44,19 @@ gerada:
 
 ```
 relatorios/
-├── gerador-imrad-microdados/    relatório IMRaD do deep dive GOL/Azul
-└── gerador-minto-microdados/    comunicado de decisão, derivado do anterior por poda
+└── report_microdados_v1/            uma pasta por versão do relatório
+    ├── PROCEDENCIA_FIGURAS.md       procedência das figuras DESTA versão
+    ├── gerador-imrad-microdados/    relatório IMRaD do deep dive GOL/Azul
+    └── gerador-minto-microdados/    comunicado de decisão, derivado do anterior por poda
 ```
+
+*(v2, 2026-09-05)* A camada de versão (`report_microdados_vN/`) foi
+introduzida quando a segunda versão do relatório nasceu. Sem ela, uma versão
+nova sobrescreveria a anterior ou obrigaria a renomear os dois geradores, e o
+`.docx` publicado deixaria de ter uma origem identificável no repositório. O
+`PROCEDENCIA_FIGURAS.md` desceu para dentro da versão pelo mesmo motivo que
+os geradores são autocontidos (§5): quando as figuras de `v2` divergirem das
+de `v1`, a tabela de procedência de cada uma tem que divergir junto.
 
 Cada subdiretório carrega tudo o que precisa para rodar: `config.yml`,
 `gerar_docx.py`, `modelo_de_escrita.docx`, `environment.yml`, o markdown de
@@ -110,19 +120,30 @@ positivo.
 
 Revisitar esta DEC quando:
 
-- Uma segunda análise produzir peças, e a estrutura de `relatorios/` precisar
-  de subdivisão por tema em vez de por peça.
+- ~~Uma segunda análise produzir peças, e a estrutura de `relatorios/`
+  precisar de subdivisão por tema em vez de por peça.~~ **Disparou em
+  2026-09-05, com forma diferente da prevista:** a subdivisão que apareceu
+  primeiro foi por *versão do mesmo relatório*, não por tema. A v1 previu a
+  pressão certa e o eixo errado. Resolvido pela camada `report_microdados_vN/`
+  do §2; subdivisão por tema continua em aberto, e cabe dentro da camada de
+  versão se vier.
 - O `.docx` gerado passar a ser distribuído fora do projeto, momento em que
   vale promovê-lo a `REP-002` com frontmatter, mantendo `relatorios/` como
   maquinaria.
 - A duplicação de figuras passar de dezenas de MB, quando o custo de
-  armazenamento supera o ganho de autocontenção.
+  armazenamento supera o ganho de autocontenção. **No limiar em 2026-09-05:**
+  10,4 MB de figura em `relatorios/` (82 arquivos, 2 versões), 21 MB de pasta
+  total, contra 35,6 MB de original em `analise/` (272 arquivos). O custo
+  agora é linear no número de versões, cerca de 11 MB por versão, não mais
+  fixo. Reavaliar na v3, não antes: com duas versões o ganho de autocontenção
+  ainda paga.
 
 ## 7. Histórico
 
 | Data | Evento |
 |---|---|
 | 2026-09-04 | DEC-010 v1 redigida em status `proposto`, aguardando aprovação do autor. Cria `relatorios/` e traz as duas peças do deep dive GOL/Azul, mais o guia metodológico como `GUIDE-005`. Motivo imediato: os documentos viviam num repositório sem git. |
+| 2026-09-05 | **v2, estrutura de `relatorios/` ganha camada de versão.** Os dois geradores desceram para `relatorios/report_microdados_v1/`, e `report_microdados_v2/` nasceu como cópia idêntica, a divergir a partir daqui (decisão do autor). `PROCEDENCIA_FIGURAS.md` desceu junto, um por versão, pelo mesmo princípio de autocontenção do §5. Movimentação feita com `mv` e registrada no git como 67 renomeações para `v1` (histórico preservado) mais 67 adições para `v2`. §2 e §6 atualizados; citações corrigidas em `README.md`, `GUIDE-005` e `INDEX_DEC`. **Verificado antes e depois:** os 67 arquivos batem byte a byte com o `HEAD`, e o teste de procedência do `PROCEDENCIA_FIGURAS.md` devolve o estado documentado (25 Classe A idênticas às originais de `analise/`, 16 Classe B sem original no repositório). Nenhum arquivo perdido, nenhuma figura alterada. |
 
 ---
 
