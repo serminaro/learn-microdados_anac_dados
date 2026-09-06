@@ -1,6 +1,6 @@
 """Carrega data/aerodromos_enriquecido.csv em db/anac_basica.sqlite.
 
-Fonte original: rascunho/dim_airport_location_time_zone.csv (283 de 863
+Fonte original: data/dim_airport_location_time_zone.csv (283 de 863
 aeródromos). Completada em 2026-08-31 a pedido do autor com o arquivo
 cheio (data/aerodromos_enriquecido.csv), que é a fonte primária real
 (SRC_001_enriquecer_bases_aerodromos.py) -- o recorte de 283 vira

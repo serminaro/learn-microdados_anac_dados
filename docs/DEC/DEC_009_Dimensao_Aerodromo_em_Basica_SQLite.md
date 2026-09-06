@@ -30,7 +30,7 @@ horário de verão calculados empiricamente contra o calendário real, não
 por suposição regional). Esse arquivo nunca teve DEC/SPEC própria — dívida
 registrada aqui, não resolvida por esta DEC (§6).
 
-O autor forneceu primeiro `rascunho/dim_airport_location_time_zone.csv`:
+O autor forneceu primeiro `data/dim_airport_location_time_zone.csv`:
 um subconjunto de 283 dos 863 aeródromos únicos de
 `aerodromos_enriquecido.csv`, sem as colunas `QT_OCORRENCIAS`/`_match`. O
 critério desse corte nunca foi confirmado — o autor pediu, na sequência,
@@ -72,7 +72,7 @@ dentro de um banco já existente evita abrir um quarto banco só para menos
 de mil linhas.
 
 **(b) Fonte é `data/aerodromos_enriquecido.csv` direto**, não mais o
-recorte `rascunho/dim_airport_location_time_zone.csv` — o autor pediu
+recorte `data/dim_airport_location_time_zone.csv` — o autor pediu
 para completar com a fonte primária, então o recorte fica histórico, sem
 uso no pipeline de carga.
 
@@ -190,6 +190,7 @@ Esta decisão deve ser revisitada se:
 | 2026-08-31 | DEC-009 v1 produzida em status `proposto`, retroativa. Formaliza a tabela `dim_airport_location_time_zone`, carregada em `anac_basica.sqlite` a partir do recorte de 283 linhas fornecido pelo autor. Aguardando aprovação do autor. |
 | 2026-08-31 | Completada a pedido do autor: fonte trocada para `data/aerodromos_enriquecido.csv` (858 aeródromos, excluídos 5 `SEM_MATCH`). Três achados novos: fuso de meia hora (`utc_offset` corrigido de `INTEGER` para `REAL`), granularidade real da fonte (ICAO, IATA observado — 46 códigos duplicados, dedup por maior `QT_OCORRENCIAS`), e `SBQV` com reatribuição de ICAO entre dois aeroportos físicos. §1, §2, §4.3, §5, §6 atualizados. |
 | 2026-08-31 | **Aprovada.** Autor revisou o lote (DEC-009 + SPEC-011) e aprovou explicitamente. |
+| 2026-09-05 | **Correção pós-aprovação, decisão inalterada.** `rascunho/dim_airport_location_time_zone.csv` movido para `data/dim_airport_location_time_zone.csv` (`git mv`, histórico preservado) e declarado como exceção no `.gitignore`. Motivo: `rascunho/` é declarada descartável pelo `.gitignore`, e o recorte de 283 aeródromos é pesquisa externa não reproduzível por rede; trilha documental citada por peça aprovada não pode morar em pasta declarada descartável. As duas citações no corpo (§1, §4.3) passam a apontar para o caminho novo. Nenhuma decisão, fonte de carga ou schema muda: o recorte segue histórico, sem uso no pipeline. |
 
 ---
 

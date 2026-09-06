@@ -62,7 +62,7 @@ data/aerodromos_enriquecido.csv (913 linhas na granularidade ICAO+IATA
 ```
 
 Primeira versão desta tabela (não aprovada, superada nesta mesma v1) veio
-de `rascunho/dim_airport_location_time_zone.csv`, um recorte manual de
+de `data/dim_airport_location_time_zone.csv`, um recorte manual de
 283 aeródromos cujo critério nunca foi confirmado. O autor pediu para
 completar direto a partir da fonte primária — o recorte fica histórico,
 sem uso no pipeline de carga atual.
@@ -199,6 +199,7 @@ Revisitar esta SPEC quando:
 | 2026-08-31 | Completada a pedido do autor: fonte trocada para `data/aerodromos_enriquecido.csv` (858 aeródromos, 5 `SEM_MATCH` excluídos, dedup por maior `QT_OCORRENCIAS`). Achados novos: fuso de meia hora (`utc_offset` de `INTEGER` para `REAL`), 8 aeródromos `MANUAL_KEYWORD` sem município/país, e `SBQV` com ICAO reatribuído entre dois aeroportos físicos. §3.2, §4-§9, §10 (R-COL-22/23 novos), §11, §12 atualizados. |
 | 2026-08-31 | **Aprovada.** Autor revisou o lote (DEC-009 + SPEC-011) e aprovou explicitamente. |
 | 2026-08-31 | **v2 — correção pós-aprovação, decisão inalterada (`R-TAX-11`).** Renomeado `sql/ingestao_sqlite/DDL_005_dim_airport_create_table.sql` → `DDL_004_...` (numeração local da pasta pulava o 004; corrigido antes de criar `siros_silver`, que teria colidido no 005 se a numeração fosse global entre pastas — ver achado registrado em `DEC-001 §6.6`, não resolvido, só a colisão evitada). §4 atualizado. |
+| 2026-09-05 | **v3, correção pós-aprovação, decisão inalterada.** `rascunho/dim_airport_location_time_zone.csv` movido para `data/dim_airport_location_time_zone.csv` (`git mv`), com exceção correspondente no `.gitignore`; a citação de §5 acompanha o caminho. Mesmo motivo registrado na `DEC-009`. Nenhuma coluna, regra `R-COL-NN` ou fonte de carga muda. |
 
 ---
 

@@ -8,6 +8,10 @@ data/*
 !data/Bases_dos_microdados_2015_2026.txt
 !data/aerodromos_enriquecido.csv
 !data/aerodromos_sem_match.csv
+# Recorte manual de 283 aerodromos fornecido pelo autor (pesquisa externa,
+# nao reproduzivel por rede) -- fonte original da dimensao, citado por
+# DEC-009 e SPEC-011. Veio de rascunho/ em 2026-09-05.
+!data/dim_airport_location_time_zone.csv
 
 # Banco local -- 2,5GB+, excede o limite de arquivo do GitHub (100MB) de qualquer forma
 db/
