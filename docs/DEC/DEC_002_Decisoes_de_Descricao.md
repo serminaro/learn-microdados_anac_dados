@@ -192,7 +192,7 @@ risco nomeado em §4.4.
 ## 6. Campos estruturantes do SPEC-002
 
 O mínimo que esta DEC fixa para o SPEC-002 formalizar (blueprint DEC-002,
-`rascunho/contexto/blueprints/DEC_002.json`):
+`docs/assets/blueprints/DEC_002.json`):
 
 ### 6.1 Recorte de escopo
 
@@ -278,6 +278,7 @@ Esta decisão deve ser revisitada se:
 |---|---|
 | 2026-08-24 | DEC-002 produzida em status `proposto`. Formaliza D1 (3 datasets), D2 (dois caminhos iguais) e D3 (corte 2010) do REP-001, com critério de sucesso incremental adotado no lugar do critério monolítico. Cinco alternativas avaliadas, duas rejeitadas por reabrirem vieses já nomeados no REP-001. Aguardando revisão do autor antes de aprovar e seguir para SPEC-002. |
 | 2026-08-24 | **Aprovada.** Revisão contra o blueprint (`DEC_002.json`) sem divergência: sete seções obrigatórias presentes, cinco alternativas com veredito (mínimo 2), consequências negativas não vazias, cinco campos estruturantes do SPEC-002 preenchidos (§6). Segue para SPEC-002. |
+| 2026-09-06 | **Correção pós-aprovação, decisão inalterada (`R-TAX-11`).** A citação de §6 ao blueprint acompanha a mudança de `rascunho/contexto/blueprints/` para `docs/assets/blueprints/`. Motivo registrado na `DEC-001`, mesma data. Nada mais muda. |
 
 ---
 

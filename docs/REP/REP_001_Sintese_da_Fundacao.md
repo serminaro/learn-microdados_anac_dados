@@ -231,8 +231,37 @@ Projeto solo — dono operacional é o autor em todas as escalas.
   `docs/plano_expansao_multidataset.md` para peça formal SERMI — por
   oportunidade, sem prazo forçado (DEC-001 §5.3).
 - Primeira auditoria de coerência (`gov-check`) assim que as sete peças da
-  fundação existirem (Nível 2 de "Definição de Pronto",
-  `rascunho/INSTRUCAO_DE_TRABALHO.txt` §6).
+  fundação existirem, pelo critério de "Definição de Pronto" adotado na
+  condução desta fundação e transcrito abaixo.
+
+### 8.1 Definição de Pronto adotada nesta fundação
+
+Critério que guiou a produção das sete peças, registrado aqui porque é o
+que esta síntese usou para julgar o que estava pronto. Descreve o que foi
+feito, não cria regra nova: as regras checáveis vivem na `SPEC-001`
+(`R-TAX-NN`) e na `SPEC-003` (`R-CON-NN`).
+
+"Pronto" quase sempre quer dizer "pronto para o próximo estado", não
+"acabado para sempre". Uma peça passa por três estados: rascunho livre (em
+texto, sem forma), `proposto` (bem-formada, aguardando julgamento) e
+`aprovado` (validada e congelada naquela versão).
+
+**Nível 1, peça pronta para virar `proposto`.** Tem frontmatter YAML
+completo e nome conforme a convenção; cumpre a estrutura mínima do seu
+tipo (uma DEC tem contexto, decisão, alternativas e consequências
+negativas; uma SPEC tem propósito, conteúdo estrutural, limitações e
+critérios de revisão); torna explícitas as premissas, incertezas e
+trade-offs onde existem; declara suas regras checáveis quando o tipo pede;
+e fica dentro da sua função, isto é, não decide dentro de uma SPEC, não
+descreve dentro de uma DEC, não narra dentro de um contrato. Peça que
+falha em qualquer ponto volta para rascunho, não entra em `proposto`.
+
+**Nível 2, fundação pronta.** As sete peças previstas existem; são
+mutuamente consistentes, com as referências cruzadas resolvendo e nenhuma
+peça contradizendo outra; e a auditoria de coerência roda sem divergência
+Crítica ou Alta em aberto. Divergência Média ou Baixa pode virar dívida
+registrada, desde que nomeada. Só então a fundação sustenta a execução do
+projeto.
 
 ---
 
@@ -242,6 +271,7 @@ Projeto solo — dono operacional é o autor em todas as escalas.
 |---|---|
 | 2026-08-24 | REP-001 v1 produzido e aprovado pelo autor, no mesmo bloco de trabalho de sua produção (junto com SPEC-001). O blueprint de REP não exige seção Histórico; nenhuma existia neste momento. |
 | 2026-08-25 | Seção Histórico adicionada retroativamente, por achado do `gov-check` (`AUDIT-001`, R-CON-02 do SPEC-003: artefato `aprovado` precisa de registro de aprovação no próprio documento). Aprovador: Bruno Alexandre Serminaro. Sem revisão adicional da IA de apoio além da já registrada na produção original. |
+| 2026-09-06 | **Correção pós-aprovação, conteúdo absorvido, conclusões inalteradas.** §8 citava `rascunho/INSTRUCAO_DE_TRABALHO.txt §6` para o critério de "Definição de Pronto", e aquele arquivo foi removido do repositório (ver `DEC-001`, mesma data). O critério passa a viver aqui, transcrito em §8.1, com os dois níveis: peça pronta para `proposto` e fundação pronta. É registro do que foi usado na condução desta fundação, não regra nova; as regras checáveis continuam na `SPEC-001` (`R-TAX-NN`) e na `SPEC-003` (`R-CON-NN`). Nenhum achado, decisão ou pendência muda. |
 
 ---
 

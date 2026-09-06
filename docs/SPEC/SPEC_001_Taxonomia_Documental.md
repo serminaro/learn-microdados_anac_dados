@@ -111,7 +111,7 @@ docs/
 ├── GUIDE/      criada quando o primeiro GUIDE nascer
 ├── BRIEF/      criada quando o primeiro BRIEF de marco nascer (README já cumpre o papel de vitrine)
 ├── AUDIT/      INDEX_AUDIT.md recomendado desde cedo em projeto solo — criar ao primeiro AUDIT
-├── assets/     quando houver ativo a versionar (ex.: diagrama do star schema)
+├── assets/     ativo a versionar; hoje assets/blueprints/ (7 JSON da fundação, desde 2026-09-06)
 ├── plano_objetos_snowflake.md          pré-SERMI, solto na raiz de docs/, não retrofitado (DEC-001 §5.3)
 └── plano_expansao_multidataset.md      pré-SERMI, idem
 ```
@@ -216,6 +216,7 @@ Revisitar esta SPEC quando:
 | 2026-08-24 | SPEC-001 v1 produzida em status `proposto`. Instancia a SPEC-META-001 para este projeto, conforme fixado pelo DEC-001 (aprovado). Dez regras `R-TAX-NN` declaradas. Produzida junto com REP-001, no mesmo bloco de trabalho, com SPEC-001 finalizada primeiro (DEC-META-014 §2.1). Aguarda aprovação do autor. |
 | 2026-08-24 | **Aprovada.** Revisão contra o blueprint (`SPEC_001.json`) sem divergência: todas as dez seções obrigatórias presentes, cada regra `R-TAX-NN` com id/enunciado/onde-verificar/severidade, rastro `referencia: DEC-001` coerente com a regra R-TAX-06 que a própria SPEC declara. Segue para DEC-002. |
 | 2026-08-31 | **v2 — R-TAX-11 formalizada.** Uma rodada de `gov-check` (2026-08-31) sinalizou, pela terceira vez, que o padrão "sobe versão, mantém `aprovado`" usado em `DEC-007`/`DEC-008`/`SPEC-004`/`SPEC-008`/`SPEC-009`/`SPEC-010` não tinha regra que o sancionasse neste projeto. Autor decidiu formalizar em vez de desfazer: `R-TAX-11` fixa o mecanismo (bump de versão + Histórico, `status` inalterado) para correção que não muda a decisão de fundo, e reserva `supersede:` para quando a decisão em si muda — coexiste com o princípio de imutabilidade do `DEC-005 §5`, só desenha a fronteira que faltava. Aplica-se retroativamente aos seis documentos citados: nenhum deles reverteu uma decisão, todos documentaram implementação real, achado de dado ou renomeação já decidida. |
+| 2026-09-06 | **v3, correção pós-aprovação, taxonomia inalterada (`R-TAX-11`).** §5 descrevia `docs/assets/` como pasta condicional, ainda vazia. Ela passou a existir de fato: os sete blueprints da fundação vieram de `rascunho/contexto/blueprints/`, pasta que o `.gitignore` declara descartável embora os arquivos estivessem versionados e três DECs aprovadas os citassem. Nenhum tipo, regra `R-TAX-NN` ou convenção de nome muda: blueprint não é peça SERMI, e `docs/assets/` já estava previsto aqui para exatamente este caso. |
 
 ---
 

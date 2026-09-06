@@ -180,7 +180,7 @@ este projeto tem conexão de carreira mais ativa que o precedente.
 ## 6. Campos estruturantes do SPEC-003
 
 O mínimo que esta DEC fixa para o SPEC-003 formalizar (blueprint DEC-003,
-`rascunho/contexto/blueprints/DEC_003.json`):
+`docs/assets/blueprints/DEC_003.json`):
 
 1. **Modo de participação**: solo. Bruno Alexandre Serminaro acumula
    Autor, Gestor e Diretor.
@@ -229,6 +229,7 @@ Esta decisão deve ser revisitada quando:
 |---|---|
 | 2026-08-24 | DEC-003 produzida em status `proposto`. Fixa operação solo (Autor/Gestor/Diretor acumulados por Bruno Serminaro), Claude como par assistivo sem autoridade de aprovação, Peer Review/Supervisor não previstos, e cadência mínima de auditoria por marco (piso trimestral) — diferença deliberada em relação ao precedente `learn-aviacao-cco-db`, justificada pela conexão de carreira já ativa deste projeto. Quatro alternativas avaliadas. Aguardando revisão do autor antes de aprovar e seguir para SPEC-003. |
 | 2026-08-24 | **Aprovada.** Revisão contra o blueprint (`DEC_003.json`) sem divergência: sete seções obrigatórias presentes, quatro alternativas com veredito (mínimo 2), consequências negativas nomeiam explicitamente o risco de acúmulo de papéis, critérios de reavaliação incluem o gatilho de graduação exigido, cinco campos estruturantes do SPEC-003 preenchidos (§6). Última DEC da fundação de sete peças — segue para SPEC-003. |
+| 2026-09-06 | **Correção pós-aprovação, decisão inalterada (`R-TAX-11`).** A citação de §6 ao blueprint acompanha a mudança de `rascunho/contexto/blueprints/` para `docs/assets/blueprints/`. Motivo registrado na `DEC-001`, mesma data. Nada mais muda. |
 
 ---
 

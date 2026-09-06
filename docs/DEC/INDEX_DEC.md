@@ -60,9 +60,10 @@ _(nenhuma ainda)_
 > REP-001 → DEC-002 → SPEC-002 → DEC-003 → SPEC-003. DEC-001, SPEC-001,
 > REP-001, DEC-002, SPEC-002 e DEC-003 estão **aprovados** (2026-08-24).
 > **SPEC-003 segue em `proposto`**, aguardando revisão do autor — falta
-> só ela para a fundação de sete peças estar completa. Material de
-> trabalho da fundação (contexto bruto, blueprints) em `rascunho/`, na
-> raiz do repositório.
+> só ela para a fundação de sete peças estar completa. Os blueprints da
+> fundação vivem em `docs/assets/blueprints/` (movidos de `rascunho/` em
+> 2026-09-06); o contexto bruto que os acompanhava foi absorvido pelas
+> próprias peças e removido, conforme registrado no Histórico da DEC-001.
 >
 > **Nota de auditoria (2026-08-25).** Primeira rodada de `gov-check`
 > (`docs/AUDIT/AUDIT_001_pos_fundacao.md`) gerou `DEC-004` (retroativa,
