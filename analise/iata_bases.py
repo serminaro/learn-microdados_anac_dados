@@ -15,12 +15,31 @@ dimensao, e so' 3 codigos nao tem IATA utilizavel.
 Fallback: quando nao ha IATA, o rotulo continua sendo o ICAO. Sao dois
 casos distintos e ambos caem na mesma regra:
 
-  - base_iata NULL/vazio -- SBUY (676 etapas), LPAR (2), SBYS (1).
-  - base_iata == 'N/I', que e' sentinela de "nao informado" gravado como
-    se fosse codigo. Sao 3 aerodromos na dimensao (SBFE, SDIY, SNJD) e um
-    deles, SDIY (Feira de Santana), aparece 317 vezes no fato. Sem esta
-    regra os tres colapsariam num unico balde "N/I" e o grafico mostraria
-    uma base inexistente com a soma dos tres.
+  - base_iata NULL/vazio -- SBUY (676 etapas), LPAR (2), SBYS (1), e os
+    tres que antes carregavam 'N/I' (SBFE, SDIY, SNJD). Destes, SDIY
+    (Feira de Santana) aparece 317 vezes no fato. Sem a regra de fallback
+    os tres colapsariam num unico balde e o grafico mostraria uma base
+    inexistente com a soma dos tres.
+  - base_iata == sentinela textual gravada como se fosse codigo. Hoje a
+    dimensao tem '-' (SDC9, Tocantinopolis) e 'ZZ9' (SDNM, Brigadeiro
+    Eduardo Gomes); nenhum dos dois aparece no fato, entao o impacto
+    atual e' zero, mas os dois entram na lista para nao virar bug quando
+    aparecerem.
+
+Reconferido em 2026-09-05: a dimensao NAO tem mais 'N/I'. SBFE, SDIY e
+SNJD estao com base_iata NULL. A dimensao foi reconstruida desde que este
+texto foi escrito; o fallback nao muda, so' o motivo pelo qual esses tres
+caem nele. SBUY continua NULL na dimensao, embora a ANAC informe 'RPU'
+para ele no fato -- ver o aviso sobre as duas fontes, logo abaixo.
+
+CUIDADO com a outra fonte de IATA. As colunas sg_iata_* de
+basica_curated_deep vem da propria ANAC e sao inconsistentes dentro do
+mesmo ICAO: SDIY aparece como 'FEC' em 77 linhas e 'N/I' em 240, SPJC
+como 'LIM' em 66 e '...' em 1 (medido em 2026-09-05). Este modulo nao as
+le, e nao deve: deriva o rotulo do ICAO contra a dimensao, que da um
+rotulo por aeroporto. Quem ler sg_iata_* direto parte o mesmo aeroporto
+em duas bases. Mesma regra vale na view pareto_bases_gol_azul
+(sql/curated_deep/DDL_006).
 
 Nao ha colisao IATA real nos dados: os unicos IATA repetidos na dimensao
 sao IST (LTFM/LTBA), RAI (GVNP/GVPR) e o proprio N/I. Desses, so' GVNP e
@@ -37,7 +56,12 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DB_PATH_PADRAO = REPO_ROOT / "db" / "anac_basica.sqlite"
 
 # Valores que aparecem na coluna base_iata mas nao sao codigo IATA.
-SENTINELAS_IATA = {"", "N/I", "NI", "N/A", "NA", "-", "--", "NULL", "NONE"}
+# '...' e 'ZZ9' entraram em 2026-09-05: o primeiro aparece em
+# basica_curated_deep (nao na dimensao), o segundo na dimensao (SDNM),
+# nenhum dos dois no fato hoje. Ambos tem 3 caracteres, entao passam por
+# qualquer checagem de comprimento sem levantar suspeita.
+SENTINELAS_IATA = {"", "N/I", "NI", "N/A", "NA", "-", "--", "NULL", "NONE",
+                   "...", "ZZ9"}
 
 # Pares (coluna ICAO de origem, coluna IATA a criar) procurados no dataframe.
 COLUNAS_PADRAO = (
