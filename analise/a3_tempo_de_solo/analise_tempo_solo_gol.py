@@ -34,6 +34,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from iata_bases import aplicar_iata  # noqa: E402
+from pareto_hub import selecionar_hub  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DB_PATH = REPO_ROOT / "db" / "anac_basica.sqlite"
@@ -228,14 +229,6 @@ def fig_tempo_solo_medio_por_frota(df: pd.DataFrame, suffix: str) -> None:
     fig.savefig(FIG_DIR / f"ana_02_tempo_solo_medio_por_frota_{suffix}.png", dpi=150)
     plt.close(fig)
 
-
-def selecionar_hub(contagens: pd.Series) -> pd.Series:
-    """HUB enquanto o acumulado ANTES da base for < 80% (mesma regra de a4_etapa_media)."""
-    ordenado = contagens.sort_values(ascending=False)
-    pct = 100 * ordenado / ordenado.sum()
-    pct_acum = pct.cumsum()
-    pct_acum_antes = pct_acum - pct
-    return ordenado[pct_acum_antes < 80]
 
 
 def fig_top_bases_origem(df: pd.DataFrame, suffix: str) -> None:

@@ -26,6 +26,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from iata_bases import aplicar_iata  # noqa: E402
+from pareto_hub import selecionar_hub  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DB_PATH = REPO_ROOT / "db" / "anac_basica.sqlite"
@@ -99,13 +100,6 @@ def load_data() -> pd.DataFrame:
     df["ds_natureza_tipo_linha"] = df["id_basica"].map(natureza)
     return aplicar_iata(df)
 
-
-def selecionar_hub(contagens: pd.Series) -> pd.Series:
-    """Mesma regra de 80% acumulado da SPEC-013 Sec.6.5."""
-    ordenado = contagens.sort_values(ascending=False)
-    pct = 100 * ordenado / ordenado.sum()
-    pct_acum = pct.cumsum()
-    return ordenado[(pct_acum - pct) < 80]
 
 
 def fig_distribuicao_folga(df: pd.DataFrame) -> None:

@@ -26,6 +26,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from iata_bases import aplicar_iata  # noqa: E402
+from pareto_hub import selecionar_hub  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DB_PATH = REPO_ROOT / "db" / "anac_basica.sqlite"
@@ -91,14 +92,6 @@ def calcular_corte_outlier(serie: pd.Series) -> tuple[float, float]:
     iqr = q3 - q1
     return q1 - 1.5 * iqr, q3 + 1.5 * iqr
 
-
-def selecionar_hub(contagens: pd.Series) -> pd.Series:
-    """HUB enquanto o acumulado ANTES da base for < 80% (mesma regra de a4_etapa_media)."""
-    ordenado = contagens.sort_values(ascending=False)
-    pct = 100 * ordenado / ordenado.sum()
-    pct_acum = pct.cumsum()
-    pct_acum_antes = pct_acum - pct
-    return ordenado[pct_acum_antes < 80]
 
 
 def fig_dist_01_frequencia_densidade_boxplot(df: pd.DataFrame) -> tuple[float, float]:

@@ -19,6 +19,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from iata_bases import aplicar_iata  # noqa: E402
+from pareto_hub import selecionar_hub  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DB_PATH = REPO_ROOT / "db" / "anac_basica.sqlite"
@@ -206,16 +207,6 @@ def fig_duracao_media_por_frota(df: pd.DataFrame, suffix: str) -> None:
     fig.savefig(FIG_DIR / f"duracao_media_por_frota_{suffix}.png", dpi=150)
     plt.close(fig)
 
-
-def selecionar_hub(contagens: pd.Series) -> pd.Series:
-    """Filtra bases HUB pela regra de 80% acumulado (SPEC-013 Sec.6.5,
-    mesma logica de gerar_pareto_bases_gol.py): HUB enquanto o acumulado
-    ANTES da base for < 80%. Nao e' corte fixo top-N."""
-    ordenado = contagens.sort_values(ascending=False)
-    pct = 100 * ordenado / ordenado.sum()
-    pct_acum = pct.cumsum()
-    pct_acum_antes = pct_acum - pct
-    return ordenado[pct_acum_antes < 80]
 
 
 def fig_top_bases_origem(df: pd.DataFrame, suffix: str) -> None:
