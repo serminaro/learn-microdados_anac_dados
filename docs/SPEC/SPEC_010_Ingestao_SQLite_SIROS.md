@@ -20,9 +20,10 @@ escopo: projeto
 >
 > **Nota de numeração**: este número (`SPEC-010`) coincide, por
 > coincidência de contagem entre repositórios, com o nome de um rascunho
-> externo já removido deste projeto
-> (`rascunho/SPEC-010-ANAC-Perguntas_Analise-Deep_Dive-Gol.md`, excluído
-> em 2026-08-31). Sem relação alguma entre os dois — numeração deste
+> externo já removido da árvore de trabalho deste projeto
+> (`rascunho/SPEC-010-ANAC-Perguntas_Analise-Deep_Dive-Gol.md`, retirado
+> em 2026-08-31; segue no histórico publicado, ver `DEC-007` Histórico de
+> 2026-09-07). Sem relação alguma entre os dois — numeração deste
 > projeto é local e sequencial (`SPEC-001 §4`).
 
 ---

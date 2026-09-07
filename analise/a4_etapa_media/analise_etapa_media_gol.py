@@ -28,8 +28,9 @@ FIG_DIR.mkdir(parents=True, exist_ok=True)
 # Paleta GOL (pedido do autor, 2026-09-01): laranja da marca. Aproximacao
 # -- nao ha manual de marca oficial disponivel neste ambiente, ajustar o
 # hex aqui se o autor tiver o valor exato. Estrutura de fundo/grid/titulo
-# em negrito segue casada com rascunho/Deep_Dive_Gol_ANAC_1a_.docx (ver
-# Historico da SPEC-013 v2); so a hue mudou de Set2 para laranja GOL.
+# em negrito segue casada com o documento de referencia escrito a mao pelo
+# autor, que vive em learn-imrad-mintos e nao neste repositorio (ver SPEC-013
+# §4 e Historico v2); so a hue mudou de Set2 para laranja GOL.
 GOL_ORANGE = "#FF6900"        # domestica / serie unica -- laranja GOL (aproximado)
 GOL_ORANGE_DARK = "#B34700"       # internacional -- tom mais escuro da mesma familia
 NEUTRAL_GRAY = "#4d4d4d"    # linha de media / anotacao -- cinza neutro, contraste contra o laranja

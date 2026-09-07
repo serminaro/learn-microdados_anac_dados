@@ -103,9 +103,11 @@ basica_curated_deep (SPEC-012, db/anac_basica.sqlite)
 ```
 
 **Estética dos gráficos** (ajustada 2026-09-01, pedido do autor): casada
-com `rascunho/Deep_Dive_Gol_ANAC_1a_.docx` (material de referência já
-produzido para este mesmo deep dive, projeto anterior/paralelo), não com
-a paleta padrão da skill `dataviz` deste ambiente — divergência
+com o documento de referência escrito à mão pelo autor para este mesmo
+deep dive (fundo branco, grid leve, títulos em negrito, paleta `Set2`),
+que vive no projeto paralelo `learn-imrad-mintos` e não neste
+repositório, e não com a paleta padrão da skill `dataviz` deste
+ambiente — divergência
 deliberada, registrada aqui para não parecer inconsistência. Fundo
 branco, grid leve nos dois eixos, títulos em negrito (2 linhas, subtítulo
 entre parênteses), rótulos numéricos diretos em negrito sobre
@@ -235,10 +237,11 @@ dependendo da base) — descarta janela mais curta aplicada uniformemente
 como única causa.
 
 **Hipótese testada e descartada**: o CSV do autor não é o recorte 2025
-isolado do outro documento de referência (`Deep_Dive_Gol_ANAC_1a_.docx`,
-Snowflake `TRUSTED_FLIGHTS`) — GOL 2025 passageiro neste banco dá
-exatamente 238.438 etapas (bate com o número que o próprio docx cita),
-mas as magnitudes do CSV do autor são ~4× maiores. Descartado.
+isolado do documento de referência escrito à mão, que trabalhava sobre
+uma tabela Snowflake e não sobre este banco. GOL 2025 passageiro aqui dá
+exatamente 238.438 etapas, número que bate com o citado naquele
+documento, mas as magnitudes do CSV do autor são cerca de 4x maiores.
+Descartado.
 
 **Hipótese mais provável (não confirmada por rastro documental direto,
 só por coincidência temporal forte)**: o CSV do autor
@@ -456,6 +459,7 @@ quando:
 | 2026-09-04 | **v11 — nota de procedência, achado inalterado.** Coeficientes de §6.8 inalterados; declarado que a série diária de etapa média é construída **sem corte de outlier**, e que a cerca de Tukey listada na mesma tabela não se aplica a esse cálculo. Registrado que isso difere de `SPEC-016 §6.2` (tempo de solo, série já truncada pela cerca de cada companhia), de modo que os coeficientes das duas linhas vêm de regimes de limpeza diferentes: a ordenação entre companhias se mantém, a diferença de magnitude entre indicadores não é atribuível só ao indicador. Origem: revisão do relatório IMRaD do deep dive, que começou pela divergência de corte em tempo de solo e alcançou esta linha. Ver `SPEC-017 §6.3` requisito 4. |
 | 2026-09-04 | **v12 — codificação de aeroportos trocada de ICAO para IATA, achados inalterados.** Pedido do autor: as figuras rotulavam bases pelo ICAO de 4 letras (`SBGR`, `SBSP`), que é o que a Básica carrega, enquanto a audiência da análise lê IATA de 3 letras (`GRU`, `CGH`). Módulo novo `analise/iata_bases.py` traduz no ponto de carga contra `dim_airport_location_time_zone` e **preserva a coluna ICAO ao lado** (rastro de auditoria); os scripts passaram a plotar `sg_iata_origem`/`sg_iata_destino`, o SQL continua lendo as colunas ICAO da fonte. 82 figuras de `a4_etapa_media` regeradas, mais as 40 de `a3`/`a4` cujo nome de arquivo carregava o ICAO (`dist_10_hexbin_horario_partida_SBGR.png` → `..._GRU.png`, as antigas removidas após conferir o par). Nenhum número, corte, agrupamento ou conclusão mudou — troca de rótulo apenas. Corpo deste documento convertido; **linhas anteriores do Histórico preservadas em ICAO** (registram o que se escreveu na data). Dois achados de qualidade no de-para, ambos com fallback para o próprio ICAO: `base_iata` traz a sentinela `'N/I'` para `SBFE`/`SDIY`/`SNJD` (sem tratamento, os três colapsariam num balde único, e `SDIY` tem 317 etapas), e 3 aeródromos não têm IATA (`SBUY` 676 etapas, `LPAR` 2, `SBYS` 1). |
 | 2026-09-05 | **v13, pareto migrado de CSV estático para view SQLite.** `rascunho/pareto_bases_gol.csv` (evidência do autor, não reproduzível) movido para `analise/a4_etapa_media/pareto_bases_gol_autor_2026-08-31.csv`; `pareto_bases_gol_atualizado.csv` e `gerar_pareto_bases_gol.py` removidos, substituídos pela view `pareto_bases_gol_azul` (`sql/curated_deep/DDL_006_pareto_bases_gol_azul_create_view_sqlite.sql`), que cobre as duas empresas e os dois sentidos (chegada e partida) numa janela móvel de cinco anos fechados. Motivo: o CSV ficou stale porque era estático, e a view não pode ficar. §3.2, §5.2, §6.5 atualizados; entradas de Histórico anteriores preservadas como registro do que se sabia à época. **Achado novo, refina §6.5 sem contradizê-lo:** na janela 2021-2025 a ordem `GRU` > `CGH` volta a ser a do CSV do autor, e o denominador cai de 1.156.956 para 1.012.015 chegadas (autor: ≈959 mil). A janela explica a inversão #1/#2 e parte da diferença de magnitude, mas não explica `VIX` nem a contagem de HUB (16 na janela, 16 no histórico inteiro, 15 no autor). O §6.5 já dizia que janela curta uniforme não era a *única* causa; segue valendo, com uma causa a menos em aberto. **Achado de qualidade de dado:** as colunas `sg_iata_*` de `basica_curated_deep` são inconsistentes dentro do mesmo ICAO (`SDIY` como `FEC` em 77 linhas e `N/I` em 240; `SPJC` como `LIM` em 66 e `...` em 1). A view resolve o rótulo por ICAO contra a dimensão, mesma regra de `analise/iata_bases.py`; resolver linha a linha partiria o mesmo aeroporto em duas bases. |
+| 2026-09-07 | **v14, citações ao documento de referência tornadas autocontidas, achados inalterados.** §4 e §6.5 citavam `rascunho/Deep_Dive_Gol_ANAC_1a_.docx`, arquivo agora removido do disco deste projeto: era cópia byte a byte idêntica (md5 `b5b3a5d7`) da que vive em `learn-imrad-mintos`, e três peças já o davam por excluído desde 2026-08-31. As duas citações passam a descrever o documento em prosa, sem apontar caminho, mesmo tratamento que a `DEC-007 v2` aplicou. A estética casada e o número de 238.438 etapas de GOL 2025 continuam valendo: nenhum número, método ou conclusão muda. O comentário de paleta em `analise/a4_etapa_media/analise_etapa_media_gol.py` acompanha. |
 
 ---
 
