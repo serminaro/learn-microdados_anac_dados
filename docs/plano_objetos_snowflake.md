@@ -78,7 +78,7 @@ orquestração/CI-CD discutido antes, tudo nativo, sem depender de Airflow.
 | Objeto | Papel | Honestidade sobre escala |
 |---|---|---|
 | **Contact** | Associado à Task e à `BASICA_RAW`, indicando quem notificar em falha de carga | Em conta trial solo isso é exercício de sintaxe, não necessidade operacional real; documentado como tal, é o seu diferencial (governança) praticado em miniatura |
-| **Role** | `ANAC_ANALYST`, role customizada com só `SELECT` na camada ouro (star schema / `BASICA_TYPED`), concedida a um segundo usuário de teste | Fecha o domínio *Account Access and Security* (17% da COF-C03), que este plano não cobria até 2026-08-30 (`rascunho/plano_certificacao_snowpro.md` §3-4) |
+| **Role** | `ANAC_ANALYST`, role customizada com só `SELECT` na camada ouro (star schema / `BASICA_TYPED`), concedida a um segundo usuário de teste | Fecha o domínio *Account Access and Security* (17% da COF-C03), que este plano não cobria até 2026-08-30 (`GUIDE-001 §4`-4) |
 | **Masking Policy** / **Row Access Policy** | Masking num campo sensível (ex. matrícula de aeronave em `BASICA_RAW`/`DIM_AERONAVE`); row access policy por UF na fact table | Mesmo fechamento de domínio acima; testado com o usuário sob `ANAC_ANALYST` para confirmar que a política se aplica de fato, não só existe como DDL |
 | **Cortex Search Service** *(opcional, stretch)* | Busca em linguagem natural sobre um **dicionário de dados** (nome de coluna → descrição, extraído da documentação oficial da ANAC), não sobre os dados de voo em si | Único jeito honesto de encaixar esse objeto: dado de voo é estruturado, não texto. Um dicionário de campos É texto. Sem esse corpus, não vale forçar o objeto só para aparecer na lista. |
 
@@ -92,7 +92,7 @@ comparar tempo/crédito na mesma query; observar cache de resultado
 (rodar a mesma query 2×). Achados registrados como nota empírica, no
 mesmo estilo das "Notas de consistência" do `README.md`, não como fase
 numerada deste plano — não gera objeto de schema novo. Ver
-`rascunho/plano_certificacao_snowpro.md` §4.
+`GUIDE-001 §4`.
 
 ---
 
@@ -124,7 +124,7 @@ Git Repository já configurado na conta.
 Os exercícios de *Account Access and Security* (Role + Masking/Row Access
 Policy, Camada 5) e a nota empírica de *Performance Concepts* rodam em
 paralelo a esta sequência, sem letra própria — não têm dependência
-sequencial com A-H (`rascunho/plano_certificacao_snowpro.md` §4).
+sequencial com A-H (`GUIDE-001 §4`).
 
 ---
 
@@ -133,7 +133,7 @@ sequencial com A-H (`rascunho/plano_certificacao_snowpro.md` §4).
 > Nomenclatura e pesos do exame vigente, **COF-C03** (o COF-C02 foi
 > aposentado pela Snowflake em 14/05/2026); pesos de fonte terceira,
 > consistentes internamente mas não confirmados contra o PDF oficial do
-> exam guide (`rascunho/plano_certificacao_snowpro.md` §2). Substitui a
+> exam guide (`GUIDE-001 §3`). Substitui a
 > versão anterior desta tabela, que cobria só 4 domínios na nomenclatura
 > antiga da COF-C02, deixando 32% da prova (Account Access and Security +
 > Performance Concepts) sem exercício mapeado neste plano.

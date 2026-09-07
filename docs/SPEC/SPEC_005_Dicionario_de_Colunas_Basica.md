@@ -14,9 +14,9 @@ escopo: projeto
 > Documenta, de forma exaustiva, as colunas de `BASICA_RAW`/`basica_silver`
 > — todas, não só as usadas em alguma análise — e marca quais são
 > **essenciais** para as perguntas de análise da `DEC-007`. Consolida três
-> fontes que hoje fazem esse trabalho em paralelo: `QUERY-011-Dados_das_
+> fontes que faziam esse trabalho em paralelo: `QUERY-011-Dados_das_
 > colunas_de_Trusted.csv` (conteúdo primário: categoria, confiança,
-> comentário), `rascunho/colunas.txt` (definição do flag essencial) e
+> comentário), `colunas.txt` (definição do flag essencial) e
 > `docs/dicionario_colunas_basica.md` (dicionário informal pré-SERMI, que
 > este documento supera). Primeira peça deste tipo no projeto.
 
@@ -62,13 +62,14 @@ qualquer SPEC ou script que precise citar "quais colunas existem" ou
 
 ## 4. Fontes e método de consolidação
 
-- **`rascunho/QUERY-011-Dados_das_colunas_de_Trusted.csv`** (112 linhas):
-  fonte primária de conteúdo. Traz `CATEGORIA 1`/`CATEGORIA2` (taxonomia
+- **`QUERY-011-Dados_das_colunas_de_Trusted.csv`** (112 linhas; removido do
+  repositório em 2026-09-07, ver Histórico): fonte primária de conteúdo. Traz `CATEGORIA 1`/`CATEGORIA2` (taxonomia
   mais fina que `colunas.txt`), `CONFIANÇA`, `COMMENT`, e um flag `DEEP`
   que, cruzado, bate exatamente com as 29 colunas de `colunas.txt` —
   confirma que as duas fontes descrevem o mesmo recorte de essenciais,
   não recortes divergentes.
-- **`rascunho/colunas.txt`** (29 linhas): definiu historicamente o recorte
+- **`colunas.txt`** (29 linhas; removido antes desta SPEC): definiu
+  historicamente o recorte
   essencial; usado aqui só para validar o flag `DEEP` do CSV, não como
   fonte de conteúdo adicional (o CSV já contém tudo que o `.txt` tinha).
 - **`docs/dicionario_colunas_basica.md`** (127 linhas, pré-SERMI): cobre
@@ -336,6 +337,7 @@ Revisitar esta SPEC quando:
 | 2026-08-31 | **Aprovada.** Autor revisou o lote (junto com os outros seis documentos desta rodada) e aprovou explicitamente. |
 | 2026-08-31 | **v2 — correção pós-aprovação.** `NR_CHAVE` (§5) atualizada com achado real: disponível só a partir de `NR_ANO_REFERENCIA >= 2020`, confirmado na carga completa da Básica (`SPEC-008 §4`). Fecha `SPEC-002 C-02` em achado confirmado. §7 atualizada. |
 | 2026-08-31 | **v3 — correção pós-aprovação, decisão inalterada (`R-TAX-11`).** Header stale corrigido: `basica_typed` (view retirada) → `basica_silver`, a view real hoje. Achado do `gov-check`, mesma rodada em que `R-TAX-11` foi formalizada no `SPEC-001`. |
+| 2026-09-07 | **Correção de rastro, conteúdo inalterado.** As duas fontes primárias desta SPEC (`QUERY-011-Dados_das_colunas_de_Trusted.csv` e `colunas.txt`) viviam em `rascunho/`, pasta que o `.gitignore` declara descartável. O CSV foi removido do repositório nesta data, depois de conferida a absorção coluna a coluna: as 112 colunas do CSV aparecem todas nas 112 linhas da tabela de §5, e as 29 marcadas `DEEP` no CSV são as mesmas 29 marcadas essenciais aqui. Zero conteúdo único perdido. O `colunas.txt` já havia saído antes. §1 e §4 deixam de prefixar os dois com `rascunho/` e passam a dizer que não estão mais no repositório. Nenhuma coluna, categoria, confiança ou regra `R-COL-NN` muda. |
 
 ---
 
