@@ -59,7 +59,7 @@ os geradores são autocontidos (§5): quando as figuras de `v2` divergirem das
 de `v1`, a tabela de procedência de cada uma tem que divergir junto.
 
 Cada subdiretório carrega tudo o que precisa para rodar: `config.yml`,
-`gerar_docx.py`, `modelo_de_escrita.docx`, `environment.yml`, o markdown de
+`gerar_docx.py`, `modelo_de_escrita.docx`, `environment_report.yml`, o markdown de
 cada seção, as figuras e a pasta `saida/`. Nenhum depende de arquivo fora de
 si, salvo as referências textuais de procedência, que apontam para `docs/` e
 `analise/` deste repositório.
@@ -144,6 +144,7 @@ Revisitar esta DEC quando:
 |---|---|
 | 2026-09-04 | DEC-010 v1 redigida em status `proposto`, aguardando aprovação do autor. Cria `relatorios/` e traz as duas peças do deep dive GOL/Azul, mais o guia metodológico como `GUIDE-005`. Motivo imediato: os documentos viviam num repositório sem git. |
 | 2026-09-05 | **v2, estrutura de `relatorios/` ganha camada de versão.** Os dois geradores desceram para `relatorios/report_microdados_v1/`, e `report_microdados_v2/` nasceu como cópia idêntica, a divergir a partir daqui (decisão do autor). `PROCEDENCIA_FIGURAS.md` desceu junto, um por versão, pelo mesmo princípio de autocontenção do §5. Movimentação feita com `mv` e registrada no git como 67 renomeações para `v1` (histórico preservado) mais 67 adições para `v2`. §2 e §6 atualizados; citações corrigidas em `README.md`, `GUIDE-005` e `INDEX_DEC`. **Verificado antes e depois:** os 67 arquivos batem byte a byte com o `HEAD`, e o teste de procedência do `PROCEDENCIA_FIGURAS.md` devolve o estado documentado (25 Classe A idênticas às originais de `analise/`, 16 Classe B sem original no repositório). Nenhum arquivo perdido, nenhuma figura alterada. |
+| 2026-09-11 | **`environment.yml` renomeado para `environment_report.yml`** nos quatro geradores (`git mv`, histórico preservado), a pedido do autor. Motivo: o nome genérico colidia com o `environment_gov-sermi-perf.yml` da raiz, e os quatro arquivos declaravam `name: gov-sermi-perf`, o ambiente compartilhado do autor. Dois arquivos declarando o mesmo ambiente com conteúdos diferentes é defeito: quem rodasse `conda env create` a partir do gerador criaria um `gov-sermi-perf` com três pacotes, no lugar do ambiente completo. O ambiente dos geradores passa a se chamar `report-docx`, com as suas três dependências (`python-docx`, `pillow`, `pyyaml`), o que é a autocontenção do §5 aplicada ao ambiente e não só aos arquivos. Citações atualizadas nos dois `README.md` de minto e no §2 desta DEC. Decisão de ambiente do repositório: `DEC-011 §2.2`. |
 
 ---
 

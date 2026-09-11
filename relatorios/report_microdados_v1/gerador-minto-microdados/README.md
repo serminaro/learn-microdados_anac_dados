@@ -41,7 +41,7 @@ O que se paga: as razões deixam de ser independentes, e o leitor precisa carreg
 
 ```
 gerador-minto-microdados/
-├── environment.yml
+├── environment_report.yml
 ├── config.yml               # cabeçalho de comunicado, faixa de porquês, ordem das seções
 ├── gerar_docx.py
 ├── modelo_de_escrita.docx   # base de estilo (não editar)
