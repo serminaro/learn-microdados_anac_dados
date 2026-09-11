@@ -8,7 +8,10 @@ set -euo pipefail
 
 UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36"
 BASE="https://sistemas.anac.gov.br/dadosabertos/Voos%20e%20opera%C3%A7%C3%B5es%20a%C3%A9reas/Voo%20Regular%20Ativo%20(VRA)"
-DEST="/home/bruno/Projetos/learn-microdados_anac_dados/data/anac/vra"
+# Raiz do repositorio, derivada da localizacao deste script: roda de
+# qualquer diretorio, sem caminho de maquina cravado (ver DEC-011).
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+DEST="$REPO_ROOT/data/anac/vra"
 
 ANO_FIM=$(date +%Y)
 MES_FIM=$((10#$(date +%m)))

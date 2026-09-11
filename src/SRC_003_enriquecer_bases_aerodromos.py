@@ -26,12 +26,15 @@ from urllib.request import urlretrieve
 from timezonefinder import TimezoneFinder
 from zoneinfo import ZoneInfo
 
-REPO = Path("/home/bruno/Projetos/learn-microdados_anac_dados")
-BASES_TXT = REPO / "data" / "Bases_dos_microdados_2015_2026.txt"
+# Raiz do repositorio, resolvida a partir deste arquivo: o pipeline roda
+# de qualquer diretorio e em qualquer sistema operacional (ver DEC-011).
+REPO_ROOT = Path(__file__).resolve().parents[1]
+
+BASES_TXT = REPO_ROOT / "data" / "Bases_dos_microdados_2015_2026.txt"
 AIRPORTS_URL = "https://davidmegginson.github.io/ourairports-data/airports.csv"
-AIRPORTS_CSV = REPO / "data" / "_airports_ourairports_cache.csv"
-OUT_CSV = REPO / "data" / "aerodromos_enriquecido.csv"
-OUT_UNMATCHED = REPO / "data" / "aerodromos_sem_match.csv"
+AIRPORTS_CSV = REPO_ROOT / "data" / "_airports_ourairports_cache.csv"
+OUT_CSV = REPO_ROOT / "data" / "aerodromos_enriquecido.csv"
+OUT_UNMATCHED = REPO_ROOT / "data" / "aerodromos_sem_match.csv"
 
 # Valores que a fonte ANAC grava no campo BASE_IATA mas que nao sao codigo:
 # "..." e "N/I" sao as duas formas de "nao informado" observadas em

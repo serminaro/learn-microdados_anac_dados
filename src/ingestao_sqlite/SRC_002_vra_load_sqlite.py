@@ -1,4 +1,4 @@
-#!/home/bruno/miniconda3/envs/pesquisa-azul/bin/python
+#!/usr/bin/env python3
 """Carrega os meses de VRA (data/anac/vra/*.csv) no SQLite (db/anac_vra.sqlite).
 Idempotente por arquivo: pula qualquer mes (nr_ano_mes_arquivo) ja carregado,
 nao por linha (VRA nao publica id de linha nativo, SPEC-009 Sec.5).
@@ -9,9 +9,13 @@ import sqlite3
 import time
 from pathlib import Path
 
-SRC_DIR = Path("/home/bruno/Projetos/learn-microdados_anac_dados/data/anac/vra")
-DB_PATH = Path("/home/bruno/Projetos/learn-microdados_anac_dados/db/anac_vra.sqlite")
-DDL_PATH = Path("/home/bruno/Projetos/learn-microdados_anac_dados/sql/ingestao_sqlite/DDL_002_vra_create_table.sql")
+# Raiz do repositorio, resolvida a partir deste arquivo: o pipeline roda
+# de qualquer diretorio e em qualquer sistema operacional (ver DEC-011).
+REPO_ROOT = Path(__file__).resolve().parents[2]
+
+SRC_DIR = REPO_ROOT / "data" / "anac" / "vra"
+DB_PATH = REPO_ROOT / "db" / "anac_vra.sqlite"
+DDL_PATH = REPO_ROOT / "sql" / "ingestao_sqlite" / "DDL_002_vra_create_table.sql"
 BATCH = 5000
 
 FNAME_RE = re.compile(r"^VRA_(\d{4})(\d{1,2})\.csv$", re.IGNORECASE)

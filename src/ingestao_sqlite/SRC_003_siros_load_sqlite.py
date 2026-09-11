@@ -1,4 +1,4 @@
-#!/home/bruno/miniconda3/envs/pesquisa-azul/bin/python
+#!/usr/bin/env python3
 """Carrega arquivos de SIROS (data/anac/siros/registros_*.csv) no SQLite
 (db/anac_siros.sqlite), compondo incrementalmente a mesma tabela siros_raw
 a partir de dois formatos de origem que a ANAC publicou ao longo do tempo
@@ -36,9 +36,13 @@ import time
 from datetime import date
 from pathlib import Path
 
-SRC_DIR = Path("/home/bruno/Projetos/learn-microdados_anac_dados/data/anac/siros")
-DB_PATH = Path("/home/bruno/Projetos/learn-microdados_anac_dados/db/anac_siros.sqlite")
-DDL_PATH = Path("/home/bruno/Projetos/learn-microdados_anac_dados/sql/ingestao_sqlite/DDL_003_siros_create_table.sql")
+# Raiz do repositorio, resolvida a partir deste arquivo: o pipeline roda
+# de qualquer diretorio e em qualquer sistema operacional (ver DEC-011).
+REPO_ROOT = Path(__file__).resolve().parents[2]
+
+SRC_DIR = REPO_ROOT / "data" / "anac" / "siros"
+DB_PATH = REPO_ROOT / "db" / "anac_siros.sqlite"
+DDL_PATH = REPO_ROOT / "sql" / "ingestao_sqlite" / "DDL_003_siros_create_table.sql"
 BATCH = 5000
 
 # Ordem = ordem das 28 colunas de dado em siros_raw (DDL_003), da esquerda

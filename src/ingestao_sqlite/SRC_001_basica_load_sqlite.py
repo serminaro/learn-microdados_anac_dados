@@ -1,4 +1,4 @@
-#!/home/bruno/miniconda3/envs/pesquisa-azul/bin/python
+#!/usr/bin/env python3
 """Carrega em SQLite (db/anac_basica.sqlite) todo mes de Basica ja baixado em
 data/anac/basica/*.zip, a partir de 2010-01. Idempotente: id_basica e chave
 primaria, INSERT OR IGNORE nao duplica em reexecucao. Lida com a mudanca de
@@ -11,9 +11,13 @@ import time
 import zipfile
 from pathlib import Path
 
-DEST = Path("/home/bruno/Projetos/learn-microdados_anac_dados/data/anac/basica")
-DB_PATH = Path("/home/bruno/Projetos/learn-microdados_anac_dados/db/anac_basica.sqlite")
-DDL_PATH = Path("/home/bruno/Projetos/learn-microdados_anac_dados/sql/ingestao_sqlite/DDL_001_basica_create_table.sql")
+# Raiz do repositorio, resolvida a partir deste arquivo: o pipeline roda
+# de qualquer diretorio e em qualquer sistema operacional (ver DEC-011).
+REPO_ROOT = Path(__file__).resolve().parents[2]
+
+DEST = REPO_ROOT / "data" / "anac" / "basica"
+DB_PATH = REPO_ROOT / "db" / "anac_basica.sqlite"
+DDL_PATH = REPO_ROOT / "sql" / "ingestao_sqlite" / "DDL_001_basica_create_table.sql"
 BATCH = 5000
 
 def month_files():
