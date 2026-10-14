@@ -1,9 +1,9 @@
 ---
 documento: SPEC-017
 titulo: Autocorrelação como Indicador Operacional — GOL/Azul (memória, amplitude e periodicidade)
-versao: v4
+versao: v5
 status: proposto
-data: 2026-09-04
+data: 2026-10-14
 autor: Bruno Alexandre Serminaro
 referencia: DEC-007, SPEC-013, SPEC-015, SPEC-016
 escopo: projeto
@@ -247,7 +247,7 @@ Requisitos do cálculo, derivados de §5.1 e §6.2:
   janela completa e série contínua. Lacunas de calendário (dias sem operação em
   uma base pequena) quebram essa premissa e precisam de tratamento explícito no
   cálculo por base.
-- Ambiente `pesquisa-azul` (conda), mesma premissa do `SPEC-002 §6`.
+- Ambiente `gov-sermi-perf` (conda, `DEC-011 §2.2`), mesma premissa do `SPEC-002 §6`.
 
 ## 9. Não-objetivos
 
@@ -390,6 +390,7 @@ Um terceiro operador de porte comparável quebra o empate: se as três divergire
 no mesmo aeroporto, o efeito é de companhia; se convergirem, é do aeroporto.
 Isso reabriria a alternativa 4.3 da `DEC-007` (parametrizar em vez de duplicar
 objetos por empresa), hoje descartada por só haver duas.
+| 2026-10-14 | **v5, correção de instrução, achados inalterados.** Instrução de ambiente trocada de `pesquisa-azul`, ambiente de outro projeto, para `gov-sermi-perf`, o declarado na `DEC-011 §2.2` (1 ocorrência(s)). Dívida M4 do `AUDIT-002`. Status mantido em `proposto`; nenhum método, achado ou critério muda. |
 
 ---
 

@@ -5,7 +5,7 @@ regra padrao desta linha de analise (a menos que dito o contrario):
 so etapas PASSAGEIRO, exclui CARGUEIRO.
 
 Fonte: basica_curated_deep (db/anac_basica.sqlite), SPEC-012.
-Roda com: conda run -n pesquisa-azul python analise/a4_etapa_media/analise_etapa_media_azul.py
+Roda com: conda run -n gov-sermi-perf python analise/a4_etapa_media/analise_etapa_media_azul.py
 """
 
 import sqlite3

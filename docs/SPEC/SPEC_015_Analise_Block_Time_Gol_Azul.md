@@ -1,9 +1,9 @@
 ---
 documento: SPEC-015
 titulo: Análise Exploratória — Block Time GOL/Azul (Folga e Atrasos)
-versao: v1
+versao: v2
 status: proposto
-data: 2026-09-03
+data: 2026-10-14
 autor: Bruno Alexandre Serminaro
 referencia: DEC-007, SPEC-014
 escopo: projeto
@@ -97,7 +97,7 @@ tem dado até `2026-07-01 03:22`, contra `2026-08-01` da Básica. Mesmo
 teto vale para GOL e Azul (fonte VRA compartilhada, não é peculiaridade
 de uma companhia).
 
-Ambiente: `conda run -n pesquisa-azul python analise/a5_block_time/distribuicao_block_time_gol.py`
+Ambiente: `conda run -n gov-sermi-perf python analise/a5_block_time/distribuicao_block_time_gol.py`
 (mesma premissa do `SPEC-002 §6`).
 
 ## 5. Variáveis analisadas
@@ -268,7 +268,7 @@ princípio de `a3`/`a4`):
 - Depende de `fato_block_time_gol_azul` (`SPEC-014`) e
   `basica_curated_deep` (`SPEC-012`) já carregadas e corretas — esta SPEC
   não revalida o tratamento delas, só herda.
-- Ambiente `pesquisa-azul` (conda) com `pandas`/`matplotlib`/`seaborn`
+- Ambiente `gov-sermi-perf` (conda, `DEC-011 §2.2`) com `pandas`/`matplotlib`/`seaborn`
   disponíveis.
 - `tempo_real_vra_horas` ≈ `nr_horas_voadas` (`SPEC-014 §6.2`) — premissa
   herdada, não reavaliada aqui: `folga_horas` mistura taxi estrutural com
@@ -328,6 +328,7 @@ quando:
 | Data | Evento |
 |---|---|
 | 2026-09-03 | SPEC-015 v1 produzida em status `proposto`, documento vivo, retroativa (cobre as rodadas GOL, Azul e versus já concluídas na sessão de trabalho). GOL: 18 gráficos `dist_NN` (forma+cerca de Tukey → run sequence → lag plot → segmentação, nessa ordem) + 16 `cerca_dist_NN` (corte fixo ±60min). Azul: escopo reduzido (5 `dist_NN` + 16 `cerca_dist_NN`), pedido do autor. Comparação: `versus_gol_azul.py`, 11 gráficos, corte fixo ±60min. Achados centrais: bug de filtro PASSAGEIRO não herdado (mesmo padrão de `SPEC-012`/`SPEC-013`, 21.494 GOL / 22.884 Azul etapas de CARGUEIRO removidas); garbage de timestamp VRA em atraso (|atraso|>24h, escala <0,01%); VRA atrasado um mês, `WINDOW_FULL` ajustado para 2026-06-30; atraso de partida e chegada quase redundantes (r≈0,97), métrica nova "Δ atraso em voo" criada; viés de match VRA cresce a partir de 2024 em **ambas** as companhias, refutando hipótese informal de causa GOL-específica; corte fixo ±60min ("família cerca_") substitui cerca de Tukey para run sequence/lag/segmentação, acompanhado de correção de binning (serrilhado) e de correção de rótulo em violin plot (colisão com >4 categorias, corrigida de forma genérica e replicada na GOL). Aguardando aprovação do autor. |
+| 2026-10-14 | **v2, correção de instrução, achados inalterados.** Instrução de ambiente trocada de `pesquisa-azul`, ambiente de outro projeto, para `gov-sermi-perf`, o declarado na `DEC-011 §2.2` (2 ocorrência(s)). Dívida M4 do `AUDIT-002`. Status mantido em `proposto`; nenhum método, achado ou critério muda. |
 
 ---
 

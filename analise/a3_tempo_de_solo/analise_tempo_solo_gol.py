@@ -20,7 +20,7 @@ de 2.743.531 (0,29%) ficam fl_solo_valido=0, nao sao deletadas, so' nao
 entram aqui porque o WHERE filtra fl_solo_valido=1. Ver DDL_005 para a
 medicao completa.
 
-Roda com: conda run -n pesquisa-azul python analise/a3_tempo_de_solo/analise_tempo_solo_gol.py
+Roda com: conda run -n gov-sermi-perf python analise/a3_tempo_de_solo/analise_tempo_solo_gol.py
 """
 
 import sqlite3

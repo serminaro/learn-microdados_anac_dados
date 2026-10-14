@@ -1,9 +1,9 @@
 ---
 documento: SPEC-016
 titulo: Análise Exploratória — Tempo de Solo GOL/Azul (Turnaround)
-versao: v4
+versao: v5
 status: proposto
-data: 2026-09-04
+data: 2026-10-14
 autor: Bruno Alexandre Serminaro
 referencia: DEC-007, SPEC-012, SPEC-013, SPEC-017
 escopo: projeto
@@ -81,7 +81,7 @@ fato_rotacao_aeronave_gol_azul (SPEC-012, WHERE fl_solo_valido = 1)
   → analise/a3_tempo_de_solo/a3_figuras_{gol,azul,versus}/*.png
 ```
 
-Ambiente: `conda run -n pesquisa-azul python analise/a3_tempo_de_solo/distribuicao_tempo_solo_gol.py`
+Ambiente: `conda run -n gov-sermi-perf python analise/a3_tempo_de_solo/distribuicao_tempo_solo_gol.py`
 (mesma premissa do `SPEC-002 §6`).
 
 ## 5. Variável analisada
@@ -213,7 +213,7 @@ automaticamente para Azul por serem genéricas:
 
 - Depende de `fato_rotacao_aeronave_gol_azul` (`SPEC-012`, incluindo
   `fl_solo_valido`, `SPEC-012 §6.5`) já carregada e correta.
-- Ambiente `pesquisa-azul` (conda) com `pandas`/`matplotlib`/`seaborn`.
+- Ambiente `gov-sermi-perf` (conda, `DEC-011 §2.2`) com `pandas`/`matplotlib`/`seaborn`.
 
 ## 9. Não-objetivos
 
@@ -251,6 +251,7 @@ Revisitar esta SPEC (nova entrada no Histórico) quando:
 | 2026-09-03 | **v2 — correção de leitura, achado inalterado.** O coeficiente de §6.2 não muda; muda a interpretação registrada. A redação original ("Azul mais previsível dia-a-dia") confundia memória com estabilidade e ignorava que `r` é normalizado pela variância. Nota de correção adicionada a §6.2, remetendo à `SPEC-017`, que separa amplitude/periodicidade/memória, converte `r` em meia-vida de distúrbio e tamanho de amostra efetivo, e nomeia três fatores de confusão mecânicos ainda não descartados. Origem: discussão durante a redação do relatório IMRaD do deep dive. |
 | 2026-09-04 | **v3 — nota de procedência, achado inalterado.** Coeficientes de §6.2 inalterados; declarada a série de que vêm (truncada pela cerca de Tukey por companhia, `dist_14`) e registrado que o comparativo `v12` dá 0,674/0,861 sobre corte fixo de 3,0h. Não há erro de cálculo em nenhum dos dois: são cortes diferentes, e a v2 não dizia qual originava seus números. Origem: revisão do relatório IMRaD do deep dive, onde o texto citava um par e a figura inserida logo abaixo estampava o outro. Ver `SPEC-017 §6.3` requisito 4 e §11. |
 | 2026-09-04 | **v4 — codificação de aeroportos trocada de ICAO para IATA, achados inalterados.** Pedido do autor: as figuras rotulavam bases pelo ICAO de 4 letras (`SBGR`, `SBSP`), que é o que a Básica carrega, enquanto a audiência da análise lê IATA de 3 letras (`GRU`, `CGH`). Módulo novo `analise/iata_bases.py` traduz no ponto de carga contra `dim_airport_location_time_zone` e **preserva a coluna ICAO ao lado** (rastro de auditoria); os scripts passaram a plotar `sg_iata_origem`/`sg_iata_destino`, o SQL continua lendo as colunas ICAO da fonte. 94 figuras de `a3_tempo_de_solo` regeradas. Nenhum número, corte, agrupamento ou conclusão mudou — troca de rótulo apenas. Corpo deste documento convertido; **linhas anteriores do Histórico preservadas em ICAO** (registram o que se escreveu na data). Dois achados de qualidade no de-para, ambos com fallback para o próprio ICAO: `base_iata` traz a sentinela `'N/I'` para `SBFE`/`SDIY`/`SNJD` (sem tratamento, os três colapsariam num balde único, e `SDIY` tem 317 etapas), e 3 aeródromos não têm IATA (`SBUY` 676 etapas, `LPAR` 2, `SBYS` 1). |
+| 2026-10-14 | **v5, correção de instrução, achados inalterados.** Instrução de ambiente trocada de `pesquisa-azul`, ambiente de outro projeto, para `gov-sermi-perf`, o declarado na `DEC-011 §2.2` (2 ocorrência(s)). Dívida M4 do `AUDIT-002`. Status mantido em `proposto`; nenhum método, achado ou critério muda. |
 
 ---
 

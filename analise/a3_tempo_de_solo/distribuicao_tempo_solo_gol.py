@@ -16,7 +16,7 @@ media, entao a cerca de Tukey do dist_01 ainda corta perto da mediana
 agora o maximo possivel dentro do corte de validade e' 72h, nao mais
 dezenas de milhares de horas.
 
-Roda com: conda run -n pesquisa-azul python analise/a3_tempo_de_solo/distribuicao_tempo_solo_gol.py
+Roda com: conda run -n gov-sermi-perf python analise/a3_tempo_de_solo/distribuicao_tempo_solo_gol.py
 """
 
 from pathlib import Path

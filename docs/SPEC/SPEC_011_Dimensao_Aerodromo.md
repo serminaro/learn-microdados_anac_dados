@@ -1,9 +1,9 @@
 ---
 documento: SPEC-011
 titulo: Dimensão de Aeródromo — Localização e Fuso Horário
-versao: v3
+versao: v4
 status: aprovado
-data: 2026-09-05
+data: 2026-10-14
 autor: Bruno Alexandre Serminaro
 referencia: DEC-009
 escopo: projeto
@@ -140,7 +140,7 @@ observado):
   ICAO — não captura reatribuição ao longo do tempo. Se uma pergunta de
   análise precisar diferenciar por período, este caso reabre (`DEC-009
   §6`).
-- Ambiente `pesquisa-azul` (conda) disponível para rodar o script de
+- Ambiente `gov-sermi-perf` (conda, `DEC-011 §2.2`) disponível para rodar o script de
   carga — mesma premissa do `SPEC-002 §6`.
 
 ## 9. Não-objetivos
@@ -201,6 +201,7 @@ Revisitar esta SPEC quando:
 | 2026-08-31 | **v2 — correção pós-aprovação, decisão inalterada (`R-TAX-11`).** Renomeado `sql/ingestao_sqlite/DDL_005_dim_airport_create_table.sql` → `DDL_004_...` (numeração local da pasta pulava o 004; corrigido antes de criar `siros_silver`, que teria colidido no 005 se a numeração fosse global entre pastas — ver achado registrado em `DEC-001 §6.6`, não resolvido, só a colisão evitada). §4 atualizado. |
 | 2026-09-05 | **v3, correção pós-aprovação, decisão inalterada.** `rascunho/dim_airport_location_time_zone.csv` movido para `data/dim_airport_location_time_zone.csv` (`git mv`), com exceção correspondente no `.gitignore`; a citação de §5 acompanha o caminho. Mesmo motivo registrado na `DEC-009`. Nenhuma coluna, regra `R-COL-NN` ou fonte de carga muda. |
 | 2026-10-14 | Frontmatter alinhado ao Histórico: `versao: v3` e `data: 2026-09-05`, os da última versão registrada acima, que tinha sido lançada sem subir o frontmatter. Achado A1 do `AUDIT-002`. Nenhuma mudança de conteúdo. |
+| 2026-10-14 | **v4, correção pós-aprovação, decisão inalterada (`R-TAX-11`).** Instrução de ambiente trocada de `pesquisa-azul`, ambiente de outro projeto, para `gov-sermi-perf`, o declarado na `DEC-011 §2.2` (1 ocorrência(s)). Dívida M4 do `AUDIT-002`. Status mantido em `aprovado`; nenhum método, achado ou critério muda. |
 
 ---
 

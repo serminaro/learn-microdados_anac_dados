@@ -16,7 +16,7 @@ continuidade de rotacao quebrada (fl_continuidade_ok=0) e > 72h (pernoite
 dominio, medido para GOL+Azul juntos, ver DDL_005 para a medicao
 completa). load_data() so filtra fl_solo_valido = 1.
 
-Roda com: conda run -n pesquisa-azul python analise/a3_tempo_de_solo/analise_tempo_solo_azul.py
+Roda com: conda run -n gov-sermi-perf python analise/a3_tempo_de_solo/analise_tempo_solo_azul.py
 """
 
 import sqlite3

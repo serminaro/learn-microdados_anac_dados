@@ -1,9 +1,9 @@
 ---
 documento: SPEC-013
 titulo: Análise Exploratória — Etapa Média GOL/Azul
-versao: v14
+versao: v15
 status: proposto
-data: 2026-09-07
+data: 2026-10-14
 autor: Bruno Alexandre Serminaro
 referencia: DEC-007, SPEC-017
 escopo: projeto
@@ -128,7 +128,7 @@ aproximado** — sem manual de marca oficial disponível neste ambiente;
 ajustar `GOL_ORANGE`/`GOL_ORANGE_DARK` no script se o autor tiver o valor
 exato do manual de marca.
 
-Ambiente: `conda run -n pesquisa-azul python analise/a4_etapa_media/analise_etapa_media_gol.py`
+Ambiente: `conda run -n gov-sermi-perf python analise/a4_etapa_media/analise_etapa_media_gol.py`
 (mesma premissa de ambiente do `SPEC-002 §6`).
 
 ## 5. Janelas investigadas até agora
@@ -391,7 +391,7 @@ completude contra o inventário de gráficos já gerados nos scripts fonte
 
 - Depende de `basica_curated_deep` (`SPEC-012`) já carregada e correta —
   esta SPEC não revalida o tratamento dela, só herda.
-- Ambiente `pesquisa-azul` (conda) com `pandas`/`matplotlib` disponíveis
+- Ambiente `gov-sermi-perf` (conda, `DEC-011 §2.2`) com `pandas`/`matplotlib` disponíveis
   — confirmado nesta rodada (`pandas 2.3.3`, `matplotlib 3.11.0`).
 - `NR_HORAS_VOADAS` é tempo no ar (airborne), não tempo de bloco
   porta-a-porta — mesma ressalva já registrada em `SPEC-004 §5.5` e
@@ -461,6 +461,7 @@ quando:
 | 2026-09-05 | **v13, pareto migrado de CSV estático para view SQLite.** `rascunho/pareto_bases_gol.csv` (evidência do autor, não reproduzível) movido para `analise/a4_etapa_media/pareto_bases_gol_autor_2026-08-31.csv`; `pareto_bases_gol_atualizado.csv` e `gerar_pareto_bases_gol.py` removidos, substituídos pela view `pareto_bases_gol_azul` (`sql/curated_deep/DDL_006_pareto_bases_gol_azul_create_view_sqlite.sql`), que cobre as duas empresas e os dois sentidos (chegada e partida) numa janela móvel de cinco anos fechados. Motivo: o CSV ficou stale porque era estático, e a view não pode ficar. §3.2, §5.2, §6.5 atualizados; entradas de Histórico anteriores preservadas como registro do que se sabia à época. **Achado novo, refina §6.5 sem contradizê-lo:** na janela 2021-2025 a ordem `GRU` > `CGH` volta a ser a do CSV do autor, e o denominador cai de 1.156.956 para 1.012.015 chegadas (autor: ≈959 mil). A janela explica a inversão #1/#2 e parte da diferença de magnitude, mas não explica `VIX` nem a contagem de HUB (16 na janela, 16 no histórico inteiro, 15 no autor). O §6.5 já dizia que janela curta uniforme não era a *única* causa; segue valendo, com uma causa a menos em aberto. **Achado de qualidade de dado:** as colunas `sg_iata_*` de `basica_curated_deep` são inconsistentes dentro do mesmo ICAO (`SDIY` como `FEC` em 77 linhas e `N/I` em 240; `SPJC` como `LIM` em 66 e `...` em 1). A view resolve o rótulo por ICAO contra a dimensão, mesma regra de `analise/iata_bases.py`; resolver linha a linha partiria o mesmo aeroporto em duas bases. |
 | 2026-09-07 | **v14, citações ao documento de referência tornadas autocontidas, achados inalterados.** §4 e §6.5 citavam `rascunho/Deep_Dive_Gol_ANAC_1a_.docx`, arquivo agora removido do disco deste projeto: era cópia byte a byte idêntica (md5 `b5b3a5d7`) da que vive em `learn-imrad-mintos`, e três peças já o davam por excluído desde 2026-08-31. As duas citações passam a descrever o documento em prosa, sem apontar caminho, mesmo tratamento que a `DEC-007 v2` aplicou. A estética casada e o número de 238.438 etapas de GOL 2025 continuam valendo: nenhum número, método ou conclusão muda. O comentário de paleta em `analise/a4_etapa_media/analise_etapa_media_gol.py` acompanha. |
 | 2026-10-14 | Frontmatter alinhado ao Histórico: `versao: v14` e `data: 2026-09-07`, os da última versão registrada acima, que tinha sido lançada sem subir o frontmatter. Achado M1 do `AUDIT-002`. Nenhuma mudança de conteúdo. |
+| 2026-10-14 | **v15, correção de instrução, achados inalterados.** Instrução de ambiente trocada de `pesquisa-azul`, ambiente de outro projeto, para `gov-sermi-perf`, o declarado na `DEC-011 §2.2` (2 ocorrência(s)). Dívida M4 do `AUDIT-002`. Status mantido em `proposto`; nenhum método, achado ou critério muda. |
 
 ---
 
