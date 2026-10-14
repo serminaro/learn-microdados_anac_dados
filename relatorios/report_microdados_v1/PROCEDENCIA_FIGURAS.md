@@ -54,7 +54,8 @@ e **16 sem original neste repositório**. Nenhuma divergente.
 ## Classe B — sem original neste repositório
 
 Extraídas de `Deep_Dive_Gol_ANAC_1a_bloco.docx`, o documento que o autor
-escreveu à mão, que vive em `learn-imrad-mintos` e não é versionado. Cobrem
+escreveu à mão, que vive em `learn-imrad-mintos` (versionado desde
+2026-09-04, com remote privado no GitHub desde 2026-10-01). Cobrem
 destinos, malha e frota, além das três figuras de tempo de solo com sufixo
 `_docx` no nome. Não há o que reconciliar: a origem é externa.
 
