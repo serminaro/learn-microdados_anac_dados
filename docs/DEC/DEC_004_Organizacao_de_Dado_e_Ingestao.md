@@ -1,9 +1,9 @@
 ---
 documento: DEC-004
 titulo: Organização de dado em SQLite e separação física de ingestão por engine
-versao: v1
-status: proposto
-data: 2026-08-25
+versao: v2
+status: aprovado
+data: 2026-10-14
 autor: Bruno Alexandre Serminaro
 referencia: REP-001, SPEC-002
 escopo: projeto
@@ -97,11 +97,13 @@ passaram a ser igualmente investidos (D2).
 
 ### 4.4 Um banco por dataset + ingestão fisicamente separada por engine (decisão atual)
 
-`basica.sqlite`, `vra.sqlite`, `siros.sqlite` (com `ATTACH DATABASE` para
-cruzar); `src/ingestao_sqlite/`, `src/ingestao_snowflake/`,
-`sql/ingestao_sqlite/`, `sql/ingestao_snowflake/` para o que é específico
-de cada engine, com download bruto (`scripts/`) e preparação comum
-(`src/02`, `src/03`) permanecendo únicos.
+`db/anac_basica.sqlite`, `db/anac_vra.sqlite`, `db/anac_siros.sqlite`
+(com `ATTACH DATABASE` para cruzar); `src/ingestao_sqlite/`,
+`src/ingestao_snowflake/`, `sql/ingestao_sqlite/`, `sql/ingestao_snowflake/`
+para o que é específico de cada engine, com download bruto (`scripts/`) e
+preparação comum (`src/SRC_001_basica_extract_validate.py`,
+`src/SRC_002_basica_build_schema.py`, os antigos `src/02` e `src/03`
+renomeados pela `DEC-005`) permanecendo únicos.
 
 **Adotada.** Já implementada e em uso desde 2026-08-24; esta DEC só fecha
 o rastro que faltava, sem mudar o estado real do repositório.
@@ -138,9 +140,13 @@ o rastro que faltava, sem mudar o estado real do repositório.
 
 - **Não decide a convenção de nome de arquivo** dentro de cada pasta — já
   é o DEC-001 §6.6 (`TIPO_NNN_descricao_curta`, prospectiva).
-- **Não estende a organização a VRA/SIROS na prática** — a estrutura de
-  pastas está pronta para recebê-los, mas os scripts específicos desses
-  dois datasets ainda não existem (SPEC-002 C-04/C-05, provisórios).
+- **Não decide como VRA e SIROS são carregados.** A estrutura de pastas
+  os recebeu sem ajuste em 2026-08-31; a carga em si é a `DEC-008`.
+- **Não decide as camadas dentro de cada banco.** Elas nasceram depois,
+  como views silver (`sql/tratamento/`, `DEC-008`) e tabelas curated
+  (`sql/curated_deep/`, `DEC-007` e `SPEC-012`), dentro dos bancos por
+  dataset. Isso é compatível com o descarte da alternativa 4.2, que
+  separava camada em arquivo próprio, não em objeto dentro do mesmo banco.
 - **Não revisita a alternativa C** (banco por dataset por camada) — fica
   disponível como critério de reavaliação (§6) se o volume crescer o
   bastante para justificar.
@@ -153,10 +159,13 @@ Esta decisão deve ser revisitada se:
 
 - Cruzar dados entre datasets (via `ATTACH DATABASE`) virar operação
   frequente o bastante para que o custo de sintaxe supere o benefício do
-  isolamento — sinal para reconsiderar a alternativa 4.1.
-- O volume real de algum dataset (especialmente SIROS, ainda não medido —
-  REP-001 §5.2) justificar separar também por camada dentro do banco —
-  sinal para reconsiderar a alternativa 4.2.
+  isolamento — sinal para reconsiderar a alternativa 4.1. Estado em
+  2026-10-14: um uso, em `sql/curated_deep/DDL_004` (block time, Básica ×
+  VRA).
+- O volume real de algum dataset justificar separar também por camada —
+  sinal para reconsiderar a alternativa 4.2. Estado em 2026-10-14: SIROS,
+  que o REP-001 §5.2 apontava como o maior risco, ficou em 10.677.382
+  linhas e 4,9 GB (`SPEC-010`); o maior banco é a Básica, com 19,7 GB.
 - A convenção de pastas se mostrar confusa na prática ao adicionar VRA ou
   SIROS.
 
@@ -167,6 +176,8 @@ Esta decisão deve ser revisitada se:
 | Data | Evento |
 |---|---|
 | 2026-08-25 | DEC-004 produzida em status `proposto`, retroativa: formaliza D4 e D7 do REP-001 (2026-08-24), já implementados no repositório (commit `f7f116e`). Origem: achado R-FUN-06 do `gov-check AUDIT-001`, resolvido pelo autor via caminho "2b" (produzir a DEC agora). Quatro alternativas avaliadas. Aguardando revisão do autor antes de aprovar. |
+| 2026-10-14 | **v2, fatos atualizados, decisão inalterada.** Dívida M3 do `AUDIT-002`. Nomes dos bancos (`db/anac_<dataset>.sqlite`) e dos scripts de preparação (renomeados pela `DEC-005`) corrigidos no §4.4; §5.3 deixa de dizer que VRA e SIROS não têm scripts (têm desde a `DEC-008`) e passa a registrar que as camadas silver e curated nasceram dentro dos bancos por dataset; §6 recebe o estado medido dos dois critérios de reavaliação (um uso de `ATTACH`; volumes reais). Nenhuma alternativa, escolha ou critério muda. |
+| 2026-10-14 | **Aprovada pelo autor** (Bruno Alexandre Serminaro), na v2. Fecha a dívida M3 do `AUDIT-002`: a `DEC-008`, aprovada, deixa de se apoiar numa DEC em proposta. A IA de apoio redigiu a v2 e não aprova (`SPEC-003 §3.2`). |
 
 ---
 
