@@ -1,9 +1,9 @@
 ---
 documento: SPEC-011
 titulo: Dimensão de Aeródromo — Localização e Fuso Horário
-versao: v2
+versao: v3
 status: aprovado
-data: 2026-08-31
+data: 2026-09-05
 autor: Bruno Alexandre Serminaro
 referencia: DEC-009
 escopo: projeto
@@ -200,6 +200,7 @@ Revisitar esta SPEC quando:
 | 2026-08-31 | **Aprovada.** Autor revisou o lote (DEC-009 + SPEC-011) e aprovou explicitamente. |
 | 2026-08-31 | **v2 — correção pós-aprovação, decisão inalterada (`R-TAX-11`).** Renomeado `sql/ingestao_sqlite/DDL_005_dim_airport_create_table.sql` → `DDL_004_...` (numeração local da pasta pulava o 004; corrigido antes de criar `siros_silver`, que teria colidido no 005 se a numeração fosse global entre pastas — ver achado registrado em `DEC-001 §6.6`, não resolvido, só a colisão evitada). §4 atualizado. |
 | 2026-09-05 | **v3, correção pós-aprovação, decisão inalterada.** `rascunho/dim_airport_location_time_zone.csv` movido para `data/dim_airport_location_time_zone.csv` (`git mv`), com exceção correspondente no `.gitignore`; a citação de §5 acompanha o caminho. Mesmo motivo registrado na `DEC-009`. Nenhuma coluna, regra `R-COL-NN` ou fonte de carga muda. |
+| 2026-10-14 | Frontmatter alinhado ao Histórico: `versao: v3` e `data: 2026-09-05`, os da última versão registrada acima, que tinha sido lançada sem subir o frontmatter. Achado A1 do `AUDIT-002`. Nenhuma mudança de conteúdo. |
 
 ---
 

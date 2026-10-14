@@ -2,7 +2,7 @@
 documento: SPEC-003
 titulo: Contrato de Responsabilidade do Projeto learn-microdados_anac_dados
 versao: v1
-status: proposto
+status: aprovado
 data: 2026-08-24
 autor: Bruno Alexandre Serminaro
 referencia: DEC-003, SPEC-002
@@ -159,11 +159,12 @@ projeto solo de baixo risco (DEC-003 §2, §5).
 contra as regras `R-TAX-NN` (SPEC-001), `R-FUN-NN` (SPEC-002) e `R-CON-NN`
 (esta SPEC, §9). A cadência mínima é a do §7.
 
-**Estado atual do freio**: ainda não exercido nesta fundação — o
-`gov-check` ainda não rodou sobre este projeto (REP-001 §8, pendência
-explícita). O fechamento desta fundação (aprovação desta SPEC-003) é, ele
-mesmo, o primeiro marco que aciona o compromisso do §7: a primeira rodada
-de auditoria deve acontecer em seguida, não ficar indefinidamente adiada.
+**Estado atual do freio**: exercido. A primeira rodada (`AUDIT-001`,
+2026-08-25) foi disparada pelo fechamento da fundação; a segunda
+(`AUDIT-002`, 2026-10-14), pela incorporação à `main` das linhas de análise
+a2 a a6. O registro de cada rodada e a próxima data prevista vivem em
+`docs/AUDIT/INDEX_AUDIT.md`, não aqui, para que este parágrafo não volte a
+envelhecer.
 
 ---
 
@@ -218,6 +219,8 @@ Revisitar esta SPEC quando:
 | Data | Evento |
 |---|---|
 | 2026-08-24 | SPEC-003 v1 produzida em status `proposto`. Última peça da fundação de sete (DEC-META-014). Materializa o DEC-003 (aprovado): operação solo (Autor/Gestor/Diretor acumulados por Bruno Serminaro), IA de apoio declarada instrumento — não papel — sem autoridade de aprovação (§3.2, diferença de framing em relação ao precedente `learn-aviacao-cco-db`, que listava o par assistivo como papel), cadência mínima de auditoria por marco com piso trimestral (§7, diferença material do precedente), 7 regras `R-CON-NN`. Aguarda aprovação do autor — ao aprovar, a fundação de sete peças fica completa. |
+| 2026-10-14 | §8, "Estado atual do freio", corrigido: dizia que o `gov-check` ainda não tinha rodado, o que deixou de ser verdade em 2026-08-25 (`AUDIT-001`). Passa a apontar para `INDEX_AUDIT.md` como registro vivo. Achado A2 do `AUDIT-002`. Status e versão inalterados; nenhuma regra, papel ou cadência muda. |
+| 2026-10-14 | **Aprovada pelo autor** (Bruno Alexandre Serminaro), na sessão do `AUDIT-002` (§3.2), depois da correção do §8. Com ela, a fundação de sete peças (DEC-META-014) fica completa. Versão inalterada (v1): a aprovação não muda conteúdo. A IA de apoio redigiu a correção do §8 e não aprova (§3.2). |
 
 ---
 

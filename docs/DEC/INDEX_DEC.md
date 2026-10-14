@@ -60,8 +60,9 @@ _(nenhuma ainda)_
 > peças em ordem decisão-primeiro (DEC-META-014): DEC-001 → SPEC-001 →
 > REP-001 → DEC-002 → SPEC-002 → DEC-003 → SPEC-003. DEC-001, SPEC-001,
 > REP-001, DEC-002, SPEC-002 e DEC-003 estão **aprovados** (2026-08-24).
-> **SPEC-003 segue em `proposto`**, aguardando revisão do autor — falta
-> só ela para a fundação de sete peças estar completa. Os blueprints da
+> SPEC-003 ficou em `proposto` até **2026-10-14**, quando o autor a
+> aprovou (`AUDIT-002` §3.2); desde então a fundação de sete peças está
+> completa. Os blueprints da
 > fundação vivem em `docs/assets/blueprints/` (movidos de `rascunho/` em
 > 2026-09-06); o contexto bruto que os acompanhava foi absorvido pelas
 > próprias peças e removido, conforme registrado no Histórico da DEC-001.
