@@ -1,9 +1,9 @@
 ---
 documento: SPEC-001
 titulo: Taxonomia Documental do Projeto learn-microdados_anac_dados
-versao: v2
+versao: v3
 status: aprovado
-data: 2026-08-31
+data: 2026-09-06
 autor: Bruno Alexandre Serminaro
 referencia: DEC-001
 escopo: projeto
@@ -217,6 +217,7 @@ Revisitar esta SPEC quando:
 | 2026-08-24 | **Aprovada.** Revisão contra o blueprint (`SPEC_001.json`) sem divergência: todas as dez seções obrigatórias presentes, cada regra `R-TAX-NN` com id/enunciado/onde-verificar/severidade, rastro `referencia: DEC-001` coerente com a regra R-TAX-06 que a própria SPEC declara. Segue para DEC-002. |
 | 2026-08-31 | **v2 — R-TAX-11 formalizada.** Uma rodada de `gov-check` (2026-08-31) sinalizou, pela terceira vez, que o padrão "sobe versão, mantém `aprovado`" usado em `DEC-007`/`DEC-008`/`SPEC-004`/`SPEC-008`/`SPEC-009`/`SPEC-010` não tinha regra que o sancionasse neste projeto. Autor decidiu formalizar em vez de desfazer: `R-TAX-11` fixa o mecanismo (bump de versão + Histórico, `status` inalterado) para correção que não muda a decisão de fundo, e reserva `supersede:` para quando a decisão em si muda — coexiste com o princípio de imutabilidade do `DEC-005 §5`, só desenha a fronteira que faltava. Aplica-se retroativamente aos seis documentos citados: nenhum deles reverteu uma decisão, todos documentaram implementação real, achado de dado ou renomeação já decidida. |
 | 2026-09-06 | **v3, correção pós-aprovação, taxonomia inalterada (`R-TAX-11`).** §5 descrevia `docs/assets/` como pasta condicional, ainda vazia. Ela passou a existir de fato: os sete blueprints da fundação vieram de `rascunho/contexto/blueprints/`, pasta que o `.gitignore` declara descartável embora os arquivos estivessem versionados e três DECs aprovadas os citassem. Nenhum tipo, regra `R-TAX-NN` ou convenção de nome muda: blueprint não é peça SERMI, e `docs/assets/` já estava previsto aqui para exatamente este caso. |
+| 2026-10-14 | Frontmatter alinhado ao Histórico: `versao: v3` e `data: 2026-09-06`, os da última versão registrada acima, que tinha sido lançada sem subir o frontmatter. Achado A1 do `AUDIT-002`. Nenhuma mudança de conteúdo. |
 
 ---
 

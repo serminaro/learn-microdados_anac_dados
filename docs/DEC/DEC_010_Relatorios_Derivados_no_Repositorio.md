@@ -1,9 +1,9 @@
 ---
 documento: DEC-010
 titulo: Relatórios derivados (IMRaD e Minto) versionados em relatorios/, fora da estrutura da SPEC-001 §5
-versao: v1
+versao: v2
 status: proposto
-data: 2026-09-04
+data: 2026-09-05
 autor: Bruno Alexandre Serminaro
 referencia: DEC-001, SPEC-001, SPEC-004, SPEC-017, GUIDE-005
 escopo: projeto
@@ -146,6 +146,7 @@ Revisitar esta DEC quando:
 | 2026-09-05 | **v2, estrutura de `relatorios/` ganha camada de versão.** Os dois geradores desceram para `relatorios/report_microdados_v1/`, e `report_microdados_v2/` nasceu como cópia idêntica, a divergir a partir daqui (decisão do autor). `PROCEDENCIA_FIGURAS.md` desceu junto, um por versão, pelo mesmo princípio de autocontenção do §5. Movimentação feita com `mv` e registrada no git como 67 renomeações para `v1` (histórico preservado) mais 67 adições para `v2`. §2 e §6 atualizados; citações corrigidas em `README.md`, `GUIDE-005` e `INDEX_DEC`. **Verificado antes e depois:** os 67 arquivos batem byte a byte com o `HEAD`, e o teste de procedência do `PROCEDENCIA_FIGURAS.md` devolve o estado documentado (25 Classe A idênticas às originais de `analise/`, 16 Classe B sem original no repositório). Nenhum arquivo perdido, nenhuma figura alterada. |
 | 2026-09-11 | **`environment.yml` renomeado para `environment_report.yml`** nos quatro geradores (`git mv`, histórico preservado), a pedido do autor. Motivo: o nome genérico colidia com o `environment_gov-sermi-perf.yml` da raiz, e os quatro arquivos declaravam `name: gov-sermi-perf`, o ambiente compartilhado do autor. Dois arquivos declarando o mesmo ambiente com conteúdos diferentes é defeito: quem rodasse `conda env create` a partir do gerador criaria um `gov-sermi-perf` com três pacotes, no lugar do ambiente completo. O ambiente dos geradores passa a se chamar `report-docx`, com as suas três dependências (`python-docx`, `pillow`, `pyyaml`), o que é a autocontenção do §5 aplicada ao ambiente e não só aos arquivos. Citações atualizadas nos dois `README.md` de minto e no §2 desta DEC. Decisão de ambiente do repositório: `DEC-011 §2.2`. |
 | 2026-10-14 | **Premissa do §1 revista, decisão inalterada.** O §1 e a alternativa "Deixar em `learn-imrad-mintos`" do §4 partem de um repositório de origem sem git. Isso deixou de valer: `learn-imrad-mintos` é versionado desde 2026-09-04 (commit `8e49c94`), com remote privado no GitHub desde 2026-10-01. Os manuscritos têm cópia fora da máquina, mas não são acessíveis a quem lê este repositório público. Os manuscritos `Deep_Dive_Gol_ANAC_1a_.docx` e `Deep_Dive_Gol_ANAC_1a_bloco.docx`, fonte da Classe B de `PROCEDENCIA_FIGURAS.md`, continuam lá por decisão do autor, que manteve a exclusão de 2026-08-31 registrada em `DEC-007 v2` e `SPEC-004 v2`. A frase "não é versionado" do `PROCEDENCIA_FIGURAS.md` de v1 e v2 foi corrigida. Os geradores seguem neste repositório: o motivo de rastro do §1 (distância entre as peças e as SPECs que as sustentam) não depende do git de lá. |
+| 2026-10-14 | Frontmatter alinhado ao Histórico: `versao: v2` e `data: 2026-09-05`, os da última versão registrada acima, que tinha sido lançada sem subir o frontmatter. Achado M1 do `AUDIT-002`. Nenhuma mudança de conteúdo. |
 
 ---
 
