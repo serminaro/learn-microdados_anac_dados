@@ -10,7 +10,7 @@ nao em pandas -- exclui negativo, continuidade de rotacao quebrada e
 > 72h (medido para GOL+Azul juntos, ver DDL_005). load_data() so filtra
 fl_solo_valido = 1.
 
-Roda com: conda run -n pesquisa-azul python analise/a3_tempo_de_solo/distribuicao_tempo_solo_azul.py
+Roda com: conda run -n gov-sermi-perf python analise/a3_tempo_de_solo/distribuicao_tempo_solo_azul.py
 """
 
 from pathlib import Path

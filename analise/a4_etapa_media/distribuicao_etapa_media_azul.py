@@ -12,7 +12,7 @@ por etapa da Basica inteira, cargueiro incluso). Filtro feito em pandas
 id_basica -- o JOIN direto no SQLite ficou lento (testado, abortado, ver
 distribuicao_etapa_media_gol.py).
 
-Roda com: conda run -n pesquisa-azul python analise/a4_etapa_media/distribuicao_etapa_media_azul.py
+Roda com: conda run -n gov-sermi-perf python analise/a4_etapa_media/distribuicao_etapa_media_azul.py
 """
 
 from pathlib import Path

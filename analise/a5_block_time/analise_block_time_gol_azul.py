@@ -12,7 +12,7 @@ positiva pequena e esperada estruturalmente (todo bloco programado
 inclui taxi); nao dividir isso em "taxi" vs "margem estrategica" sem
 dado novo.
 
-Roda com: conda run -n pesquisa-azul python analise/a5_block_time/analise_block_time_gol_azul.py
+Roda com: conda run -n gov-sermi-perf python analise/a5_block_time/analise_block_time_gol_azul.py
 """
 
 import sqlite3

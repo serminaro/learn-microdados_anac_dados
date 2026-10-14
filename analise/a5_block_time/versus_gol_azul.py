@@ -20,7 +20,7 @@ autor, 2026-09-03, mesma politica ja validada e usada em ambos os scripts
 individuais (familia "cerca_"). Unidades em minutos, nao horas, mesmo
 motivo (mais legivel numa faixa estreita).
 
-Roda com: conda run -n pesquisa-azul python analise/a5_block_time/versus_gol_azul.py
+Roda com: conda run -n gov-sermi-perf python analise/a5_block_time/versus_gol_azul.py
 """
 
 from pathlib import Path

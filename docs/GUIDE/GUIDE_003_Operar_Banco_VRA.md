@@ -26,7 +26,7 @@ funcionando localmente, sem precisar reconstruir o raciocínio de
 
 ## 2. Pré-requisitos
 
-- Ambiente conda `pesquisa-azul` ativo.
+- Ambiente conda `gov-sermi-perf` criado a partir de `environment_gov-sermi-perf.yml` (`DEC-011 §2.2`).
 - `data/anac/vra/` com os arquivos brutos (ou disposto a baixá-los —
   passo 3).
 - ~3 GB livres em disco para `db/anac_vra.sqlite`.
@@ -38,7 +38,7 @@ funcionando localmente, sem precisar reconstruir o raciocínio de
 bash scripts/BASH_002_vra_download.sh
 
 # 2. Carrega em SQLite (idempotente — pula mês já carregado)
-~/miniconda3/envs/pesquisa-azul/bin/python \
+conda run -n gov-sermi-perf python \
   src/ingestao_sqlite/SRC_002_vra_load_sqlite.py
 ```
 
@@ -121,6 +121,7 @@ LIMIT 5;
 |---|---|
 | 2026-08-31 | GUIDE-003 v1 produzido em status `proposto`. Segundo de três GUIDEs de banco de dados. Aguardando aprovação do autor. |
 | 2026-08-31 | Atualizado (ainda v1/`proposto`, sem mudança de status): `vra_silver` implementado (`SPEC-009 v2`), substitui a menção a `vra_typed` como "ainda não implementada". Duas armadilhas novas documentadas: segunda mudança de formato de data (2018-12/2019-01) e corrupção de fonte em 2020-02/03 (`BlobColumn`). §1, §3, §4, §5 revisados. |
+| 2026-10-14 | Atualizado (ainda v1/`proposto`): pré-requisito e comando de carga trocam o ambiente `pesquisa-azul`, de outro projeto e chamado por caminho de instalação, por `conda run -n gov-sermi-perf`, o ambiente declarado na `DEC-011 §2.2`. Dívida M4 do `AUDIT-002`. Nenhum passo muda. |
 
 ---
 

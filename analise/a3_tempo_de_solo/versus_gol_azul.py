@@ -26,7 +26,7 @@ o que esses graficos representam: passam a excluir pernoite e fim de
 semana da conta inteira, nao so' da visualizacao. Registrado aqui para
 nao ficar implicito.
 
-Roda com: conda run -n pesquisa-azul python analise/a3_tempo_de_solo/versus_gol_azul.py
+Roda com: conda run -n gov-sermi-perf python analise/a3_tempo_de_solo/versus_gol_azul.py
 """
 
 from pathlib import Path

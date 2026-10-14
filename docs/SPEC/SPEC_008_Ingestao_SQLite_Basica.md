@@ -1,9 +1,9 @@
 ---
 documento: SPEC-008
 titulo: Ingestão SQLite — Básica
-versao: v4
+versao: v5
 status: aprovado
-data: 2026-08-31
+data: 2026-10-14
 autor: Bruno Alexandre Serminaro
 referencia: DEC-008, SPEC-005
 escopo: projeto
@@ -133,7 +133,7 @@ ou uma futura camada de análise), não da silver.
 
 ## 8. Premissas e dependências
 
-- Ambiente `pesquisa-azul` (conda) disponível para rodar os scripts
+- Ambiente `gov-sermi-perf` (conda, `DEC-011 §2.2`) disponível para rodar os scripts
   Python — mesma premissa do `SPEC-002 §6`.
 - Cobertura de carga: **2010-01 a 2026-07, confirmada** — resolve, não
   mais premissa, a divergência que a v1 desta SPEC deixava em aberto.
@@ -185,6 +185,7 @@ Revisitar esta SPEC quando:
 | 2026-08-31 | **v2 — carga estendida a 2010-2023.** Achado: cabeçalho da Básica muda em 2020-01 (`nr_chave` some antes disso) — resolve `SPEC-002 C-02` em achado confirmado, não mais hipótese. `SRC_001` corrigido para tratar as duas formas de cabeçalho sem falhar. Carga executada: 15.607.396 linhas, 16 GB, 2010-01 a 2026-06 confirmado. C-03 e R-COL-16 adicionados. |
 | 2026-08-31 | **v3 — camada silver.** `basica_typed` retirada (~27 colunas, métrica derivada misturada); `basica_silver` criada (112 colunas, `DDL_003_basica_view_silver_sqlite.sql`, gerado a partir de `SPEC-005`, organizado em 8 categorias, comentário por coluna). Refinamento do achado do `nr_chave`: existe desde 2020, mas nem toda linha pós-2020 o preenche (98,8% nulo em 2020, não 0%). §3.1, §4, §6, §7 (C-04 novo), §10 (R-COL-17 novo), §11 atualizados. |
 | 2026-08-31 | **v4 — correção pós-aprovação, decisão inalterada (`R-TAX-11`).** Achado: `SRC_001_basica_load_sqlite.py` tinha corte hardcoded (`if ano == 2026 and mes > 6: continue`) escrito quando junho/2026 era o mês mais recente disponível — `2026-07`, já baixado em disco (`.zip`), nunca era tentado pela carga, apesar de `§4` já documentar o download correto. Não é achado de dado, é dívida de código deixada por trás do download. Corrigido: `month_files()` agora descobre por existência de arquivo, não por mês fixo — não fica obsoleto no próximo mês baixado. Recarregado: `basica_raw` de 15.607.396 para **15.694.136** linhas (+86.740, `2026-07`), `basica_silver` (view) reflete automaticamente. §4, §7 (C-03), §8, §10 (R-COL-16) atualizados. |
+| 2026-10-14 | **v5, correção pós-aprovação, decisão inalterada (`R-TAX-11`).** Instrução de ambiente trocada de `pesquisa-azul`, ambiente de outro projeto, para `gov-sermi-perf`, o declarado na `DEC-011 §2.2` (1 ocorrência(s)). Dívida M4 do `AUDIT-002`. Status mantido em `aprovado`; nenhum método, achado ou critério muda. |
 
 ---
 

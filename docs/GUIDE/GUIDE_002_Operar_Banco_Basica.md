@@ -26,7 +26,7 @@ sem precisar reconstruir o raciocínio de `SPEC-008` toda vez.
 
 ## 2. Pré-requisitos
 
-- Ambiente conda `pesquisa-azul` ativo (`~/miniconda3/envs/pesquisa-azul/bin/python`).
+- Ambiente conda `gov-sermi-perf` criado a partir de `environment_gov-sermi-perf.yml` (`DEC-011 §2.2`).
 - Repositório clonado, `data/anac/basica/` com os arquivos brutos (ou
   disposto a baixá-los — passo 3).
 - ~17 GB livres em disco para `db/anac_basica.sqlite`.
@@ -38,7 +38,7 @@ sem precisar reconstruir o raciocínio de `SPEC-008` toda vez.
 bash scripts/BASH_001_basica_download.sh
 
 # 2. Carrega em SQLite (idempotente — INSERT OR IGNORE por id_basica)
-~/miniconda3/envs/pesquisa-azul/bin/python \
+conda run -n gov-sermi-perf python \
   src/ingestao_sqlite/SRC_001_basica_load_sqlite.py
 ```
 
@@ -118,6 +118,7 @@ de 16 GB sem índice nas colunas mais comuns de filtro livre
 | 2026-08-31 | GUIDE-002 v1 produzido em status `proposto`. Primeiro de três GUIDEs de banco de dados. Aguardando aprovação do autor. |
 | 2026-08-31 | Atualizado (ainda v1/`proposto`, sem mudança de status): `basica_typed` retirada, substituída por `basica_silver` (`SPEC-008 v3`). §1, §3, §4, §5 revisados. |
 | 2026-08-31 | Atualizado de novo: corte de mês fixo no loader corrigido (`SPEC-008 v4`), cobertura real passa a ser 2010-01 a 2026-07. Corrigida também a afirmação de que reexecução incremental é rápida — não é, o script relê tudo toda vez. §3 revisado. |
+| 2026-10-14 | Atualizado (ainda v1/`proposto`): pré-requisito e comando de carga trocam o ambiente `pesquisa-azul`, de outro projeto e chamado por caminho de instalação, por `conda run -n gov-sermi-perf`, o ambiente declarado na `DEC-011 §2.2`. Dívida M4 do `AUDIT-002`. Nenhum passo muda. |
 
 ---
 

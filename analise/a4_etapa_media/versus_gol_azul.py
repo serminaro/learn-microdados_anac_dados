@@ -38,7 +38,7 @@ arquivos, para nao misturar com a numeracao v01-v12 ja em uso:
   novo_08: top bases HUB por numero de chegadas
   novo_09: violin unico com media/mediana/Q1/Q3 (dist_08)
 
-Roda com: conda run -n pesquisa-azul python analise/a4_etapa_media/versus_gol_azul.py
+Roda com: conda run -n gov-sermi-perf python analise/a4_etapa_media/versus_gol_azul.py
 """
 
 from pathlib import Path

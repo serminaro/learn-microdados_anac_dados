@@ -26,7 +26,7 @@ de Tukey, e' garbage de dado, mesmo padrao ja encontrado na GOL): timestamp
 VRA corrompido em |atraso| > 24h. folga_horas NAO e' afetada (usa
 nr_horas_voadas da Basica, nao os timestamps "reais" do VRA).
 
-Roda com: conda run -n pesquisa-azul python analise/a5_block_time/distribuicao_block_time_azul.py
+Roda com: conda run -n gov-sermi-perf python analise/a5_block_time/distribuicao_block_time_azul.py
 """
 
 from pathlib import Path

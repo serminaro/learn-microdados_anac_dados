@@ -1,9 +1,9 @@
 ---
 documento: SPEC-002
 titulo: Descrição do Projeto learn-microdados_anac_dados
-versao: v2
+versao: v3
 status: aprovado
-data: 2026-08-24
+data: 2026-10-14
 autor: Bruno Alexandre Serminaro
 referencia: DEC-002, REP-001
 escopo: projeto
@@ -203,7 +203,7 @@ Herdadas do DEC-002 §6.5, mais as específicas desta SPEC:
   ingestão, não bloqueia o projeto. Schema de VRA segue premissa não
   testada além da amostra de `SPEC-006`/`SPEC-009` (2010, 2015, 2020,
   2024, consistentes nessa amostra).
-- **Ambiente local configurado** (conda `pesquisa-azul`, Snowflake CLI)
+- **Ambiente local configurado** (conda `gov-sermi-perf`, `DEC-011 §2.2`, Snowflake CLI)
   permanece disponível ao longo do trabalho.
 
 Mudança em qualquer premissa dispara reavaliação desta SPEC (§10).
@@ -291,6 +291,7 @@ Revisitar esta SPEC quando:
 | 2026-08-24 | SPEC-002 v1 produzida em status `proposto`. Materializa o DEC-002 (aprovado): propósito, audiência, escopo (3 datasets, 2 caminhos, 2010-presente), decomposição em matriz dataset × caminho, 9 critérios de sucesso incrementais (4 provisórios), premissas, 4 não-objetivos, 8 regras `R-FUN-NN`. Aguarda aprovação do autor antes de seguir para DEC-003. |
 | 2026-08-24 | **Aprovada.** Revisão contra o blueprint (`SPEC_002.json`) sem divergência: onze seções obrigatórias presentes, cada `C-NN` aponta artefato verificável ou método de medição, provisórios marcados como tais, cada `R-FUN-NN` com id/enunciado/onde-verificar/severidade. Segue para DEC-003. |
 | 2026-08-31 | **v2 — correção pós-aprovação, decisão inalterada.** Nomes de script desatualizados corrigidos (`scripts/01_download.sh`→`BASH_001_basica_download.sh`, `src/02_extract_validate.py`→`SRC_001_basica_extract_validate.py`, `src/03_build_schema.py`→`SRC_002_basica_build_schema.py` — renomeados pela `DEC-005` em 2026-08-26, nunca refletidos aqui). C-02 e C-05 fechados como **cumpridos, achado confirmado**: cabeçalho da Básica diverge em 2020-01 (`nr_chave`, `SPEC-008 v2`); volume do SIROS medido em ~1,54M linhas/mês (`SPEC-010 v2`). §5.1, §5.2, §6, §8, §9, §10 atualizados. Nenhuma decisão de escopo muda. |
+| 2026-10-14 | **v3, correção pós-aprovação, decisão inalterada (`R-TAX-11`).** Instrução de ambiente trocada de `pesquisa-azul`, ambiente de outro projeto, para `gov-sermi-perf`, o declarado na `DEC-011 §2.2` (1 ocorrência(s)). Dívida M4 do `AUDIT-002`. Status mantido em `aprovado`; nenhum método, achado ou critério muda. |
 
 ---
 

@@ -26,7 +26,7 @@ dist_04/05/06 precisam. Filtro local (nao DDL): a escala (0,0064%) e'
 pequena demais para justificar uma coluna de validade no banco, ao
 contrario do que fizemos para tempo_solo_horas (DDL_005, 0,29%).
 
-Roda com: conda run -n pesquisa-azul python analise/a5_block_time/distribuicao_block_time_gol.py
+Roda com: conda run -n gov-sermi-perf python analise/a5_block_time/distribuicao_block_time_gol.py
 """
 
 from pathlib import Path

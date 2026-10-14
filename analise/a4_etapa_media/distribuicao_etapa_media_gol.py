@@ -11,7 +11,7 @@ por etapa da Basica inteira, cargueiro incluso). Filtro feito em pandas
 (.isin) e nao em SQL porque nenhuma das duas tabelas tem indice em
 id_basica -- o JOIN direto no SQLite ficou lento (testado, abortado).
 
-Roda com: conda run -n pesquisa-azul python analise/a4_etapa_media/distribuicao_etapa_media_gol.py
+Roda com: conda run -n gov-sermi-perf python analise/a4_etapa_media/distribuicao_etapa_media_gol.py
 """
 
 from pathlib import Path
