@@ -21,6 +21,7 @@ GUIDE nasça primeiro.
 | Nº | Título | Data | Status |
 |---|---|---|---|
 | [GUIDE-001](GUIDE_001_Estudo_SnowPro_Core_via_Projeto_ANAC.md) | Estudo para a certificação SnowPro Core via projeto ANAC | 2026-08-30 | `aprovado` |
+| [GUIDE-005](GUIDE_005_Metodologia_IMRaD_e_Piramide_de_Minto.md) | Metodologia IMRaD + Pirâmide de Minto para análise decisória | 2026-09-04 | `proposto` |
 
 ---
 

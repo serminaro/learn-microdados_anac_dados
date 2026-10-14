@@ -1,0 +1,67 @@
+# Cabeçalho e ordem das seções do documento IMRaD.
+#
+# Instância: Deep Dive GOL sobre microdados da ANAC.
+# Fontes: Deep_Dive_Gol_ANAC_1a_bloco.docx (texto do autor: destinos e frota)
+# + projeto learn-microdados_anac_dados (SPEC-013, SPEC-015, SPEC-016 e as
+# figuras de analise/a3, a4 e a5: tempo de solo, etapa média, block time).
+#
+# Metodologia de referência: ../../docs/GUIDE/GUIDE_005_Metodologia_IMRaD_e_Piramide_de_Minto.md (IMRaD + Pirâmide de
+# Minto). Este documento é a peça de trabalho (o relatório: achado →
+# interpretação → decisão). A peça de decisão, em Pirâmide de Minto, responde
+# as mesmas perguntas em outra densidade e fica no gerador_mintos (rascunho já
+# existente em ../gerador-minto-microdados).
+
+modelo_base: modelo_de_escrita.docx        # base de estilo (não precisa mexer)
+arquivo_saida: deep_dive_gol_imrad.docx    # nome do .docx gerado em saida/
+
+# Estilo do texto normal (parágrafos e listas). Ajuste aqui se quiser mudar
+# fonte, tamanho (pt) ou cor (hex RGB, sem '#') sem editar o script.
+estilo:
+  fonte: "Calibri"
+  tamanho_corpo: 11
+  cor_texto: "002060"
+
+documento:
+  titulo: "Deep Dive GOL nos microdados da ANAC"
+  subtitulo: "Malha, frota e tempos operacionais entre 2021 e 2026, com a Azul como contraponto"
+  data: "03/09/2026"
+  janela_temporal: "Janeiro de 2021 a julho de 2026 (block time limitado a junho de 2026 por atraso de publicação do VRA)"
+  base_de_dados: "Microdados públicos da ANAC (bases Básica e VRA), ingeridos em SQLite no projeto learn-microdados_anac_dados; camadas trusted_essencial, curated_deep_dive_gol/azul, fato_rotacao_aeronave_gol_azul e fato_block_time_gol_azul"
+  contexto:
+    - "Deep dive exploratório sobre a operação da GOL, construído em duas frentes que se encontram neste documento: uma análise manual de malha e frota, e uma linha de análise reprodutível em SQLite e Python sobre tempo de solo, etapa média e block time."
+    - "Não há evento disparador externo nem pedido de área operacional: a motivação é entender o modelo de operação da GOL a partir de dado público e verificar se as cinco perguntas do projeto se sustentam sobre a mesma leitura."
+
+# A ordem aqui define a numeração (1, 2, 3...). Renomeie títulos à vontade,
+# mas pense duas vezes antes de reordenar: a sequência Introdução → Métodos →
+# Resultados → Discussão é a espinha dorsal do IMRaD (guia, seção 2) e a leitura
+# depende dela (achado antes de interpretação, interpretação antes de recomendação).
+#
+# "arquivo" é o nome do markdown dentro da pasta da seção (nome descritivo,
+# diferente em cada seção, para não confundir abas abertas no editor).
+# Seções marcadas opcional: true são puladas se o arquivo estiver vazio.
+# Seções marcadas numerar: false entram no documento sem número de seção
+# (o Resumo precede a Introdução e não compete pela numeração 1-2-3).
+secoes:
+  - pasta: "00-resumo"
+    titulo: "Resumo"
+    arquivo: "resumo.md"
+    numerar: false
+  - pasta: "01-introducao"
+    titulo: "Introdução"
+    arquivo: "introducao.md"
+  - pasta: "02-metodos"
+    titulo: "Métodos"
+    arquivo: "metodos.md"
+  - pasta: "03-resultados"
+    titulo: "Resultados"
+    arquivo: "resultados.md"
+  - pasta: "04-discussao"
+    titulo: "Discussão"
+    arquivo: "discussao.md"
+  - pasta: "05-recomendacoes"
+    titulo: "Recomendações"
+    arquivo: "recomendacoes.md"
+    opcional: true
+  - pasta: "06-conclusao"
+    titulo: "Conclusão"
+    arquivo: "conclusao.md"

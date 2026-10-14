@@ -12,7 +12,7 @@ escopo: projeto
 # DEC-006 · Escopo do star schema: Básica satisfaz o KR4.1, VRA fica com capítulo próprio
 
 > DEC de conteúdo: resolve o ponto em aberto identificado em
-> `rascunho/plano_certificacao_snowpro.md §5` — o star schema da Fase D do
+> `GUIDE-001 §5` — o star schema da Fase D do
 > `plano_objetos_snowflake.md` está desenhado para o schema `ANAC.BASICA`,
 > mas o KR4.1 do OKR de carreira (`okr_carreira_estudo.md`,
 > `20-azul-analista-dados`) lista "ANAC VRA → Snowflake → Power BI" como
@@ -41,7 +41,7 @@ Sem decidir isso agora, a Fase D corre risco de esperar a implementação
 completa do pipeline VRA (download → ingestão → tratamento, trabalho ainda
 não iniciado) antes de poder começar — o que atrasaria tanto o KR4.1
 quanto o cronograma de estudo do SnowPro Core que depende da Fase D
-(`rascunho/plano_certificacao_snowpro.md §6`, semanas 5-6).
+(`GUIDE-001 §6`, semanas 5-6).
 
 ## 2. Decisão
 
@@ -57,7 +57,7 @@ sem prazo vinculado ao KR4.1.
 
 ## 3. Origem ou rastro
 
-- `rascunho/plano_certificacao_snowpro.md §5`: nomeia o ponto em aberto e
+- `GUIDE-001 §5`: nomeia o ponto em aberto e
   recomenda resolvê-lo como decisão explícita antes da Fase D começar.
 - `okr_carreira_estudo.md` (linha ~85, `serminaro-governance/trabalho/
   contratos-trabalho/20-azul-analista-dados/okr/`): texto exato do KR4.1 —
@@ -81,7 +81,7 @@ Não mexer no OKR; Fase D só começa quando VRA tiver pipeline completo
 
 **Por que descartada.** Bloqueia a Fase D — e por extensão o cronograma de
 estudo do SnowPro Core, que depende dela nas semanas 5-6
-(`rascunho/plano_certificacao_snowpro.md §6`) — num trabalho substancial
+(`GUIDE-001 §6`) — num trabalho substancial
 ainda não agendado (pipeline VRA inteiro), sem necessidade: o critério
 verificável do KR4.1 não exige VRA especificamente.
 
@@ -89,8 +89,7 @@ verificável do KR4.1 não exige VRA especificamente.
 
 Não decidir agora; resolver quando a Fase D efetivamente começar.
 
-**Por que descartada.** É exatamente o padrão que o `rascunho/
-plano_certificacao_snowpro.md §5` pede para não repetir ("recomendo
+**Por que descartada.** É exatamente o padrão que o `GUIDE-001 §5` pede para não repetir ("recomendo
 resolver isso como uma decisão explícita... antes da Fase D começar, não
 silenciosamente"). Sem decisão registrada, a Fase D pode começar sobre a
 base errada (ex.: desenhar dimensões pensando em granularidade de rota
@@ -108,8 +107,7 @@ KR de 12 meses e um pipeline que ainda não existe.
 ### 5.1 Positivas
 
 - Fase D pode começar sem esperar o pipeline VRA, destravando também o
-  cronograma de estudo do SnowPro Core (`rascunho/
-  plano_certificacao_snowpro.md §6`, semanas 5-6).
+  cronograma de estudo do SnowPro Core (`GUIDE-001 §6`, semanas 5-6).
 - KR4.1 continua sendo cumprido no seu critério literal — dataset nunca
   foi parte do "Resultado-Chave" verificável, só da ação estratégica.
 - Aplica o critério de sucesso incremental do `DEC-002 §6.2` de forma
@@ -158,8 +156,9 @@ Esta decisão deve ser revisitada se:
 
 | Data | Evento |
 |---|---|
-| 2026-08-30 | DEC-006 produzida em status `proposto`. Resolve o ponto em aberto do `rascunho/plano_certificacao_snowpro.md §5`: adota Básica como dataset que satisfaz o critério verificável do KR4.1, mantendo VRA com capítulo próprio sem prazo vinculado. Três alternativas avaliadas. Aguardando revisão do autor antes de aprovar — inclui a ação pendente de editar `okr_carreira_estudo.md` fora deste repositório. |
+| 2026-08-30 | DEC-006 produzida em status `proposto`. Resolve o ponto em aberto do `GUIDE-001 §5`: adota Básica como dataset que satisfaz o critério verificável do KR4.1, mantendo VRA com capítulo próprio sem prazo vinculado. Três alternativas avaliadas. Aguardando revisão do autor antes de aprovar — inclui a ação pendente de editar `okr_carreira_estudo.md` fora deste repositório. |
 | 2026-08-31 | **Aprovada.** Revisão estrutural sem divergência: sete seções obrigatórias presentes (Contexto, Decisão, Origem, três Alternativas com veredito, Consequências com negativas, Critérios de reavaliação, Histórico), `referencia: SPEC-002` coerente. Autor revisou o resumo (quadro "Aprovações ANAC") e aprovou explicitamente. Ação de editar `okr_carreira_estudo.md` (fora deste repositório) permanece pendência do autor, não bloqueia esta aprovação. |
+| 2026-09-07 | **Correção pós-aprovação, decisão inalterada (`R-TAX-11`).** As sete citações a `rascunho/plano_certificacao_snowpro.md` (§5 quatro vezes, §6 três vezes) passam a apontar para `GUIDE-001 §5` e `§6`, que formalizaram aquela nota. O arquivo original foi removido do repositório na mesma data. A citação de §4.3 preserva entre aspas a recomendação de resolver o escopo como decisão explícita, então o texto citado sobrevive aqui mesmo sem o arquivo. Nenhuma alternativa, consequência ou critério de reavaliação muda. |
 
 ---
 

@@ -37,7 +37,10 @@ mes_num_do_href() {
 
 UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36"
 BASE="https://sistemas.anac.gov.br/dadosabertos/Voos%20e%20opera%C3%A7%C3%B5es%20a%C3%A9reas/Registro%20de%20servi%C3%A7os%20a%C3%A9reos"
-DEST="/home/bruno/Projetos/learn-microdados_anac_dados/data/anac/siros"
+# Raiz do repositorio, derivada da localizacao deste script: roda de
+# qualquer diretorio, sem caminho de maquina cravado (ver DEC-011).
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+DEST="$REPO_ROOT/data/anac/siros"
 
 ANO_INICIO=2019
 MES_INICIO_NO_ANO_INICIO=11

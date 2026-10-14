@@ -1,7 +1,7 @@
 ---
 documento: SPEC-004
 titulo: Perguntas de Análise — Deep Dive GOL e Azul via microdados ANAC (genérico, dois caminhos)
-versao: v3
+versao: v4
 status: aprovado
 data: 2026-08-31
 autor: Bruno Alexandre Serminaro
@@ -286,15 +286,20 @@ cauda longa.
 
 ### 5.6 Block time (sobra e estratégia)
 
-**Bloqueada.** Exige horário programado (`HR_PARTIDA_PREVISTA`/
-`HR_CHEGADA_PREVISTA`), inexistente na Básica — depende da ingestão do
-VRA neste projeto (`SPEC-002 §4.1`, hoje "a implementar"). Não se tenta
-proxy sem horário programado (`DEC-007 §4.4`).
+**Desbloqueada (v4)** — exigia horário programado (`HR_PARTIDA_PREVISTA`/
+`HR_CHEGADA_PREVISTA`), inexistente na Básica; dependia da ingestão do
+VRA neste projeto. VRA ingerido (`SPEC-012`), bloqueio superado. Não se
+tenta proxy sem horário programado (`DEC-007 §4.4`) — não foi necessário,
+o horário programado real já está disponível.
 
-**Desenho registrado, não implementado (`DEC-007 §2.g`).** Quando o VRA
-existir, esta pergunta nasce como objeto dedicado —
-`curated_block_time_gol`, `curated_block_time_azul` — não como extensão
-de `curated_deep_dive_*`. A junção Básica × VRA é materializada **uma
+**Desenho registrado, não implementado (`DEC-007 §2.g`, v4).** O VRA já
+existe neste projeto (`SPEC-012`) — bloqueio original superado. Esta
+pergunta nasce como objeto dedicado, **único** —
+`fato_block_time_gol_azul`, não `curated_block_time_gol`/
+`curated_block_time_azul` como versões anteriores registravam (correção
+`R-TAX-11`, alinhando com o padrão de objeto único que `curated_deep`/
+`fato_rotacao_aeronave_gol_azul` já fixaram) — não como extensão de
+`curated_deep_dive_*`. A junção Básica × VRA é materializada **uma
 vez** por carga, não repetida a cada consulta:
 
 - **SQLite**: `ATTACH DATABASE 'vra.sqlite' AS vra;` dentro do script que
@@ -305,9 +310,14 @@ vez** por carga, não repetida a cada consulta:
   (`ANAC.VRA.<objeto> JOIN ANAC.BASICA.<objeto>`), sem custo de sintaxe
   extra — assimetria maior entre caminhos do que nas perguntas 3/4
   (R-ANL-06), aceita como consequência (`DEC-007 §5.2`).
-- **Chave de junção**: hipótese de trabalho, empresa (ICAO) + número de
-  voo + data de partida + aeroporto de origem — **não confirmada**, só
-  vira achado quando o dicionário real do VRA for inspecionado.
+- **Chave de junção**: hipótese original — empresa (ICAO) + número de
+  voo + data de partida + aeroporto de origem. **Refinada (v4)**: hora de
+  partida adicionada à chave — medido fora deste documento (sessão de
+  trabalho, amostra GOL/Azul 2025): sem hora, 6.392 grupos de chave
+  duplicada (mesmo nº de voo pode operar duas vezes no mesmo dia
+  calendário); com hora, cai para 13 grupos residuais, correspondência
+  ~97%. Ainda não medida contra o par atual de tabelas — fica para a
+  implementação.
 
 ## 6. Perguntas de referência, detalhadas: Tempo de solo e Bases hub/off-hub
 
@@ -628,6 +638,8 @@ Revisitar esta SPEC quando:
 | 2026-08-31 | **Aprovada.** Treze seções presentes, cada `C-NN` com artefato/método de verificação, seis regras `R-ANL-NN` com id/enunciado/onde-verificar/severidade, `referencia: DEC-007` coerente com R-TAX-06. Autor revisou o resumo (quadro "Aprovações ANAC") e aprovou explicitamente. |
 | 2026-08-31 | **v2 — correção pós-aprovação, decisão inalterada.** A pedido do autor, `rascunho/SPEC-010-ANAC-Perguntas_Analise-Deep_Dive-Gol.md` e `rascunho/Deep_Dive_Gol_ANAC_1a_.docx` foram excluídos do repositório; toda citação a eles foi removida ou reescrita em prosa autocontida. Citações a `rascunho/colunas.txt` substituídas por `SPEC-005` (Dicionário de Colunas — Básica), que o formaliza. `referencia:` do frontmatter passa a `DEC-007, SPEC-005`. Nenhuma definição de pergunta, método ou critério de sucesso muda. |
 | 2026-08-31 | **v3 — correção pós-aprovação, decisão inalterada.** `basica_typed` retirada; `basica_silver` (112 colunas, `SPEC-008 v3`) assume seu papel na cadeia de camadas (§4.1) e como base de `trusted_essencial` (C-01, §8). Caminho Snowflake segue com `basica_typed` por ora, divergência registrada. Nenhum critério de sucesso ou definição de pergunta muda. |
+| 2026-09-01 | **v4 — correção pós-aprovação, decisão inalterada (`R-TAX-11`).** Pergunta 6 (Block time, §5.6) desbloqueada: VRA ingerido (`SPEC-012`), bloqueio original superado. Objeto renomeado de `curated_block_time_gol`/`curated_block_time_azul` (dois objetos) para `fato_block_time_gol_azul` (objeto único), alinhando com o padrão que `curated_deep`/`fato_rotacao_aeronave_gol_azul` já fixaram desde então — pedido do autor. Chave de junção refinada de hipótese pura para achado real (hora adicionada à chave elimina quase toda duplicidade, medido em amostra 2025 GOL/Azul) — ainda não medida contra o par atual de tabelas. §5.6 atualizado. Mesma correção espelhada em `DEC-007 v4`. |
+| 2026-09-07 | **Precisão do registro de exclusão, decisão inalterada.** A entrada de 2026-08-31 acima diz que `Deep_Dive_Gol_ANAC_1a_.docx` e `SPEC-010-ANAC-Perguntas_Analise-Deep_Dive-Gol.md` foram "excluídos do repositório". Verificado em 2026-09-07: a afirmação vale para a árvore de trabalho e para o `HEAD`, e não para o histórico publicado. Os dois foram adicionados no commit `607cb8a` e removidos em `a74fff3`, ambos de 2026-08-31, e `607cb8a` é alcançável a partir de `origin/main`. Como o repositório é público, os dois blobs (`9f32b1de` e `a80d8e41`) seguem acessíveis a quem tiver o hash do commit. O autor optou por manter o histórico como está, apoiado na classificação já registrada no próprio rascunho (dado 100% público/regulatório, sem informação confidencial). Registrado aqui para que "excluído" não seja lido como "inacessível". |
 
 ---
 

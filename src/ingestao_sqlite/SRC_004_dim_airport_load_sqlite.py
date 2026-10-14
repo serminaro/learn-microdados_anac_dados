@@ -1,6 +1,6 @@
 """Carrega data/aerodromos_enriquecido.csv em db/anac_basica.sqlite.
 
-Fonte original: rascunho/dim_airport_location_time_zone.csv (283 de 863
+Fonte original: data/dim_airport_location_time_zone.csv (283 de 863
 aeródromos). Completada em 2026-08-31 a pedido do autor com o arquivo
 cheio (data/aerodromos_enriquecido.csv), que é a fonte primária real
 (SRC_001_enriquecer_bases_aerodromos.py) -- o recorte de 283 vira
@@ -19,7 +19,8 @@ Tratamentos, na ordem:
    escolhido.
 3. Descarta HOR_VERAO_ATUAL/HORARIO_VERAO_ATUAL e JA_TEVE_HORARIO_VERAO
    (pedido do autor).
-4. BASE_IATA vazio ou "..." (placeholder) vira NULL, não o literal.
+4. BASE_IATA sentinela vira NULL, não o literal: vazio, "..." e "N/I"
+   ("não informado" gravado como se fosse código). Ver `SENTINELAS`.
 5. MUNICIPIO_OURAIRPORTS/PAIS_ISO vazios (os 8 aeródromos MANUAL_KEYWORD:
    fechados ou com ICAO reatribuído) viram NULL, não string vazia.
 """
@@ -34,9 +35,19 @@ DB_PATH = RAIZ / "db" / "anac_basica.sqlite"
 DDL_PATH = RAIZ / "sql" / "ingestao_sqlite" / "DDL_004_dim_airport_create_table.sql"
 
 
+# Valores que a fonte ANAC grava no campo de código mas que não são código.
+# "..." e "N/I" são as duas formas de "não informado" observadas em
+# data/Bases_dos_microdados_2015_2026.txt (36 e 4 linhas, 2026-09-04).
+# Precisam virar NULL, não literal: "N/I" gravado como string faz três
+# aeródromos distintos (SBFE, SDIY, SNJD) colapsarem num balde único em
+# qualquer agrupamento por base_iata -- e SDIY (Feira de Santana) tem 317
+# etapas em fato_rotacao_aeronave_gol_azul, então o balde não é vazio.
+SENTINELAS = {"", "...", "N/I"}
+
+
 def limpar(v):
     v = (v or "").strip()
-    return None if v in ("", "...") else v
+    return None if v in SENTINELAS else v
 
 
 def carregar():

@@ -1,7 +1,7 @@
 ---
 documento: DEC-007
 titulo: Arquitetura de camadas para as Perguntas de Análise (Deep Dive GOL/Azul) — genérica, dois caminhos
-versao: v3
+versao: v4
 status: aprovado
 data: 2026-08-31
 autor: Bruno Alexandre Serminaro
@@ -107,23 +107,35 @@ de "bloqueada, sem prazo" para "bloqueada, investigação em andamento").
 
 **(g) Padrão de junção cross-dataset, registrado agora, implementado só
 quando o VRA existir.** Quando desbloqueada, a pergunta 6 nasce como
-objeto **dedicado** — `curated_block_time_gol`, `curated_block_time_azul`
+objeto **dedicado**, **único** (não mais um objeto por empresa — correção
+v4, decisão inalterada, `R-TAX-11`: `curated_deep`/`fato_rotacao_
+aeronave_gol_azul`, construídos depois desta DEC, já fixam o padrão de um
+objeto só com coluna `sg_empresa_icao` filtrando GOL/Azul, e a pergunta 6
+segue o mesmo padrão para consistência — `fato_block_time_gol_azul`, não
+`curated_block_time_gol`/`curated_block_time_azul` como a v3 registrava)
 — não como extensão de `curated_deep_dive_*`. As bases `basica.sqlite` e
 `vra.sqlite` continuam fisicamente separadas (`DEC-004` intacta); só o
 **resultado** da junção passa a viver num objeto só, materializado **uma
 vez** por carga, não recalculado a cada consulta:
 
 - **SQLite**: `ATTACH DATABASE 'vra.sqlite' AS vra;` dentro do script que
-  constrói a curated, `CREATE TABLE curated_block_time_gol AS SELECT ...`
-  (join Básica × VRA), `DETACH DATABASE vra;` — o `ATTACH` fica confinado
-  ao script de construção, não à consulta analítica.
+  constrói a curated, `CREATE TABLE fato_block_time_gol_azul AS SELECT
+  ...` (join Básica × VRA), `DETACH DATABASE vra;` — o `ATTACH` fica
+  confinado ao script de construção, não à consulta analítica.
 - **Snowflake**: referência cross-schema nativa
   (`ANAC.VRA.<objeto> JOIN ANAC.BASICA.<objeto>`), sem custo de sintaxe
   extra — assimetria real frente ao SQLite, aceita como consequência
   (§5.2).
-- **Chave de junção**: hipótese de trabalho — empresa (ICAO) + número de
-  voo + data de partida + aeroporto de origem — **não confirmada**, só
-  vira achado quando o dicionário real do VRA for inspecionado.
+- **Chave de junção**: hipótese de trabalho original (v1-v3) — empresa
+  (ICAO) + número de voo + data de partida + aeroporto de origem.
+  **Refinada (v4, achado real, não mais hipótese pura)**: adicionar
+  **hora** de partida à chave (empresa+voo+data+hora+origem) — medido
+  fora deste documento (sessão de trabalho, amostra GOL/Azul 2025): sem
+  hora, 6.392 grupos de chave duplicada (mesmo nº de voo pode operar duas
+  vezes no mesmo dia calendário); com hora, cai para 13 grupos residuais,
+  correspondência ~97%. Chave completa ainda não medida contra o par
+  atual `fato_rotacao_aeronave_gol_azul`×`vra_curated_deep` — fica para
+  a implementação real desta pergunta.
 
 ## 3. Origem ou rastro
 
@@ -324,9 +336,11 @@ Esta decisão deve ser revisitada se:
 | 2026-08-31 | Segunda correção do autor: pergunta "tempo de solo (hub/off-hub)" separada em duas — "comportamento do tempo de solo" e "caracterização das bases hub/off-hub" — implementação compartilhada, critério de sucesso próprio para cada uma (`SPEC-004 §6`). Pergunta "destinos" ganhou extensão em andamento de rota e mercado, pedida pelo autor para investigar assimetria de fluxo por sentido dentro de um mercado; conceitos de rota (par ordenado, aeroporto) e mercado (par não ordenado) definidos em `SPEC-004 §5.1`. Seis perguntas agora. |
 | 2026-08-31 | Duas decisões do autor fecham pontos em aberto da extensão de rota/mercado: mercado definido por **par de aeroportos**; assimetria medida por **frequência de etapas**, capacidade (ASK/assentos ofertados) deliberadamente adiada. §2.b, §6 atualizados. |
 | 2026-08-31 | Debate sobre engenharia de dado com três bancos separados (Básica, VRA, SIROS): registrado o padrão de junção cross-dataset para "block time" (§2.g) — objeto dedicado (`curated_block_time_gol`/`azul`), materialização única por caminho (`ATTACH`+`CREATE TABLE` no SQLite; cross-schema nativo no Snowflake), chave de junção hipotética (empresa+voo+data+origem). Descartadas duas alternativas: mesclar bancos (reabriria DEC-004) e deixar o padrão indefinido até o VRA existir. Isolamento por dataset da DEC-004 preservado. |
+| 2026-09-01 | **v4 — correção pós-aprovação, decisão inalterada (`R-TAX-11`).** VRA já ingerido e desbloqueado (`SPEC-012`), `curated_deep`/`fato_rotacao_aeronave_gol_azul` já implementados desde então fixaram o padrão de objeto único (não um por empresa) — pergunta 6 alinhada ao mesmo padrão, pedido do autor: `fato_block_time_gol_azul` substitui `curated_block_time_gol`/`curated_block_time_azul` da v3. Chave de junção refinada de hipótese pura para achado real (adicionar hora à chave elimina quase toda duplicidade, medido em amostra 2025 GOL/Azul nesta sessão) — ainda não medida contra o par atual de tabelas, fica para a implementação. §2.g atualizado. |
 | 2026-08-31 | **Aprovada.** Revisão estrutural sem divergência: sete seções obrigatórias presentes, oito alternativas avaliadas com veredito, consequências negativas não vazias (inclui as assimetrias de custo entre caminhos), `referencia:` cita SPEC-002 e as duas origens informais (SPEC-010, docx). Autor revisou o resumo (quadro "Aprovações ANAC") e aprovou explicitamente. Chave de junção Básica×VRA e implementação da pergunta 6 seguem como premissa/bloqueio registrados, não pendências que impedem esta aprovação. |
 | 2026-08-31 | **v2 — correção pós-aprovação, decisão inalterada.** A pedido do autor, `rascunho/SPEC-010-ANAC-Perguntas_Analise-Deep_Dive-Gol.md` e `rascunho/Deep_Dive_Gol_ANAC_1a_.docx` foram excluídos do repositório; toda citação a eles no corpo desta DEC foi removida ou reescrita em prosa (o conteúdo que sustentavam — metodologia, achados de IQR/Pareto — já estava descrito por completo no texto, não dependia da citação). Citações a `rascunho/colunas.txt` substituídas por `SPEC-005` (Dicionário de Colunas — Básica), peça que o formaliza. `referencia:` do frontmatter atualizado para `SPEC-002` apenas. Nenhuma decisão de arquitetura muda; edição puramente de rastro/citação. |
 | 2026-08-31 | **v3 — correção pós-aprovação, decisão inalterada.** `basica_typed` foi retirada (cobria só ~27 das 112 colunas, com métrica derivada misturada — achado registrado em `SPEC-008 v3`); `trusted_essencial` passa a derivar de `basica_silver` (view nova, 112 colunas, organizada e comentada a partir de `SPEC-005`). §2.c, §2.e, §4.1, §4.2 atualizados — a decisão em si (`trusted_essencial` deriva da camada silver/typed do dataset) não muda, só o nome e o alcance do objeto concreto que a implementa. Pendência ainda aberta: se este tipo de mudança deveria ir por `supersede` em vez de versão (achado do `gov-check`, não resolvido pelo autor até esta edição). |
+| 2026-09-07 | **Precisão do registro de exclusão, decisão inalterada.** A entrada de 2026-08-31 acima diz que `Deep_Dive_Gol_ANAC_1a_.docx` e `SPEC-010-ANAC-Perguntas_Analise-Deep_Dive-Gol.md` foram "excluídos do repositório". Verificado em 2026-09-07: a afirmação vale para a árvore de trabalho e para o `HEAD`, e não para o histórico publicado. Os dois foram adicionados no commit `607cb8a` e removidos em `a74fff3`, ambos de 2026-08-31, e `607cb8a` é alcançável a partir de `origin/main`. Como o repositório é público, os dois blobs (`9f32b1de` e `a80d8e41`) seguem acessíveis a quem tiver o hash do commit. O autor optou por manter o histórico como está, apoiado na classificação já registrada no próprio rascunho (dado 100% público/regulatório, sem informação confidencial). Registrado aqui para que "excluído" não seja lido como "inacessível". |
 
 ---
 

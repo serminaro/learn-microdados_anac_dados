@@ -1,0 +1,8 @@
+name: report-docx
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - python-docx
+  - pillow
+  - pyyaml

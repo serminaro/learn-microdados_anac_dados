@@ -1,0 +1,93 @@
+# Ambiente conda COMPARTILHADO entre projetos, nao ambiente deste repositorio.
+#
+# 'gov-sermi-perf' e o mesmo ambiente usado no trabalho e nos demais projetos
+# do autor (incluindo o operacional Azul). A escolha e deliberada (DEC-011
+# 2.2): um ambiente amplo e estavel, criado uma vez e ativado em qualquer
+# projeto, em vez de um ambiente por repositorio. O preco esta registrado na
+# DEC-011 5.2: este arquivo carrega dependencias que este repositorio nao usa,
+# e o nome do ambiente nao tem relacao com o nome do projeto.
+#
+# Criar:  conda env create -f environment_gov-sermi-perf.yml
+# Ativar: conda activate gov-sermi-perf
+# Nao confundir com relatorios/*/*/environment_report.yml, que declara o
+# ambiente proprio e minimo dos geradores de relatorio (DEC-010, pasta
+# autocontida).
+
+name: gov-sermi-perf
+
+channels:
+  - conda-forge
+# Nota: 'defaults' (canal pago/ToS da Anaconda) foi deliberadamente omitido.
+# conda-forge cobre 100% das dependencias previstas. Adicionar 'defaults'
+# exigiria aceitar Terms of Service da Anaconda, o que nao e necessario aqui.
+
+dependencies:
+  - python=3.13
+
+  # --- Geracao de PDF a partir de Markdown (pure-Python, sem pandoc/GTK) ---
+  - markdown>=3.6         # Markdown -> HTML
+  - xhtml2pdf>=0.2.16     # HTML -> PDF (usado por md_to_pdf.py)
+  - python-dotenv>=1.0.1  # leitura de config via .env
+
+  # --- Analise de dados e visualizacao ---
+  - matplotlib>=3.8
+  - numpy>=1.24
+  - pandas               # util no M4 - Painel de visibilidade
+  - seaborn              # graficos estatisticos (heatmaps, distribuicoes)
+  - pillow               # leitura/dimensoes de imagem (from PIL import Image) nos scripts de apresentacao/
+  - pyyaml               # leitura de frontmatter YAML (usado em gerar_docx.py)
+  - python-docx          # geracao/edicao de .docx (usado em gerar_docx.py)
+  - timezonefinder       # lat/lon -> fuso IANA (SRC_003_enriquecer_bases_aerodromos.py)
+
+  # --- Graficos alternativos para apresentacao (descomentar conforme demanda) ---
+  - plotly             # graficos interativos (zoom, hover, tooltips); bom para HTML/dashboards
+  - altair             # sintaxe declarativa (grammar of graphics), integra bem com pandas
+  # - plotnine           # clone do ggplot2 (R) em Python, gramatica de camadas
+  # - bokeh              # interativo, voltado para dashboards/web apps mais complexos
+
+  # --- Conector Snowflake ---
+  - snowflake-connector-python>=3.6
+  # extra [pandas] habilita fetch_pandas_all()/fetch_pandas_batches() - leitura
+  # direto para DataFrame, muito mais rapida que iterar cursor manualmente.
+  # No conda, isso exige pyarrow instalado (comentado acima - descomentar se usar).
+  # - snowflake-sqlalchemy   # engine SQLAlchemy p/ pd.read_sql() e ferramentas que esperam engine (ORMs, pandasql)
+
+  # --- SQL dentro do Jupyter (descomentar conforme demanda) ---
+  - jupysql            # celula magica %%sql - roda SQL direto no notebook contra a conexao Snowflake
+  - duckdb             # consulta DataFrames locais com SQL sem precisar do Snowflake; bom p/ prototipagem offline
+
+  # --- Ciencia de dados / performance em volume (descomentar conforme demanda) ---
+  # - polars             # alternativa ao pandas, mais rapida em datasets grandes (lazy eval, multi-thread nativo)
+  - scikit-learn       # padrao de mercado p/ modelos preditivos/clustering
+  - pyarrow            # acelera transferencia Snowflake <-> pandas (fetch_pandas_*) e serializacao em geral
+
+  # --- Qualidade e validacao de dados (descomentar conforme demanda) ---
+  # - great-expectations # validacao de qualidade de dados (schemas, testes de integridade), combina com pytest
+  - pandera            # alternativa mais leve ao great-expectations, validacao de schemas de DataFrame
+
+  # --- Computacao cientifica ---
+  - scipy                # requerido por scikit-learn e por partes de seaborn;
+                         # ha build conda-forge
+                         # (1.18.0 para py312/py313/py314, conferido 2026-09-11),
+                         # entao nao precisa vir por pip e nao arrisca ABI com numpy
+
+  # --- Tooling de desenvolvimento ---
+  - pytest
+  - ipykernel            # kernel Jupyter para notebooks de exploracao
+  - jupyterlab         # interface completa de notebook fora do VS Code, util p/ exploracoes mais longas
+
+  # --- Dependencias opcionais, descomentar conforme demanda ---
+  - openpyxl           # leitura/escrita de planilhas Excel
+  - pywin32            # [Windows] automacao COM do Excel
+  # necessario apenas para planilhas protegidas por IRM/RMS,
+  # que exigem o Excel de verdade instalado para autenticar e decifrar o conteudo
+  # - pdfplumber         # parsing de PDFs
+  # - pydantic>=2        # validacao de frontmatter YAML e schemas
+  # - tqdm               # barra de progresso para scripts longos
+  #
+  # Dependencias via pip, se necessario:
+  - pip
+  - pip:
+      - snowflake-cli
+      - python-pptx>=0.6.23  # geracao programatica de apresentacoes .pptx (scripts em apresentacao/)
+      - xlsxwriter          # engine de escrita .xlsx usado por scripts de exportacao/relatorio

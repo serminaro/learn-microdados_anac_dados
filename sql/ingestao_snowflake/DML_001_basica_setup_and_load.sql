@@ -29,7 +29,12 @@ CREATE STAGE IF NOT EXISTS stg_anac_basica;
 -- 4) Upload do CSV local para o stage (rodar no terminal via Snowflake CLI, nao aqui) --
 -- snow sql -c anac
 -- USE DATABASE anac; USE SCHEMA basica;
--- PUT file:///home/bruno/Projetos/learn-microdados_anac_dados/data/anac/basica_consolidado_2010_2026.csv @stg_anac_basica AUTO_COMPRESS=TRUE;
+-- O caminho do PUT e' de maquina (roda no cliente), entao troque <RAIZ_DO_REPO>
+-- pela raiz local: /home/bruno/Projetos/learn-microdados_anac_dados no Linux,
+-- D:/Projetos/learn-microdados_anac_dados no Windows (barra normal nos dois,
+-- o PUT espera URI). Ver DEC-011; no roteiro automatizado (DML_002) isso e'
+-- variavel -D REPO_ROOT, aqui e' colagem manual mesmo.
+-- PUT file://<RAIZ_DO_REPO>/data/anac/basica_consolidado_2010_2026.csv @stg_anac_basica AUTO_COMPRESS=TRUE;
 --   -- isso comprime em .gz localmente antes de subir; para 2GB de CSV,
 --   -- espere uns minutos dependendo da sua banda de upload.
 -- (a conexao "anac" e criada com `snow connection add`, ver guia)

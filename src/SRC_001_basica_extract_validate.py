@@ -1,4 +1,4 @@
-#!/home/bruno/miniconda3/envs/pesquisa-azul/bin/python
+#!/usr/bin/env python3
 """Extrai os zips da basica e valida consistencia entre os 30 meses.
 Nao carrega no banco ainda -- so extrai e produz um relatorio (data/anac/basica/_validation_report.json).
 """
@@ -8,7 +8,11 @@ import zipfile
 from pathlib import Path
 from collections import defaultdict
 
-DEST = Path("/home/bruno/Projetos/learn-microdados_anac_dados/data/anac/basica")
+# Raiz do repositorio, resolvida a partir deste arquivo: o pipeline roda
+# de qualquer diretorio e em qualquer sistema operacional (ver DEC-011).
+REPO_ROOT = Path(__file__).resolve().parents[1]
+
+DEST = REPO_ROOT / "data" / "anac" / "basica"
 
 def month_files():
     out = []

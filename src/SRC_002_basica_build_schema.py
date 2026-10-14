@@ -1,4 +1,4 @@
-#!/home/bruno/miniconda3/envs/pesquisa-azul/bin/python
+#!/usr/bin/env python3
 """Gera o DDL (sql/ingestao_sqlite/DDL_001_basica_create_table.sql) a partir do cabecalho validado.
 Tabela 'raw': todas as colunas como TEXT, fieis ao arquivo original (padrao raw->typed).
 Chave: id_basica (verificado sem duplicatas na validacao). Coluna extra: nr_ano_mes_arquivo (proveniencia).
@@ -7,8 +7,12 @@ DDL escrito em SQL ANSI-compativel (tipos padrao), para servir de base tambem a 
 import json
 from pathlib import Path
 
-REPORT = Path("/home/bruno/Projetos/learn-microdados_anac_dados/data/anac/basica/_validation_report.json")
-SQL_OUT = Path("/home/bruno/Projetos/learn-microdados_anac_dados/sql/ingestao_sqlite/DDL_001_basica_create_table.sql")
+# Raiz do repositorio, resolvida a partir deste arquivo: o pipeline roda
+# de qualquer diretorio e em qualquer sistema operacional (ver DEC-011).
+REPO_ROOT = Path(__file__).resolve().parents[1]
+
+REPORT = REPO_ROOT / "data" / "anac" / "basica" / "_validation_report.json"
+SQL_OUT = REPO_ROOT / "sql" / "ingestao_sqlite" / "DDL_001_basica_create_table.sql"
 
 with open(REPORT, encoding="utf-8") as f:
     report = json.load(f)

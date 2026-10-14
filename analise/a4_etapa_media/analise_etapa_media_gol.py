@@ -14,6 +14,12 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.colors import LinearSegmentedColormap
 
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from iata_bases import aplicar_iata  # noqa: E402
+from pareto_hub import selecionar_hub  # noqa: E402
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DB_PATH = REPO_ROOT / "db" / "anac_basica.sqlite"
 FIG_DIR = REPO_ROOT / "analise" / "a4_etapa_media" / "a4_figuras_gol"
@@ -22,8 +28,9 @@ FIG_DIR.mkdir(parents=True, exist_ok=True)
 # Paleta GOL (pedido do autor, 2026-09-01): laranja da marca. Aproximacao
 # -- nao ha manual de marca oficial disponivel neste ambiente, ajustar o
 # hex aqui se o autor tiver o valor exato. Estrutura de fundo/grid/titulo
-# em negrito segue casada com rascunho/Deep_Dive_Gol_ANAC_1a_.docx (ver
-# Historico da SPEC-013 v2); so a hue mudou de Set2 para laranja GOL.
+# em negrito segue casada com o documento de referencia escrito a mao pelo
+# autor, que vive em learn-imrad-mintos e nao neste repositorio (ver SPEC-013
+# §4 e Historico v2); so a hue mudou de Set2 para laranja GOL.
 GOL_ORANGE = "#FF6900"        # domestica / serie unica -- laranja GOL (aproximado)
 GOL_ORANGE_DARK = "#B34700"       # internacional -- tom mais escuro da mesma familia
 NEUTRAL_GRAY = "#4d4d4d"    # linha de media / anotacao -- cinza neutro, contraste contra o laranja
@@ -92,7 +99,7 @@ def load_data(dt_ini: str, dt_fim: str) -> pd.DataFrame:
     """
     df = pd.read_sql_query(query, con, params=(dt_ini, dt_fim), parse_dates=["dt_partida_real"])
     con.close()
-    return df
+    return aplicar_iata(df)
 
 
 def fig_duracao_media_mensal(df: pd.DataFrame, suffix: str) -> None:
@@ -146,13 +153,13 @@ def fig_duracao_media_mensal_por_base(df: pd.DataFrame, suffix: str, max_bases: 
     """Cruzamento tempo x base: uma linha por base HUB (80% acumulado,
     SPEC-013 Sec.6.5), limitado as max_bases de maior volume -- alem
     disso a legenda de uma linha fica ilegivel."""
-    hub = selecionar_hub(df["sg_icao_origem"].value_counts())
+    hub = selecionar_hub(df["sg_iata_origem"].value_counts())
     bases = hub.index.tolist()[:max_bases]
     cores_base = {b: c for b, c in zip(bases, PALETA_CATEGORICA)}
 
     fig, ax = plt.subplots(figsize=(12, 5.5))
     for base in bases:
-        sub = df[df["sg_icao_origem"] == base]
+        sub = df[df["sg_iata_origem"] == base]
         mensal = sub.set_index("dt_partida_real")["nr_horas_voadas"].resample("MS").mean()
         ax.plot(mensal.index, mensal.values, linewidth=2, marker="o", markersize=3,
                 label=base, color=cores_base[base])
@@ -208,20 +215,10 @@ def fig_duracao_media_por_frota(df: pd.DataFrame, suffix: str) -> None:
     plt.close(fig)
 
 
-def selecionar_hub(contagens: pd.Series) -> pd.Series:
-    """Filtra bases HUB pela regra de 80% acumulado (SPEC-013 Sec.6.5,
-    mesma logica de gerar_pareto_bases_gol.py): HUB enquanto o acumulado
-    ANTES da base for < 80%. Nao e mais corte fixo top-N."""
-    ordenado = contagens.sort_values(ascending=False)
-    pct = 100 * ordenado / ordenado.sum()
-    pct_acum = pct.cumsum()
-    pct_acum_antes = pct_acum - pct
-    return ordenado[pct_acum_antes < 80]
-
 
 def fig_top_bases_origem(df: pd.DataFrame, suffix: str) -> None:
     agg_full = (
-        df.groupby("sg_icao_origem")["nr_horas_voadas"]
+        df.groupby("sg_iata_origem")["nr_horas_voadas"]
         .agg(n_etapas="count", duracao_media="mean")
     )
     hub = selecionar_hub(agg_full["n_etapas"])
@@ -246,7 +243,7 @@ def fig_top_bases_origem(df: pd.DataFrame, suffix: str) -> None:
 
 
 def fig_top_bases_chegadas(df: pd.DataFrame, suffix: str) -> None:
-    contagem_full = df["sg_icao_destino"].value_counts()
+    contagem_full = df["sg_iata_destino"].value_counts()
     contagem = selecionar_hub(contagem_full).sort_values()
     fig, ax = plt.subplots(figsize=(9, 6))
     barras = ax.barh(contagem.index, contagem.values, color=GOL_ORANGE, edgecolor="#333333", linewidth=0.5)

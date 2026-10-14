@@ -1,7 +1,7 @@
 ---
 documento: SPEC-012
 titulo: Curated Deep — Recorte GOL/Azul para Deep Dive
-versao: v2
+versao: v3
 status: proposto
 data: 2026-08-31
 autor: Bruno Alexandre Serminaro
@@ -162,6 +162,7 @@ Derivadas, três blocos:
 | Validação temporal | `delta_horas_voadas` | `tempo_etapa_horas − nr_horas_voadas` |
 | Validação geodésica | `km_distancia_geodesica` | Haversine (lei dos cossenos esféricos) via `latitude`/`longitude` do `dim_airport`, origem e destino |
 | Validação geodésica | `delta_km_distancia` | `km_distancia − km_distancia_geodesica` |
+| Validade de solo *(v3)* | `fl_solo_valido` | `1`/`0`/`NULL` — ver §6.5 |
 
 ## 6. Medição da janela e achados antes de materializar
 
@@ -269,6 +270,51 @@ posicionamento/manutenção fora do Brasil, curto (≈900km reais), onde o
 `km_distancia` da fonte ANAC está incorreto. Achado real de qualidade de
 dado, isolado pela validação geodésica; não corrigido nesta SPEC (§3.2).
 
+### 6.5 *(v3)* `fl_solo_valido` — flag de validade de `tempo_solo_horas`
+
+Acrescentada em `fato_rotacao_aeronave_gol_azul` (`sql/curated_deep/DDL_005_...sql`,
+2026-09-02) para uso pela linha de análise de tempo de solo (`SPEC-016`).
+Mesmo espírito de `fl_continuidade_ok`/`fl_match_vra` (`SPEC-014`): flag,
+não filtro destrutivo — nenhuma linha é apagada, a decisão de recorte
+fica com quem consome.
+
+`fl_solo_valido = 0` quando qualquer um dos três critérios (medidos
+**antes** de aplicar, GOL+Azul juntos):
+
+| Critério | Linhas | % |
+|---|---|---|
+| `tempo_solo_horas < 0` (fisicamente impossível) | 408 | 0,0149% |
+| `fl_continuidade_ok = 0` (solo não mede turnaround real, aeroportos diferentes) | 3.759 | 0,14% |
+| `tempo_solo_horas > 72` (acima de pernoite + fim de semana completo) | 4.142 | — |
+
+União dos três: **7.919 linhas de 2.743.531 com solo não-nulo (0,2886%)**
+recebem `fl_solo_valido = 0`; **2.735.612 restam com `fl_solo_valido = 1`**.
+`fl_solo_valido = NULL` quando `tempo_solo_horas IS NULL` (433 linhas,
+primeira etapa da matrícula na janela — ausência de medida, não
+invalidez).
+
+**O corte de 72h é julgamento de domínio, não achado estatístico** —
+medido antes de fixar: a distribuição de `tempo_solo_horas` entre 24h e
+96h decai suave, sem quebra natural que apontasse 72h sobre 48h/60h. 72h
+foi escolhido por cobrir pernoite + fim de semana completo (sexta à noite
+até segunda à noite); acima disso é lido como parada prolongada
+(manutenção pesada, aeronave fora de operação), registrado como premissa
+explícita, não como limiar objetivo.
+
+**Amostra da causa raiz** (GOL isolado, medida antes de generalizar
+GOL+Azul): dos casos negativos, 193/255 (76%) vêm de continuidade
+quebrada (critério b já explica), 62/255 têm continuidade OK mesmo
+negativo — erro de timestamp na própria Básica, não do pipeline de
+rotação; não investigado a fundo.
+
+**Efeito colateral que exigiu ação manual**: `fato_block_time_gol_azul`
+(`SPEC-014`, `DDL_004`) foi construída com `f.*` a partir de
+`fato_rotacao_aeronave_gol_azul` **antes** de `fl_solo_valido` existir —
+não herda a coluna automaticamente. `DDL_004` foi rodada de novo depois
+deste script, na mesma sessão, para sincronizar; se `fato_rotacao` for
+alterada de novo no futuro, o mesmo re-run manual será necessário
+(nenhuma automação de dependência entre as duas tabelas existe hoje).
+
 ## 7. Critérios de sucesso
 
 - **C-01** — `basica_curated_deep` contém exatamente as 29 colunas
@@ -348,6 +394,7 @@ dado, isolado pela validação geodésica; não corrigido nesta SPEC (§3.2).
 | **R-COL-29** *(novo)* | `vra_curated_deep` tem as 12 colunas de `SPEC-006 §5`, sem corte. | `PRAGMA table_info(vra_curated_deep)` × `SPEC-006 §5` | Média |
 | **R-COL-30** *(novo, v2)* | `delta_horas_voadas` em `fato_rotacao_aeronave_gol_azul` nunca excede 0,01h (36s) em valor absoluto — se exceder, a hipótese do §6.4 (horário único) parou de valer para alguma linha nova (ex.: recarga futura, dado de outra empresa). | `SELECT MAX(ABS(delta_horas_voadas)) FROM fato_rotacao_aeronave_gol_azul` deve ser `< 0.01` | Alta |
 | **R-COL-31** *(novo, v2)* | Nenhuma linha de `fato_rotacao_aeronave_gol_azul` tem `km_distancia_geodesica IS NULL` enquanto `dim_airport` cobrir 100% dos ICAO usados (§6.4) — `NULL` sinaliza aeroporto novo sem match na dimensão. | `SELECT COUNT(*) FROM fato_rotacao_aeronave_gol_azul WHERE km_distancia_geodesica IS NULL` deve ser `0` | Média |
+| **R-COL-35** *(novo, v3)* | `fato_block_time_gol_azul` (`SPEC-014`) tem a coluna `fl_solo_valido` — se ausente, `fato_rotacao_aeronave_gol_azul` foi recarregada depois de `DDL_005` sem re-rodar `DDL_004` (§6.5), as duas tabelas dessincronizaram. | `PRAGMA table_info(fato_block_time_gol_azul)` deve listar `fl_solo_valido` | Média |
 
 ## 11. Limitações conhecidas
 
@@ -409,6 +456,7 @@ Revisitar esta SPEC quando:
 |---|---|
 | 2026-08-31 | SPEC-012 v1 produzida em status `proposto`, retroativa. Documenta `basica_curated_deep` (2.743.964 linhas, 29 colunas) e `vra_curated_deep` (2.697.490 linhas, 12 colunas), ambas já carregadas a pedido direto do autor. Achado novo registrado (§6.2): valor literal `"null"` em `vra_raw.dt_hr_partida_real` e risco de comparação de texto direta em data de formato duplo — não documentado em `SPEC-009`/`SPEC-006` até agora. Aguardando aprovação do autor. |
 | 2026-08-31 | **v2 — `fato_rotacao_aeronave_gol_azul` acrescentada.** Autor propôs usar `dim_airport` para normalizar fuso horário local antes de calcular duração de etapa; testado antes de desenhar o DDL e **refutado**: horários da Básica já estão num referencial único, não local por aeroporto (§6.4, evidência: subtração ingênua bate exato com `nr_horas_voadas` cruzando fusos reais de 2h). Papel de `dim_airport` redesenhado para rotação por matrícula (continuidade espacial, 99,86% medido) e validação geodésica de `km_distancia` (haversine) — isolou achado real: par `KMCN`/`KGUS` com `km_distancia` incorreto na fonte (delta 5.634,8 km, 2 linhas). `voo_trusted` (cancelada) citada em §3.2/§11 corrigida para refletir que o arquivo foi excluído, não só "cancelado". C-04/C-05/C-06, R-COL-30/31 novos. §3.1, §3.2, §4.2, §5.3, §6.4, §8, §9, §11, §12 atualizados. |
+| 2026-09-03 | **v3 — correção retroativa (achado de auditoria documental): `fl_solo_valido` (`DDL_005`, 2026-09-02) documentada.** Coluna nova em `fato_rotacao_aeronave_gol_azul`, construída na mesma sessão que `SPEC-016` (análise de tempo de solo) já vinha consumindo sem que esta SPEC a registrasse — corrigido agora. Flag de validade (não filtro destrutivo): `0` quando `tempo_solo_horas<0` (408 linhas), `fl_continuidade_ok=0` (3.759) ou `>72h` (4.142, corte de julgamento de domínio, não achado estatístico) — união 7.919 de 2.743.531 linhas com solo não-nulo (0,2886%). `fato_block_time_gol_azul` (`SPEC-014`) precisou ser reconstruída para herdar a coluna (`DDL_004` roda com `f.*`, não automático). §5.3, §6.5 (novo), R-COL-35 novos. |
 
 ---
 

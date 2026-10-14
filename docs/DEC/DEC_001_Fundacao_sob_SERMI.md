@@ -73,13 +73,30 @@ com escopo de numeração local.**
 
 ## 3. Origem ou rastro
 
-- `rascunho/CONTEXTO_DO_PROJETO.txt` (produzido nesta mesma sessão,
-  2026-08-24): destila o histórico real do projeto — commits, docs
-  técnicos já existentes, e a expansão de escopo desta sessão — como
-  matéria-prima desta decisão.
-- `rascunho/MEMORIA.txt` §5 (Fatos duráveis): registra as cinco decisões já
-  tomadas informalmente nesta sessão (D1-D5) que esta DEC e as seguintes
-  (DEC-002, DEC-003) formalizam.
+- O histórico real do projeto, destilado na mesma sessão (2026-08-24) a
+  partir dos commits, dos documentos técnicos já existentes e da expansão
+  de escopo daquele dia: o projeto já tinha pipeline da Básica em SQLite,
+  réplica no Snowflake, dicionário de colunas e um plano de objetos
+  Snowflake com a Fase A concluída em 2026-08-11. Não é fundação de
+  projeto novo, é formalização de projeto em andamento.
+- As cinco decisões de arquitetura tomadas informalmente naquela sessão,
+  que esta DEC e as seguintes (DEC-002, DEC-003) formalizam. Ficam aqui
+  nomeadas, porque o restante deste documento se refere a elas pelo rótulo:
+
+  - **D1** — consolidar 3 datasets ANAC (Básica, VRA, SIROS) em vez de 1.
+  - **D2** — dois caminhos de produção paralelos e igualmente investidos
+    (Snowflake medalhão; SQLite+Python), não um principal e um secundário.
+  - **D3** — corte temporal 2010-presente para Básica/VRA (a fonte permite
+    desde 2000; o corte é escolha, não limite), com SIROS em 2019-11+ por
+    limite real da fonte.
+  - **D4** — um banco SQLite por dataset, com nomenclatura por prefixo de
+    dataset nos scripts, não numeração sequencial linear.
+  - **D5** — adotar a taxonomia SERMI (fundação de sete peças,
+    DEC-META-014) para este projeto a partir de agora.
+
+  D6 e D7 nasceram depois, ainda nesta DEC (§6.6) e na DEC-004. As sete
+  ficam consolidadas em `REP-001 §4`, com as premissas P1-P3 e os vieses
+  em `REP-001 §6`.
 - `docs/plano_objetos_snowflake.md` e `docs/plano_expansao_multidataset.md`:
   os dois documentos de plano já existentes cujo conteúdo motivou a
   percepção de que o projeto tinha crescido além do que a informalidade
@@ -100,7 +117,7 @@ de plano ad hoc (`docs/plano_*.md`), como já vinha sendo feito.
 
 **Por que descartada.** A própria expansão de escopo que motiva esta DEC já
 mostrou o limite do formato: cinco decisões de arquitetura real (D1-D5,
-`rascunho/MEMORIA.txt` §5) foram tomadas numa sessão sem alternativa
+§3) foram tomadas numa sessão sem alternativa
 descartada registrada, sem critério de reavaliação, e sem rastro
 reproduzível fora da conversa que as gerou. Continuar assim significa que a
 próxima expansão de escopo — plausível, dado o ritmo do projeto — repete o
@@ -119,8 +136,9 @@ Snowflake é a competência técnica mais avançada em jogo.
 produção (D2) já invalida essa divisão: seria preciso decidir, para cada
 nova escolha (ex.: corte temporal D3, organização de banco D4), se ela
 "pertence" a um caminho ou aos dois — na prática quase todas afetam os dois
-simultaneamente, porque compartilham a mesma etapa de download bruto
-(`rascunho/MEMORIA.txt` §5, P2). Fragmentar a governança por caminho
+simultaneamente, porque compartilham a mesma etapa de download bruto e só
+divergem a partir do tratamento (premissa P2, hoje em `REP-001 §6`).
+Fragmentar a governança por caminho
 duplicaria trabalho sem reduzir risco.
 
 ### 4.3 Repositório de governança separado
@@ -170,8 +188,11 @@ obrigatório imediato (ver §6.3).
 - **Overhead de manutenção real**, que o projeto não tinha antes: cada
   decisão de arquitetura relevante (não toda decisão) passa a exigir uma
   DEC, com alternativas e consequências negativas explícitas. Mitigado pela
-  calibração de profundidade (SPEC-META-001 §11.7; INSTRUCAO_DE_TRABALHO.txt
-  §5): a regra é sobre existência da peça, não sobre tamanho.
+  calibração de profundidade (SPEC-META-001 §11.7): a regra é sobre a
+  existência da peça, não sobre o tamanho dela. A profundidade de cada peça
+  se ajusta à consequência do projeto, sem inflar peça para parecer completa
+  nem amputar peça de que o projeto precisa: um projeto solo tem SPEC-003 de
+  poucos parágrafos onde um projeto de equipe teria seções extensas.
 - **Risco de DEC cerimonial**, se a disciplina virar ritual sem reflexão
   real — o próprio corpus SERMI já vigia esse sintoma (DEC-META-014 §8).
   Mitigado por revisão crítica de cada DEC antes de aprovar (não só
@@ -202,7 +223,7 @@ obrigatório imediato (ver §6.3).
 ## 6. Campos estruturantes do SPEC-001
 
 O mínimo que esta DEC fixa para o SPEC-001 formalizar (blueprint DEC-001,
-`rascunho/contexto/blueprints/DEC_001.json`):
+`docs/assets/blueprints/DEC_001.json`):
 
 ### 6.1 Nome do projeto e escopo de numeração
 
@@ -355,8 +376,9 @@ Esta decisão deve ser revisitada se:
 | Data | Evento |
 |---|---|
 | 2026-08-24 | DEC-001 produzida em status `proposto`. Funda o projeto sob a taxonomia SERMI de sete peças (DEC-META-014), escopo local, seis tipos de documento adotados, `docs/<TIPO>/` como estrutura de pastas. Origem: expansão de escopo da mesma sessão (`docs/plano_expansao_multidataset.md`) e pedido explícito do autor. Aguardando revisão do autor antes de aprovar e seguir para SPEC-001 + REP-001. |
-| 2026-08-24 | **Aprovada.** O autor pediu revisão e aprovação explicitamente. Revisão encontrou uma divergência real antes de aprovar: o resumo no topo do documento não refletia o conteúdo já incorporado ao §6.6 (convenção de nomes para código-fonte, adicionada em rodada de trabalho posterior à redação inicial) — corrigido no mesmo momento da aprovação, não deixado como dívida. Nenhuma outra divergência estrutural encontrada contra o blueprint (`rascunho/contexto/blueprints/DEC_001.json`): todas as seções obrigatórias presentes, 4 alternativas com veredito (mínimo 2), consequências negativas não vazias, ao menos um critério de reavaliação. Segue para SPEC-001 + REP-001. |
+| 2026-08-24 | **Aprovada.** O autor pediu revisão e aprovação explicitamente. Revisão encontrou uma divergência real antes de aprovar: o resumo no topo do documento não refletia o conteúdo já incorporado ao §6.6 (convenção de nomes para código-fonte, adicionada em rodada de trabalho posterior à redação inicial) — corrigido no mesmo momento da aprovação, não deixado como dívida. Nenhuma outra divergência estrutural encontrada contra o blueprint (`docs/assets/blueprints/DEC_001.json`): todas as seções obrigatórias presentes, 4 alternativas com veredito (mínimo 2), consequências negativas não vazias, ao menos um critério de reavaliação. Segue para SPEC-001 + REP-001. |
 | 2026-08-26 | **Supersede pontual pelo DEC-005** (não reabre nem reescreve esta DEC, que é imutável após aprovada): o trecho do §6.6 que declarava a convenção `TIPO_NNN` retroativa não autorizada é substituído pela autorização explícita do DEC-005, motivada pela expansão para 3 datasets. O restante do §6.6 (convenção prospectiva, regras de slug/DDL/DML) permanece em vigor sem alteração. |
+| 2026-09-06 | **Correção pós-aprovação, decisão inalterada (`R-TAX-11`).** Os três arquivos de trabalho da sessão de fundação (`MEMORIA.txt`, `CONTEXTO_DO_PROJETO.txt`, `INSTRUCAO_DE_TRABALHO.txt`) foram removidos do repositório: viviam em `rascunho/`, pasta que o `.gitignore` declara descartável, e eram citados por peça aprovada. Antes de remover, conferi o que de fato se perderia: D1-D7, P1-P3 e os dois vieses já estavam integralmente em `REP-001 §4` e `§6`, e o contexto de 2026-08-24 em `REP-001 §1`. Restavam duas lacunas reais, ambas absorvidas aqui: §3 passa a nomear D1-D5 no próprio corpo (esta DEC as referenciava pelo rótulo sem nunca defini-las), e §5.2 traz a calibração de profundidade em prosa. §4.1 e §4.2 deixam de citar arquivo e apontam para §3 e para `REP-001 §6`. Os sete blueprints saíram de `rascunho/contexto/blueprints/` para `docs/assets/blueprints/`, espaço que a `SPEC-001 §5` já reservava para ativo a versionar; a citação de §6 acompanha. Nenhuma decisão muda. |
 
 ---
 

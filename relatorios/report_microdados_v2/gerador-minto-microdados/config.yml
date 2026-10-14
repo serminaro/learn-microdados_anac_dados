@@ -1,0 +1,112 @@
+# Cabeçalho e ordem das seções do comunicado de decisão (Pirâmide de Minto).
+#
+# Metodologia: ../../docs/GUIDE/GUIDE_005_Metodologia_IMRaD_e_Piramide_de_Minto.md, seção 3. Esta é a peça de decisão,
+# par do relatório IMRaD em ../gerador-imrad-microdados. Os dois documentos
+# cobrem o mesmo trabalho: o relatório carrega o rastro, este carrega a decisão.
+# A regra de ouro é resposta primeiro: a Recomendação vem antes dos Porquês.
+#
+# A peça deriva do relatório por PODA, não por resumo: escolher a recomendação
+# final e as razões mais fortes e descartar o resto, em vez de compactar tudo
+# proporcionalmente. Nenhum achado pode aparecer aqui sem estar no IMRaD, e as
+# figuras são cópias literais das do relatório (ver README, seção "Figuras").
+#
+# ---------------------------------------------------------------------------
+# ESTRUTURA DO ARGUMENTO: DEDUTIVA (decisão do autor, 09/2026)
+# ---------------------------------------------------------------------------
+# Minto admite dois modos de agrupar os porquês, e prefere o indutivo no topo.
+# Este documento usa o DEDUTIVO, deliberadamente. Os três porquês formam uma
+# cadeia, não uma lista:
+#
+#   1. premissa maior  — o que existe no mundo (o fato e o pano de fundo)
+#   2. premissa menor  — o que ocorre nessa situação (o comentário sobre 1)
+#   3. portanto        — o significado implicado, que É a recomendação
+#
+# Por que dedutivo aqui: a ideia governante é uma AÇÃO ("rode o teste antes de
+# mobilizar equipe"), e a pergunta que ela levanta no leitor é "por que antes?".
+# Uma lista indutiva de achados responde a outra pergunta ("por que acreditar
+# que há um problema?") e deixa a ação sem sustentação própria. A cadeia liga
+# cada passo ao seguinte até desembocar na ação, o que fecha esse vão.
+#
+# O que se paga por isso, dito na cara: numa cadeia dedutiva as razões não são
+# independentes. Se o leitor rejeitar o porquê 1, os outros dois caem junto;
+# num grupo indutivo, cada razão sobrevive sozinha. A dedução também exige que
+# o leitor carregue as premissas até o fim, o que é caro num comunicado. A
+# troca só compensa porque a cadeia aqui tem três elos curtos.
+#
+# Consequência prática: são EXATAMENTE três porquês (ver a chave "porques"
+# abaixo). Um quarto elo não existe em dedução; ou ele é evidência dentro de um
+# dos três, ou o argumento voltou a ser indutivo e a orientação de
+# secoes/02-porques/porques.md precisa ser reescrita antes.
+
+modelo_base: modelo_de_escrita.docx        # base de estilo (não precisa mexer)
+arquivo_saida: deep_dive_gol_minto.docx    # nome do .docx gerado em saida/
+
+# Estilo do texto normal (parágrafos e listas).
+estilo:
+  fonte: "Calibri"
+  tamanho_corpo: 11
+  cor_texto: "002060"
+
+# Faixa aceita de porquês na seção marcada com "contar_porques: true".
+# Travada em 3 porque o argumento deste documento é dedutivo (ver acima): a
+# cadeia tem três elos e não admite um quarto. Fora da faixa o gerador aborta.
+# Para um documento indutivo, a faixa útil é minimo 3 / maximo 10: abaixo de 3
+# raramente sustenta a recomendação, acima de 10 vira lista e o leitor perde a
+# hierarquia.
+porques:
+  minimo: 3
+  maximo: 3
+
+documento:
+  titulo: "Deep dive GOL: a quebra está nos hubs, e há um teste barato antes de mobilizar operação"
+  subtitulo: "Comunicado de decisão, derivado do relatório IMRaD do deep dive GOL (ANAC, 2021-2026)"
+  # Cabeçalho de comunicado, não de relatório: cada item vira uma linha da
+  # tabela do topo. O valor aceita texto único ou lista (cada item da lista
+  # vira um parágrafo dentro da célula).
+  cabecalho:
+    - rotulo: "Para"
+      valor: "Planejamento de malha / Operações de solo"
+    - rotulo: "De"
+      valor: "Análise de dados"
+    - rotulo: "Data"
+      valor: "04/09/2026"
+    - rotulo: "Relatório de origem"
+      valor: "deep_dive_gol_imrad.docx (gerador-imrad-microdados)"
+    - rotulo: "Decisão pedida"
+      valor: "Aprovar a rodada de autocorrelação por base antes do próximo ciclo de planejamento de malha"
+
+# A ordem aqui é a da pirâmide e não deve ser alterada sem motivo forte:
+# Situação ancora, Recomendação responde, Porquês sustentam, Pedido de ação
+# fecha. Inverter Recomendação e Porquês transforma a peça num relatório curto,
+# que é exatamente o que ela existe para não ser.
+#
+# numerar: false em todas — é um comunicado, não um relatório numerado.
+# opcional: true — a seção é pulada se o markdown só tiver comentários.
+secoes:
+  - pasta: "00-situacao"
+    titulo: "Situação"
+    arquivo: "situacao.md"
+    numerar: false
+  - pasta: "01-recomendacao"
+    titulo: "Recomendação"
+    arquivo: "recomendacao.md"
+    numerar: false
+  - pasta: "02-porques"
+    titulo: "Porquês"
+    arquivo: "porques.md"
+    numerar: false
+    contar_porques: true
+  - pasta: "03-pedido-de-acao"
+    titulo: "Pedido de ação"
+    arquivo: "pedido-de-acao.md"
+    numerar: false
+  - pasta: "04-decisao-pendente"
+    titulo: "Decisão pendente e critério de escolha"
+    arquivo: "decisao-pendente.md"
+    numerar: false
+    opcional: true
+  - pasta: "05-nota-metodologica"
+    titulo: "Nota metodológica"
+    arquivo: "nota-metodologica.md"
+    numerar: false
+    opcional: true

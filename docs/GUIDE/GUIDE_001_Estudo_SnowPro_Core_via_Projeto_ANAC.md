@@ -13,7 +13,8 @@ escopo: projeto
 
 > Formaliza, como peça SERMI, o plano de estudo que vivia em
 > `rascunho/plano_certificacao_snowpro.md` (nota de trabalho pessoal,
-> fora da taxonomia documental). Descreve como operar o projeto
+> fora da taxonomia documental), removido do repositório em 2026-09-07
+> por já estar integralmente coberto aqui. Descreve como operar o projeto
 > `learn-microdados_anac_dados` como veículo de estudo para os seis
 > domínios do exame **SnowPro Core (COF-C03)**, cobrindo lacuna de
 > domínio, cronograma e o ponto de escopo que a DEC-006 resolveu.
@@ -124,6 +125,7 @@ cronograma cabe com folga.
 |---|---|
 | 2026-08-30 | GUIDE-001 produzido em status `proposto`, migrando `rascunho/plano_certificacao_snowpro.md` para peça SERMI formal, no mesmo bloco de trabalho que corrigiu o mapa de domínios em `plano_objetos_snowflake.md` e produziu a `DEC-006` (resolve §5). Aguardando revisão do autor. |
 | 2026-08-31 | **Aprovada.** Frontmatter com `referencia: DEC-002, DEC-006` coerente com R-TAX-06 (ambas as DECs motivadoras citadas). Autor revisou o resumo (quadro "Aprovações ANAC") e aprovou explicitamente. Primeira peça `GUIDE` do projeto a ser aprovada. |
+| 2026-09-07 | **Correção de rastro, conteúdo inalterado.** `rascunho/plano_certificacao_snowpro.md`, a nota de trabalho que este GUIDE formalizou, foi removida do repositório: vivia em pasta que o `.gitignore` declara descartável, e as 14 citações espalhadas por `DEC-006`, `INDEX_DEC` e `plano_objetos_snowflake.md` apontavam para lá. A cobertura foi conferida seção a seção antes de apagar: §1 daquela nota corresponde a §2 deste GUIDE, §2 a §3, §3 e §4 a §4, §5 a §5, §6 a §6, §7 a §8. As 12 citações externas foram repontadas para a seção equivalente aqui. Nada deste GUIDE muda. |
 
 ---
 

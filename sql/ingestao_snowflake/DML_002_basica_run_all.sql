@@ -185,7 +185,12 @@ CREATE STAGE IF NOT EXISTS stg_anac_basica
     FILE_FORMAT = (FORMAT_NAME = 'anac_basica_csv_ff');
 
 -- 5) Upload do CSV local (PUT roda no cliente, precisa do arquivo local existir) --
-PUT file:///home/bruno/Projetos/learn-microdados_anac_dados/data/anac/basica_consolidado_2010_2026.csv
+-- O caminho e' de maquina, nao de servidor: PUT le o arquivo no cliente. Por isso
+-- entra como variavel do Snowflake CLI (-D), nao cravado (DEC-011). Rode com:
+--   Linux:   snow sql -c anac -D "REPO_ROOT=/home/bruno/Projetos/learn-microdados_anac_dados" -f <este arquivo>
+--   Windows: snow sql -c anac -D "REPO_ROOT=D:/Projetos/learn-microdados_anac_dados" -f <este arquivo>
+-- Use barra normal (/) tambem no Windows: o PUT espera URI, nao caminho nativo.
+PUT file://&{REPO_ROOT}/data/anac/basica_consolidado_2010_2026.csv
     @stg_anac_basica AUTO_COMPRESS=TRUE OVERWRITE=FALSE;
 
 -- 6) Carga idempotente com MERGE ------------------------------------------

@@ -1,12 +1,16 @@
-#!/home/bruno/miniconda3/envs/pesquisa-azul/bin/python
+#!/usr/bin/env python3
 """Exporta a tabela basica_raw inteira para um CSV unico, UTF-8, pronto para
 COPY INTO em um stage do Snowflake (ou qualquer outro banco)."""
 import csv
 import sqlite3
 from pathlib import Path
 
-DB_PATH = Path("/home/bruno/Projetos/learn-microdados_anac_dados/db/anac_basica.sqlite")
-CSV_OUT = Path("/home/bruno/Projetos/learn-microdados_anac_dados/data/anac/basica_consolidado_2010_2026.csv")
+# Raiz do repositorio, resolvida a partir deste arquivo: o pipeline roda
+# de qualquer diretorio e em qualquer sistema operacional (ver DEC-011).
+REPO_ROOT = Path(__file__).resolve().parents[2]
+
+DB_PATH = REPO_ROOT / "db" / "anac_basica.sqlite"
+CSV_OUT = REPO_ROOT / "data" / "anac" / "basica_consolidado_2010_2026.csv"
 
 def main():
     conn = sqlite3.connect(DB_PATH)
